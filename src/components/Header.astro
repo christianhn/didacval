@@ -1,0 +1,188 @@
+---
+import { siteData } from "../data/site";
+---
+
+<header class="header">
+  <div class="header__inner">
+    <div class="header__brand">
+      <img class="header__logo" src={siteData.brand.logo} alt={siteData.brand.logoAlt} width="32" height="32" />
+      <a class="header__brand-text" href="#inicio" data-path="inicio">
+        <span class="header__brand-name">{siteData.brand.name}</span>
+        <span class="header__brand-subtitle">{siteData.brand.subtitle}</span>
+      </a>
+    </div>
+
+    <nav class="header__nav" aria-label="Navegación principal">
+      {
+        siteData.nav.map((item) => (
+          <a
+            class:list={["header__nav-link", { "header__nav-link--active": item.active }]}
+            href={item.href}
+            data-path={item.path}
+            aria-current={item.active ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header__actions">
+      <a class="header__cta" href={siteData.cta.href} data-path={siteData.cta.path}>
+        <span>{siteData.cta.label}</span>
+        <span class="header__cta-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </span>
+      </a>
+      <div class="header__avatar" aria-hidden="true">
+        <span class="material-symbols-outlined">person</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: $z-header;
+    background: rgba(248, 250, 245, 0.85);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .header__inner {
+    height: 80px;
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-md;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+  }
+
+  .header__logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .header__brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header__brand-name {
+    @include text-headline-sm;
+    letter-spacing: -0.015em;
+    color: var(--color-on-surface);
+  }
+
+  .header__brand-subtitle {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-size: 9px;
+  }
+
+  .header__nav {
+    display: none;
+    align-items: center;
+    gap: $space-xs;
+
+    @media (min-width: $bp-md) {
+      display: flex;
+    }
+  }
+
+  .header__nav-link {
+    padding: $space-2xs $space-sm;
+    border-radius: $radius-full;
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+
+    &--active {
+      background: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+      font-weight: 500;
+    }
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+  }
+
+  .header__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: $space-2xs $space-2xs $space-2xs $space-lg;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-radius: $radius-full;
+    @include text-label-pill;
+    letter-spacing: 0.02em;
+    transition:
+      opacity 0.2s,
+      transform 0.15s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  .header__cta-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: $space-xs;
+    border-radius: $radius-full;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 14px;
+      color: var(--color-on-primary);
+    }
+  }
+
+  .header__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: var(--color-on-primary);
+    }
+  }
+</style>

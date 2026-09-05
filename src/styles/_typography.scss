@@ -1,0 +1,122 @@
+// ==========================================
+// Tipografía — Hanken Grotesk
+// ==========================================
+
+$font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+// Mapa de estilos tipográficos del mockup
+@mixin text-body-sm {
+  font-family: $font-family-base;
+  font-size: 13px;
+  line-height: 19px;
+  letter-spacing: 0.005em;
+  font-weight: 400;
+}
+
+@mixin text-headline-xl-mobile {
+  font-family: $font-family-base;
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+@mixin text-metric-counter {
+  font-family: $font-family-base;
+  font-size: 48px;
+  line-height: 48px;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+}
+
+@mixin text-index-item {
+  font-family: $font-family-base;
+  font-size: 11.5px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+@mixin text-headline-sm {
+  font-family: $font-family-base;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+
+@mixin text-display-hero {
+  font-family: $font-family-base;
+  font-size: 64px;
+  line-height: 70px;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+
+  @media (max-width: 1024px) {
+    font-size: 38px;
+    line-height: 44px;
+    letter-spacing: -0.025em;
+  }
+}
+
+@mixin text-body-lg {
+  font-family: $font-family-base;
+  font-size: 17px;
+  line-height: 26px;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+
+@mixin text-headline-lg {
+  font-family: $font-family-base;
+  font-size: 32px;
+  line-height: 38px;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+@mixin text-display-hero-mobile {
+  font-family: $font-family-base;
+  font-size: 38px;
+  line-height: 44px;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}
+
+@mixin text-headline-xl {
+  font-family: $font-family-base;
+  font-size: 44px;
+  line-height: 50px;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.02em;
+  }
+}
+
+@mixin text-label-pill {
+  font-family: $font-family-base;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+
+@mixin text-body-base {
+  font-family: $font-family-base;
+  font-size: 15px;
+  line-height: 23px;
+  letter-spacing: 0em;
+  font-weight: 400;
+}
+
+@mixin text-caption-micro {
+  font-family: $font-family-base;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}

@@ -1,0 +1,96 @@
+---
+import { noticeBarData } from "../data/noticeBar";
+---
+
+<section class="notice-bar" aria-label="Información de disponibilidad">
+  <div class="notice-bar__inner">
+    <div class="notice-bar__left">
+      <span class="notice-bar__dot" aria-hidden="true"></span>
+      <span class="notice-bar__availability">{noticeBarData.availability}</span>
+    </div>
+    <div class="notice-bar__right">
+      <span class="notice-bar__badge">{noticeBarData.badge}</span>
+      <span class="notice-bar__schedule">{noticeBarData.schedule}</span>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .notice-bar {
+    width: 100%;
+    background: var(--color-surface-container-high);
+    padding: 10px $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .notice-bar__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    @include text-caption-micro;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+  }
+
+  .notice-bar__left {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+  }
+
+  .notice-bar__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    display: inline-block;
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .notice-bar__availability {
+    font-weight: 500;
+    color: var(--color-on-surface);
+  }
+
+  .notice-bar__right {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+  }
+
+  .notice-bar__badge {
+    background: var(--color-sage-tint);
+    color: var(--color-secondary);
+    padding: 2px 8px;
+    border-radius: $radius-full;
+    font-weight: 600;
+  }
+
+  .notice-bar__schedule {
+    display: none;
+    color: var(--color-outline);
+
+    @media (min-width: $bp-md) {
+      display: inline;
+    }
+  }
+</style>

@@ -1,0 +1,196 @@
+---
+import { faqData } from "../data/faq";
+---
+
+<section id="faq" class="faq" aria-labelledby="faq-title">
+  <div class="faq__inner">
+    <div class="faq__intro">
+      <span class="faq__eyebrow">{faqData.eyebrow}</span>
+      <h2 id="faq-title" class="faq__title">{faqData.title}</h2>
+      <p class="faq__desc">{faqData.description}</p>
+
+      <aside class="faq__contact-box">
+        <span class="faq__contact-title">{faqData.contactBox.title}</span>
+        <p class="faq__contact-desc">{faqData.contactBox.description}</p>
+        <a class="faq__phone" href={faqData.contactBox.phoneHref}>
+          <span class="material-symbols-outlined" aria-hidden="true">call</span>
+          <span>{faqData.contactBox.phone}</span>
+        </a>
+      </aside>
+    </div>
+
+    <div class="faq__list" role="list">
+      {
+        faqData.items.map((item, idx) => (
+          <details class="faq__item" name="faq-group">
+            <summary class="faq__question">
+              <h3>{item.question}</h3>
+              <span class="material-symbols-outlined faq__icon" aria-hidden="true">
+                add
+              </span>
+            </summary>
+            <div class="faq__answer">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .faq {
+    width: 100%;
+    background: var(--color-surface-bone);
+    padding: $space-4xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .faq__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-2xl;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 4fr 8fr;
+    }
+  }
+
+  .faq__intro {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
+  .faq__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .faq__title {
+    @include text-headline-xl;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+
+  .faq__desc {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .faq__contact-box {
+    margin-top: $space-md;
+    padding: $space-md;
+    background: var(--color-surface-container);
+    border-radius: $radius-default;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .faq__contact-title {
+    @include text-label-pill;
+    color: var(--color-on-surface);
+    font-weight: 600;
+  }
+
+  .faq__contact-desc {
+    @include text-caption-micro;
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+  }
+
+  .faq__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    @include text-body-sm;
+    color: var(--color-secondary);
+    font-weight: 500;
+    padding-top: 4px;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .faq__item {
+    background: var(--color-surface-container-lowest);
+    padding: $space-lg;
+    border-radius: $radius-default;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--color-surface-container-low);
+    }
+
+    &[open] .faq__icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    h3 {
+      @include text-headline-sm;
+      color: var(--color-on-surface);
+      margin: 0;
+      font-size: 17px;
+    }
+  }
+
+  .faq__icon {
+    color: var(--color-secondary);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .faq__answer {
+    padding-top: $space-sm;
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    line-height: 1.7;
+
+    p {
+      margin: 0;
+    }
+  }
+</style>

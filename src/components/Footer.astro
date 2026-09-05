@@ -1,0 +1,233 @@
+---
+import { footerData } from "../data/footer";
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <span class="footer__brand-name">{footerData.brand.name}</span>
+        <p class="footer__brand-desc">{footerData.brand.description}</p>
+        <div class="footer__status">
+          <span class="footer__dot" aria-hidden="true"></span>
+          <span>{footerData.brand.status}</span>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <span class="footer__col-title">{footerData.contact.title}</span>
+        <p class="footer__address">
+          {footerData.contact.address[0]}<br />{footerData.contact.address[1]}
+        </p>
+        <a class="footer__link footer__link--strong" href={footerData.contact.phone.href}>{footerData.contact.phone.label}</a>
+        <a class="footer__link footer__link--strong" href={footerData.contact.email.href}>{footerData.contact.email.label}</a>
+      </div>
+
+      <div class="footer__col">
+        <span class="footer__col-title">{footerData.links.title}</span>
+        {
+          footerData.links.items.map((item) => (
+            <a class="footer__link" href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="footer__col">
+        <span class="footer__col-title">{footerData.legal.title}</span>
+        <span class="footer__text">
+          {footerData.legal.collegiate[0]}<br />{footerData.legal.collegiate[1]}
+        </span>
+        <span class="footer__note">{footerData.legal.note}</span>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__copyright">{footerData.bottom.copyright}</span>
+      <nav class="footer__legal-nav" aria-label="Legal">
+        {
+          footerData.bottom.links.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .footer {
+    width: 100%;
+    background: var(--color-surface-container-low);
+  }
+
+  .footer__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding: $space-3xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+
+    @media (min-width: $bp-md) {
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+
+    @media (min-width: $bp-md) {
+      grid-column: span 4;
+    }
+  }
+
+  .footer__brand-name {
+    @include text-headline-sm;
+    color: var(--color-on-surface);
+  }
+
+  .footer__brand-desc {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    max-width: 22rem;
+    margin: 0;
+  }
+
+  .footer__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding-top: $space-xs;
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-secondary);
+  }
+
+  .footer__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+
+    @media (min-width: $bp-md) {
+      &:nth-child(2) {
+        grid-column: span 3;
+      }
+      &:nth-child(3) {
+        grid-column: span 3;
+      }
+      &:nth-child(4) {
+        grid-column: span 2;
+      }
+    }
+  }
+
+  .footer__col-title {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .footer__address,
+  .footer__text {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .footer__link {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+
+    &--strong {
+      color: var(--color-on-surface);
+      &:hover {
+        color: var(--color-secondary);
+      }
+    }
+  }
+
+  .footer__note {
+    @include text-caption-micro;
+    color: var(--color-outline);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .footer__bottom {
+    margin-top: $space-2xl;
+    padding-top: $space-md;
+    border-top: 1px solid var(--color-outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    align-items: center;
+
+    @media (min-width: 640px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer__copyright {
+    @include text-caption-micro;
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .footer__legal-nav {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+    @include text-caption-micro;
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+
+    a:hover {
+      color: var(--color-on-surface);
+    }
+  }
+</style>

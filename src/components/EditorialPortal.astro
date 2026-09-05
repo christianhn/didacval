@@ -1,0 +1,234 @@
+---
+import { editorialData } from "../data/editorial";
+---
+
+<section class="portal" aria-labelledby="portal-title">
+  <div class="portal__inner">
+    <div class="portal__left">
+      <span class="portal__eyebrow">{editorialData.eyebrow}</span>
+      <h2 id="portal-title" class="portal__title">{editorialData.title}</h2>
+      <p class="portal__desc">{editorialData.description}</p>
+
+      <ul class="portal__checklist" role="list">
+        {
+          editorialData.checklist.map((item) => (
+            <li class="portal__check-item">
+              <span class="material-symbols-outlined" aria-hidden="true">
+                check_circle
+              </span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <aside class="portal__card" aria-label="Información del espacio clínico">
+      <div class="portal__card-top">
+        <div class="portal__card-header">
+          <span>{editorialData.card.eyebrow}</span>
+          <span class="portal__pulse" aria-hidden="true"></span>
+        </div>
+        <h3 class="portal__card-title">{editorialData.card.title}</h3>
+        <p class="portal__card-desc">{editorialData.card.description}</p>
+      </div>
+
+      <dl class="portal__details">
+        {
+          editorialData.card.details.map((d) => (
+            <div class="portal__detail">
+              <dt>{d.label}</dt>
+              <dd>{d.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <a class="portal__cta" href={editorialData.card.cta.href}>
+        <span>{editorialData.card.cta.label}</span>
+        <span class="material-symbols-outlined" aria-hidden="true">{editorialData.card.cta.icon}</span>
+      </a>
+    </aside>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .portal {
+    width: 100%;
+    background: var(--color-surface-dark);
+    color: var(--color-on-tertiary);
+    padding: $space-4xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .portal__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-2xl;
+    align-items: center;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 7fr 5fr;
+    }
+  }
+
+  .portal__left {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+  }
+
+  .portal__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-warm-sand);
+    font-weight: 600;
+  }
+
+  .portal__title {
+    @include text-headline-xl;
+    color: var(--color-on-tertiary);
+    max-width: 36rem;
+    margin: 0;
+  }
+
+  .portal__desc {
+    @include text-body-lg;
+    color: var(--color-tertiary-fixed-dim);
+    max-width: 36rem;
+    margin: 0;
+  }
+
+  .portal__checklist {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    list-style: none;
+    padding: 0;
+    margin: $space-sm 0 0;
+  }
+
+  .portal__check-item {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    padding: $space-sm;
+    background: var(--color-border-dark-hairline);
+    border-radius: $radius-default;
+    @include text-body-base;
+    color: var(--color-on-tertiary);
+
+    .material-symbols-outlined {
+      color: var(--color-warm-sand);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+  }
+
+  .portal__card {
+    background: var(--color-tertiary-container);
+    padding: $space-xl;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 420px;
+    gap: $space-lg;
+  }
+
+  .portal__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-on-tertiary-container);
+  }
+
+  .portal__pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-secondary-fixed);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .portal__card-title {
+    @include text-headline-lg;
+    color: var(--color-on-tertiary);
+    margin: $space-sm 0 0;
+  }
+
+  .portal__card-desc {
+    @include text-body-sm;
+    color: var(--color-on-tertiary-container);
+    margin: $space-xs 0 0;
+  }
+
+  .portal__details {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    background: rgba(10, 11, 10, 0.6);
+    padding: $space-md;
+    border-radius: $radius-default;
+    margin: $space-lg 0 0;
+  }
+
+  .portal__detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include text-index-item;
+    color: var(--color-on-secondary-fixed-variant);
+
+    dd {
+      margin: 0;
+      color: var(--color-on-tertiary);
+    }
+  }
+
+  .portal__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $space-sm $space-lg;
+    background: var(--color-on-tertiary);
+    color: var(--color-surface-dark);
+    border-radius: $radius-full;
+    @include text-label-pill;
+    margin-top: $space-md;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--color-surface-variant);
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+</style>

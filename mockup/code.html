@@ -1,0 +1,1873 @@
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#394b40",
+              "on-surface": "#191c1a",
+              "tertiary-container": "#0d1f16",
+              "on-secondary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#ecefe9",
+              "on-primary-container": "#838482",
+              "sage-muted": "#6E8276",
+              "tertiary-fixed-dim": "#b7cbbe",
+              "primary-fixed-dim": "#c6c7c4",
+              "primary-fixed": "#e2e3e0",
+              "surface-variant": "#e1e3de",
+              "on-error-container": "#93000a",
+              primary: "#000000",
+              "on-background": "#191c1a",
+              "on-secondary-fixed-variant": "#364b40",
+              outline: "#747875",
+              "sage-tint": "#E8ECE9",
+              "on-primary-fixed": "#1a1c1b",
+              "inverse-on-surface": "#eff1ec",
+              "border-dark-hairline": "#232624",
+              background: "#f8faf5",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#b4ccbd",
+              "surface-bright": "#f8faf5",
+              secondary: "#4d6357",
+              "surface-subtle": "EEEDE8",
+              error: "#ba1a1a",
+              "on-secondary-fixed": "#0a1f16",
+              "inverse-surface": "#2e312e",
+              "secondary-container": "#cde6d6",
+              "on-tertiary-container": "#75887c",
+              tertiary: "#000000",
+              "surface-container-low": "#f2f4ef",
+              "secondary-fixed": "#d0e8d9",
+              "on-surface-variant": "#444845",
+              "inverse-primary": "#c6c7c4",
+              "outline-variant": "#c4c7c4",
+              "surface-container-lowest": "#ffffff",
+              "border-hairline": "#E2E0D9",
+              "surface-canvas": "#FFFFFF",
+              "surface-bone": "#F8F7F4",
+              "on-primary-fixed-variant": "#454746",
+              "on-primary": "#ffffff",
+              surface: "#f8faf5",
+              "warm-sand": "#D6C7B2",
+              "tertiary-fixed": "#d3e8d9",
+              "primary-container": "#1a1c1b",
+              "on-secondary-container": "#51685b",
+              "on-tertiary-fixed": "#0d1f16",
+              "surface-dim": "#d8dbd6",
+              "surface-tint": "#5d5f5d",
+              "surface-container-high": "#e7e9e4",
+              "surface-dark": "#0A0B0A",
+              "surface-container-highest": "#e1e3de",
+              "on-error": "#ffffff",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "space-4xl": "6.5rem",
+              "space-md": "1rem",
+              "space-xs": "0.5rem",
+              "container-max": "1440px",
+              "gutter-mobile": "1.25rem",
+              "space-3xl": "4.5rem",
+              "space-2xl": "3rem",
+              "space-2xs": "0.25rem",
+              "gutter-desktop": "2rem",
+              "space-xl": "2rem",
+              "space-5xl": "9rem",
+              "space-sm": "0.75rem",
+              "space-lg": "1.5rem",
+              "space-3xs": "0.125rem",
+            },
+            fontFamily: {
+              "body-sm": ["Hanken Grotesk"],
+              "headline-xl-mobile": ["Hanken Grotesk"],
+              "metric-counter": ["Hanken Grotesk"],
+              "index-item": ["Hanken Grotesk"],
+              "headline-sm": ["Hanken Grotesk"],
+              "display-hero": ["Hanken Grotesk"],
+              "body-lg": ["Hanken Grotesk"],
+              "headline-lg": ["Hanken Grotesk"],
+              "display-hero-mobile": ["Hanken Grotesk"],
+              "headline-xl": ["Hanken Grotesk"],
+              "label-pill": ["Hanken Grotesk"],
+              "body-base": ["Hanken Grotesk"],
+              "caption-micro": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "body-sm": [
+                "13px",
+                {
+                  lineHeight: "19px",
+                  letterSpacing: "0.005em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-xl-mobile": [
+                "30px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "metric-counter": [
+                "48px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "400",
+                },
+              ],
+              "index-item": [
+                "11.5px",
+                {
+                  lineHeight: "18px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-sm": [
+                "22px",
+                {
+                  lineHeight: "28px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "500",
+                },
+              ],
+              "display-hero": [
+                "64px",
+                {
+                  lineHeight: "70px",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-lg": [
+                "17px",
+                {
+                  lineHeight: "26px",
+                  letterSpacing: "-0.005em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "38px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "display-hero-mobile": [
+                "38px",
+                {
+                  lineHeight: "44px",
+                  letterSpacing: "-0.025em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-xl": [
+                "44px",
+                {
+                  lineHeight: "50px",
+                  letterSpacing: "-0.025em",
+                  fontWeight: "500",
+                },
+              ],
+              "label-pill": [
+                "12px",
+                {
+                  lineHeight: "14px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-base": [
+                "15px",
+                { lineHeight: "23px", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "caption-micro": [
+                "10px",
+                {
+                  lineHeight: "12px",
+                  letterSpacing: "0.06em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-surface font-body-base text-body-base text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"
+  >
+    <header
+      class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"
+    >
+      <div
+        class="h-20 max-w-[1440px] mx-auto px-gutter-mobile lg:px-gutter-desktop flex items-center justify-between"
+      >
+        <div class="flex items-center gap-space-sm">
+          <img
+            alt="Image from https://www.didacvalpsicologo.es/wp-content/uploads/go-x/u/30e25702-1b68-4ba2-8e3c-c735c884d65b/image-384x383.png"
+            class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1UAmZTypn7lQDbYauimWCQC__TRKWQt8UUHRIQwu5HmBiQ54ob13I_ITNbuhf7Q5kZWs8RYazPlqf8O8Si9-SLgcNQDndD5bd3bd2viXCi-IkhZw5N_x4DapVVfLGNmcqgl0lViSqVgSth9X2YwSDwBOcTbI2Qw_070GeoIbioV2z85nCpDuNyvQJYzLam4ZKAv14SKDORTEH-JfBwUh6P3_Vj6hZWqDeYqrPOyixDt8-EYNaO-CDo"
+          /><a class="flex flex-col" data-path="inicio" href="#"
+            ><span
+              class="font-headline-sm text-headline-sm tracking-tight text-on-surface"
+              >Dídac Val</span
+            ><span
+              class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary"
+              >Psicología Clínica &amp; Sanitaria</span
+            ></a
+          >
+        </div>
+        <nav
+          class="hidden md:flex items-center gap-space-xs"
+          data-active-classes="bg-secondary-container text-on-secondary-container font-medium rounded-full"
+        >
+          <a
+            aria-current="page"
+            class="px-space-sm py-space-2xs transition-colors bg-secondary-container text-on-secondary-container font-medium rounded-full"
+            data-path="inicio"
+            href="#"
+            >Inicio</a
+          ><a
+            class="px-space-sm py-space-2xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm"
+            data-path="especialidades"
+            href="#"
+            >Especialidades</a
+          ><a
+            class="px-space-sm py-space-2xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm"
+            data-path="metodologia"
+            href="#"
+            >Metodología</a
+          ><a
+            class="px-space-sm py-space-2xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm"
+            data-path="preguntas-frecuentes"
+            href="#"
+            >Preguntas Frecuentes</a
+          ><a
+            class="px-space-sm py-space-2xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm"
+            data-path="sobre-mi"
+            href="#"
+            >Sobre mí</a
+          >
+        </nav>
+        <div class="flex items-center gap-space-sm">
+          <a
+            class="inline-flex items-center pl-space-lg pr-space-2xs py-space-2xs bg-primary text-on-primary rounded-full font-label-pill text-label-pill tracking-wide transition-transform hover:opacity-90 active:scale-95"
+            data-path="primera-consulta"
+            href="#"
+            ><span>Pedir Cita</span
+            ><span
+              class="w-6 h-6 ml-space-xs rounded-full bg-on-primary/15 flex items-center justify-center"
+              ><span
+                class="material-symbols-outlined text-[14px] text-on-primary"
+                >arrow_forward</span
+              ></span
+            ></a
+          >
+          <div
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-on-primary text-[18px]"
+              >person</span
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]">
+      <div class="flex flex-col w-full">
+        <!-- Top Editorial Notice Bar -->
+        <section
+          class="w-full bg-surface-container-high py-2.5 px-gutter-mobile lg:px-gutter-desktop"
+        >
+          <div
+            class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-y-2 text-on-surface-variant font-caption-micro text-caption-micro tracking-widest uppercase"
+          >
+            <div class="flex items-center gap-space-xs">
+              <span
+                class="w-2 h-2 rounded-full bg-secondary inline-block animate-ping"
+              ></span>
+              <span class="font-medium text-on-surface"
+                >Consulta Presencial en Paseo Sagasta 17 (Zaragoza) &amp;
+                Sesiones Online</span
+              >
+            </div>
+            <div class="flex items-center gap-space-md">
+              <span
+                class="bg-sage-tint text-secondary px-2 py-0.5 rounded-full font-semibold"
+                >Psicología Clínica y Sanitaria · Col. A-03214</span
+              >
+              <span class="hidden md:inline text-outline"
+                >Atención L-V 9:00 - 20:00</span
+              >
+            </div>
+          </div>
+        </section>
+        <!-- Hero Section Inspired by myhealthprac.com layout -->
+        <section
+          class="w-full bg-surface py-space-2xl lg:py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+        >
+          <div
+            class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start"
+          >
+            <!-- Hero Narrative Left Column -->
+            <div class="lg:col-span-8 flex flex-col gap-space-lg">
+              <div
+                class="inline-flex items-center gap-space-xs w-fit bg-surface-subtle px-3 py-1 rounded-full text-secondary font-label-pill text-label-pill"
+              >
+                <span class="material-symbols-outlined text-[15px]"
+                  >medical_services</span
+                >
+                <span>Práctica Clínica Basada en la Evidencia</span>
+              </div>
+              <h1
+                class="font-display-hero text-display-hero text-on-surface tracking-tight max-w-4xl text-balance"
+              >
+                Comprender tu malestar. <br class="hidden sm:inline" />
+                <span class="italic font-light text-secondary"
+                  >Recuperar el control de tu vida.</span
+                >
+              </h1>
+              <p
+                class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed"
+              >
+                Atención individualizada para adultos en Zaragoza que se sienten
+                desbordados por el estrés sostenido, el agotamiento laboral,
+                crisis relacionales o rumiación mental. Un espacio donde el
+                rigor científico converge con la calma terapéutica en Paseo
+                Sagasta 17.
+              </p>
+              <div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+                <a
+                  class="inline-flex items-center pl-space-lg pr-space-2xs py-space-xs bg-primary text-on-primary rounded-full font-label-pill text-label-pill tracking-wide transition-all duration-200 hover:bg-neutral-800 shadow-md"
+                  href="#contacto-cita"
+                >
+                  <span>Solicitar primera valoración gratuita</span>
+                  <span
+                    class="w-7 h-7 ml-space-xs rounded-full bg-on-primary/20 flex items-center justify-center"
+                  >
+                    <span
+                      class="material-symbols-outlined text-[15px] text-on-primary"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </a>
+                <a
+                  class="inline-flex items-center px-space-lg py-space-xs bg-surface-container text-on-surface rounded-full font-label-pill text-label-pill transition-colors hover:bg-surface-container-high"
+                  href="#areas-clinicas"
+                >
+                  <span>Explorar especialidades clínicas</span>
+                  <span
+                    class="material-symbols-outlined text-[16px] ml-1.5 text-secondary"
+                    >expand_more</span
+                  >
+                </a>
+              </div>
+            </div>
+            <!-- Hero Clinical Micro-Summary Right Column -->
+            <div
+              class="lg:col-span-4 flex flex-col bg-surface-container-lowest p-space-lg rounded-lg shadow-sm gap-space-md"
+            >
+              <div class="flex items-center justify-between pb-space-xs">
+                <span
+                  class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                  >Gabinete Psicológico</span
+                >
+                <span
+                  class="font-index-item text-index-item text-on-surface-variant"
+                  >Centro Habilitado</span
+                >
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface">
+                "El malestar emocional no es una debilidad de carácter, sino una
+                señal de alarma psicofisiológica que requiere descodificación y
+                herramientas sistemáticas."
+              </p>
+              <div class="pt-space-xs flex items-center gap-space-sm">
+                <div
+                  class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-secondary"
+                    >psychology</span
+                  >
+                </div>
+                <div>
+                  <div
+                    class="font-label-pill text-label-pill text-on-surface font-semibold"
+                  >
+                    Dídac Val Capdevila
+                  </div>
+                  <div
+                    class="font-caption-micro text-caption-micro text-outline"
+                  >
+                    Psicólogo Sanitario · Terapeuta de Adultos
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Editorial 4-Photo Bento Strip -->
+          <div
+            class="max-w-[1440px] mx-auto mt-space-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm"
+          >
+            <!-- Strip 1: Didac Val Consulta -->
+            <div
+              class="group relative bg-surface-container-high overflow-hidden rounded-lg aspect-[4/5] flex flex-col justify-end p-space-md transition-all duration-300"
+            >
+              <img
+                alt="Didac Val Capdevila en consulta de psicología"
+                class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1W8u104qkCbqE9eskX9XRU7ZBuUzYqhsK6I-lpCsfDBJZnZA0zFNxGAYEBOaZRLlqB7_wJkJtSeZ3ggy_Wp1WR0rEHPl-kPPntJJ63edKx4KO-tol6ikDlKy7pe40cyh--3AjA4TtG8OYq9XsZRA1s2AXjZ7bQQZUaEwbTrn3nQVU4nIInWoetipbN4QqxITqIIALSePiXToHHECxGiVWFYC0btqfsl2z_ujQDZuBNVcSe2eEnrhHA"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-dark/85 via-surface-dark/20 to-transparent"
+              ></div>
+              <div class="relative z-10 flex flex-col gap-1 text-on-tertiary">
+                <span
+                  class="font-caption-micro text-caption-micro text-warm-sand tracking-widest uppercase"
+                  >Dirección Clínica</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm leading-tight text-on-secondary"
+                  >Dídac Val Capdevila</span
+                >
+                <span
+                  class="font-index-item text-index-item text-primary-fixed-dim"
+                  >Paseo Sagasta 17 · Zaragoza</span
+                >
+              </div>
+            </div>
+            <!-- Strip 2: Ansiedad y Estrés -->
+            <div
+              class="group relative bg-surface-container-high overflow-hidden rounded-lg aspect-[4/5] flex flex-col justify-end p-space-md transition-all duration-300"
+            >
+              <img
+                alt="Persona gestionando estrés y ansiedad"
+                class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1XQK7PLwZczdGYI09yn1jCXBwX0sbC4gDRbSGsVmjxaCclKSAn332bIjFmBqoBsfrjuNBlbrYUULN8LPubg7xur1BohUHyVIrV6yPSpiNysyMm653NcoV4TJYfzdDr2MCGbkfZSwdYAeFllbmxAclutve0QtUmAmzqd0SKPqp-nPHwAdigwWkQR_JwvOK9x3HYhc1g-WHPAGHqN567AJi113fVe_odiedzrvv9EGtWolYyQkERKtU6a"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-dark/85 via-surface-dark/20 to-transparent"
+              ></div>
+              <div class="relative z-10 flex flex-col gap-1 text-on-tertiary">
+                <span
+                  class="font-caption-micro text-caption-micro text-warm-sand tracking-widest uppercase"
+                  >Área 01</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm leading-tight text-on-secondary"
+                  >Ansiedad &amp; Regulación</span
+                >
+                <span
+                  class="font-index-item text-index-item text-primary-fixed-dim"
+                  >Ataques de pánico, somatización, rumiación</span
+                >
+              </div>
+            </div>
+            <!-- Strip 3: Adultos y Agotamiento -->
+            <div
+              class="group relative bg-surface-container-high overflow-hidden rounded-lg aspect-[4/5] flex flex-col justify-end p-space-md transition-all duration-300"
+            >
+              <img
+                alt="Terapia individual para adultos con sobrecarga mental"
+                class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1XtQkt3Ien8OJq_ALvtPq9A74DFl5N9nva6Xjwo1SfwDK9AAUxWCx6Elz6AZ5AULH4QjVIch9MSKXcXZn4VtpJ4JUbuP_jSy3jwTMmvTxxy4HE7Du4Keqh5H4V4tnrWLX5OvQEsLSqtLTrUYnWmRrxouRkxCF3BISRG9_37_Li7YB-txuEo35BtTshwzbRql2h3mptE6qFCkFQBIdurqheg-bozks8rkjYMl8B5iundqsqpSSgCfHWm"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-dark/85 via-surface-dark/20 to-transparent"
+              ></div>
+              <div class="relative z-10 flex flex-col gap-1 text-on-tertiary">
+                <span
+                  class="font-caption-micro text-caption-micro text-warm-sand tracking-widest uppercase"
+                  >Área 02</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm leading-tight text-on-secondary"
+                  >Terapia de Adultos</span
+                >
+                <span
+                  class="font-index-item text-index-item text-primary-fixed-dim"
+                  >Crisis vitales, autoexigencia, burnout</span
+                >
+              </div>
+            </div>
+            <!-- Strip 4: Sexología y Vínculos -->
+            <div
+              class="group relative bg-surface-container-high overflow-hidden rounded-lg aspect-[4/5] flex flex-col justify-end p-space-md transition-all duration-300"
+            >
+              <img
+                alt="Terapia de pareja y sexología clínica"
+                class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1U5URfFDTcC6H3Oi7qdwvVOyhk2GYq9rUpl-lvVaiYbwYypnPfYT2nD44V925J7z8fp9jbPbn9iPFbixHAyLIXkaMrepihk3MrsmmQa4WI-emqeYVkBqDJ9YLTCKZCO_LTSn1xQP60B86JPmejhFkv1Ab9DavNGmtzq84jHASZfaEdwDvwAXBV9mxDbHyVhC7-DqdYjF7oHQ0cp2GoWIowGDzVJ1YxOZgI0Qv3OFe1J2CVIe0aevIZv"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-dark/85 via-surface-dark/20 to-transparent"
+              ></div>
+              <div class="relative z-10 flex flex-col gap-1 text-on-tertiary">
+                <span
+                  class="font-caption-micro text-caption-micro text-warm-sand tracking-widest uppercase"
+                  >Área 03</span
+                >
+                <span
+                  class="font-headline-sm text-headline-sm leading-tight text-on-secondary"
+                  >Sexología &amp; Pareja</span
+                >
+                <span
+                  class="font-index-item text-index-item text-primary-fixed-dim"
+                  >Deseo, disfunciones, reconexión afectiva</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Metrics & Method Principles Ticker -->
+        <section
+          class="w-full bg-surface-container-lowest py-space-3xl px-gutter-mobile lg:px-gutter-desktop shadow-sm"
+        >
+          <div class="max-w-[1440px] mx-auto flex flex-col gap-space-xl">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm pb-space-sm"
+            >
+              <div>
+                <span
+                  class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                  >Arquitectura Terapéutica</span
+                >
+                <h2
+                  class="font-headline-xl text-headline-xl text-on-surface mt-1"
+                >
+                  Un método clínico claro. 4 pilares, sin rodeos.
+                </h2>
+              </div>
+              <p
+                class="font-body-sm text-body-sm text-on-surface-variant max-w-md"
+              >
+                Sin diagnósticos simplistas ni etiquetas perpetuas. Intervención
+                orientada a resolver dinámicas limitantes mediante técnicas
+                cognitivo-conductuales e integradoras.
+              </p>
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md"
+            >
+              <!-- Metric Item 1 -->
+              <div
+                class="flex flex-col p-space-lg bg-surface rounded-lg gap-space-sm"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-metric-counter text-metric-counter text-secondary font-light"
+                    >00€</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >verified</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Sesión Inicial Gratuita
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Una primera toma de contacto sin coste para analizar tu motivo
+                  de consulta, explicar cómo trabajaremos y resolver tus dudas
+                  sin compromiso.
+                </p>
+              </div>
+              <!-- Metric Item 2 -->
+              <div
+                class="flex flex-col p-space-lg bg-surface rounded-lg gap-space-sm"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-metric-counter text-metric-counter text-on-surface font-light"
+                    >100%</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >science</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Basado en Evidencia
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Estrategias con respaldo científico contrastado:
+                  reestructuración cognitiva, exposición gradual, terapia de
+                  aceptación y regulación neurovegetativa.
+                </p>
+              </div>
+              <!-- Metric Item 3 -->
+              <div
+                class="flex flex-col p-space-lg bg-surface rounded-lg gap-space-sm"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-metric-counter text-metric-counter text-on-surface font-light"
+                    >L-V</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >lock</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Espacio Protegido
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Secreto profesional absoluto y confidencialidad garantizada
+                  bajo el código deontológico en una consulta discreta en pleno
+                  centro de Zaragoza.
+                </p>
+              </div>
+              <!-- Metric Item 4 -->
+              <div
+                class="flex flex-col p-space-lg bg-surface rounded-lg gap-space-sm"
+              >
+                <div class="flex items-center justify-between">
+                  <span
+                    class="font-metric-counter text-metric-counter text-on-surface font-light"
+                    >2×</span
+                  >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[24px]"
+                    >devices</span
+                  >
+                </div>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Presencial &amp; Online
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                  Sesiones presenciales en Paseo Sagasta 17 o teleconsulta
+                  cifrada desde cualquier localidad de España con la misma
+                  cercanía e idéntica eficacia clínica.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- High-Contrast Editorial Portal Section (Dark Obsidian Stage) -->
+        <section
+          class="w-full bg-surface-dark text-on-tertiary py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+        >
+          <div
+            class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-2xl items-center"
+          >
+            <div class="lg:col-span-7 flex flex-col gap-space-lg">
+              <span
+                class="font-caption-micro text-caption-micro uppercase tracking-widest text-warm-sand font-semibold"
+                >Punto de Inflexión</span
+              >
+              <h2
+                class="font-headline-xl text-headline-xl text-on-tertiary leading-tight max-w-2xl"
+              >
+                La terapia no es solo para momentos límite. Es aprender a
+                escucharte antes de que el cuerpo te obligue a parar.
+              </h2>
+              <p
+                class="font-body-lg text-body-lg text-tertiary-fixed-dim max-w-xl"
+              >
+                La mayoría de pacientes acuden tras semanas o meses ignorando
+                señales claras de saturación mental. Esperar a que la crisis sea
+                insostenible solo prolonga un sufrimiento innecesario.
+              </p>
+              <div class="pt-space-sm flex flex-col gap-space-xs">
+                <div
+                  class="flex items-center gap-space-sm p-space-sm bg-border-dark-hairline rounded-lg"
+                >
+                  <span
+                    class="material-symbols-outlined text-warm-sand text-[20px]"
+                    >check_circle</span
+                  >
+                  <span class="font-body-base text-body-base text-on-tertiary"
+                    >Sensación continua de agobio, rumiación mental y presión en
+                    el pecho</span
+                  >
+                </div>
+                <div
+                  class="flex items-center gap-space-sm p-space-sm bg-border-dark-hairline rounded-lg"
+                >
+                  <span
+                    class="material-symbols-outlined text-warm-sand text-[20px]"
+                    >check_circle</span
+                  >
+                  <span class="font-body-base text-body-base text-on-tertiary"
+                    >Insomnio recurrente al acostarse y fatiga emocional al
+                    despertar</span
+                  >
+                </div>
+                <div
+                  class="flex items-center gap-space-sm p-space-sm bg-border-dark-hairline rounded-lg"
+                >
+                  <span
+                    class="material-symbols-outlined text-warm-sand text-[20px]"
+                    >check_circle</span
+                  >
+                  <span class="font-body-base text-body-base text-on-tertiary"
+                    >Dificultades en relaciones afectivas, comunicación
+                    bloqueada o intimidad fría</span
+                  >
+                </div>
+                <div
+                  class="flex items-center gap-space-sm p-space-sm bg-border-dark-hairline rounded-lg"
+                >
+                  <span
+                    class="material-symbols-outlined text-warm-sand text-[20px]"
+                    >check_circle</span
+                  >
+                  <span class="font-body-base text-body-base text-on-tertiary"
+                    >Exigencia desmedida ante oposiciones, universidad o
+                    desempeño profesional</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Dark Mode Interactive Visual Card -->
+            <div
+              class="lg:col-span-5 bg-tertiary-container p-space-xl rounded-xl flex flex-col justify-between min-h-[420px]"
+            >
+              <div class="flex flex-col gap-space-sm">
+                <div
+                  class="flex items-center justify-between text-on-tertiary-container font-caption-micro text-caption-micro uppercase tracking-widest"
+                >
+                  <span>Protocolo Clínico Activo</span>
+                  <span
+                    class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"
+                  ></span>
+                </div>
+                <h3 class="font-headline-lg text-headline-lg text-on-tertiary">
+                  Espacio Clínico Sagasta 17
+                </h3>
+                <p class="font-body-sm text-body-sm text-on-tertiary-container">
+                  Atención rigurosa en pleno centro neurálgico de Zaragoza. Un
+                  entorno diseñado para desacelerar el ritmo exterior y
+                  reconectar con la serenidad interior.
+                </p>
+              </div>
+              <div
+                class="mt-space-lg flex flex-col gap-space-xs bg-surface-dark/70 p-space-md rounded-lg"
+              >
+                <div
+                  class="flex items-center justify-between text-on-secondary-fixed-variant font-index-item text-index-item"
+                >
+                  <span>Horarios habituales</span>
+                  <span class="text-on-tertiary"
+                    >Lunes a Viernes · 9:00 - 20:00</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between text-on-secondary-fixed-variant font-index-item text-index-item"
+                >
+                  <span>Contacto directo</span>
+                  <span class="text-on-tertiary">+34 622 58 85 60</span>
+                </div>
+                <div
+                  class="flex items-center justify-between text-on-secondary-fixed-variant font-index-item text-index-item"
+                >
+                  <span>Modalidad</span>
+                  <span class="text-on-tertiary"
+                    >Presencial en Zaragoza &amp; Online</span
+                  >
+                </div>
+              </div>
+              <div class="pt-space-md">
+                <a
+                  class="w-full inline-flex items-center justify-between px-space-lg py-space-sm bg-on-tertiary text-surface-dark rounded-full font-label-pill text-label-pill hover:bg-surface-variant transition-colors"
+                  href="#contacto-cita"
+                >
+                  <span>Reservar Primera Cita Informativa</span>
+                  <span class="material-symbols-outlined text-[18px]"
+                    >calendar_month</span
+                  >
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Áreas de Intervención (Multi-Column Index inspired by myhealthprac) -->
+        <section
+          class="w-full bg-surface-bone py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+          id="areas-clinicas"
+        >
+          <div class="max-w-[1440px] mx-auto flex flex-col gap-space-2xl">
+            <div
+              class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md"
+            >
+              <div>
+                <span
+                  class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                  >Catálogo Asistencial</span
+                >
+                <h2
+                  class="font-headline-xl text-headline-xl text-on-surface mt-1"
+                >
+                  Especialidades Clínicas
+                </h2>
+              </div>
+              <p
+                class="font-body-base text-body-base text-on-surface-variant max-w-xl"
+              >
+                Estructuración temática con intervenciones personalizadas para
+                responder de forma concisa y eficaz a cada dimensión del
+                sufrimiento psicológico.
+              </p>
+            </div>
+            <!-- 3-Column Editorial Grid -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg"
+            >
+              <!-- Especialidad 1 -->
+              <div
+                class="flex flex-col bg-surface-container-lowest p-space-xl rounded-lg shadow-sm justify-between gap-space-md"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <span
+                    class="font-caption-micro text-caption-micro text-secondary font-bold tracking-widest"
+                    >01 / TRASTORNOS EMOCIONALES</span
+                  >
+                  <h3 class="font-headline-lg text-headline-lg text-on-surface">
+                    Ansiedad y Regulación
+                  </h3>
+                  <p
+                    class="font-body-base text-body-base text-on-surface-variant"
+                  >
+                    La ansiedad continuada deteriora la calidad de vida y
+                    desgasta el cuerpo. Abordamos la raíz de la sintomatología
+                    para desactivar las respuestas de alarma exageradas.
+                  </p>
+                  <ul
+                    class="flex flex-col gap-2 pt-space-xs font-body-sm text-body-sm text-on-surface"
+                  >
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Crisis de ansiedad y ataques de pánico</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Trastorno de ansiedad generalizada (TAG)</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Fobias específicas e hipocondría somática</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Técnicas de desactivación psicofisiológica</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pt-space-sm">
+                  <a
+                    class="inline-flex items-center gap-1.5 font-label-pill text-label-pill text-secondary hover:text-on-surface transition-colors"
+                    href="#contacto-cita"
+                  >
+                    <span>Consultar por este motivo</span>
+                    <span class="material-symbols-outlined text-[15px]"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+              </div>
+              <!-- Especialidad 2 -->
+              <div
+                class="flex flex-col bg-surface-container-lowest p-space-xl rounded-lg shadow-sm justify-between gap-space-md"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <span
+                    class="font-caption-micro text-caption-micro text-secondary font-bold tracking-widest"
+                    >02 / RELACIONES E INTIMIDAD</span
+                  >
+                  <h3 class="font-headline-lg text-headline-lg text-on-surface">
+                    Sexología &amp; Pareja
+                  </h3>
+                  <p
+                    class="font-body-base text-body-base text-on-surface-variant"
+                  >
+                    Las dificultades sexuales y las crisis de pareja generan
+                    distanciamiento, malestar e inseguridad personal. Trabajamos
+                    desde la confidencialidad y la empatía.
+                  </p>
+                  <ul
+                    class="flex flex-col gap-2 pt-space-xs font-body-sm text-body-sm text-on-surface"
+                  >
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Disfunción eréctil y eyaculación precoz</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Bajo deseo sexual y anorgasmia</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Conflictos de comunicación y convivencia</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Reconstrucción de la confianza afectiva</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pt-space-sm">
+                  <a
+                    class="inline-flex items-center gap-1.5 font-label-pill text-label-pill text-secondary hover:text-on-surface transition-colors"
+                    href="#contacto-cita"
+                  >
+                    <span>Consultar por este motivo</span>
+                    <span class="material-symbols-outlined text-[15px]"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+              </div>
+              <!-- Especialidad 3 -->
+              <div
+                class="flex flex-col bg-surface-container-lowest p-space-xl rounded-lg shadow-sm justify-between gap-space-md"
+              >
+                <div class="flex flex-col gap-space-sm">
+                  <span
+                    class="font-caption-micro text-caption-micro text-secondary font-bold tracking-widest"
+                    >03 / CRECIMIENTO &amp; CRISIS</span
+                  >
+                  <h3 class="font-headline-lg text-headline-lg text-on-surface">
+                    Terapia de Adultos
+                  </h3>
+                  <p
+                    class="font-body-base text-body-base text-on-surface-variant"
+                  >
+                    Acompañamiento individualizado para afrontar encrucijadas
+                    vitales, pérdidas, duelos no resueltos y patrones de
+                    autoexigencia autodestructiva.
+                  </p>
+                  <ul
+                    class="flex flex-col gap-2 pt-space-xs font-body-sm text-body-sm text-on-surface"
+                  >
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Fortalecimiento de la autoestima real</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Gestión de duelos y separaciones complejas</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Toma de decisiones ante bloqueos vitales</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary"
+                      ></span>
+                      <span>Desactivación del autosabotaje</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pt-space-sm">
+                  <a
+                    class="inline-flex items-center gap-1.5 font-label-pill text-label-pill text-secondary hover:text-on-surface transition-colors"
+                    href="#contacto-cita"
+                  >
+                    <span>Consultar por este motivo</span>
+                    <span class="material-symbols-outlined text-[15px]"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Additional Secondary Clinical Clusters (Familias y Alto Rendimiento Académico) -->
+            <div
+              class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg pt-space-sm"
+            >
+              <!-- Card Familias & Adolescentes -->
+              <div
+                class="bg-surface-container-high p-space-xl rounded-lg flex flex-col md:flex-row gap-space-lg items-center"
+              >
+                <div
+                  class="w-full md:w-1/3 aspect-square rounded-lg overflow-hidden bg-surface flex-shrink-0"
+                >
+                  <img
+                    alt="Terapia familiar y apoyo a jóvenes"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida/AEtjO1UdBWJ6nXGYkMZ1D2vM9cJjkghEQ0UYUNLlBF6FafR5T6a5p_HS9ImFBxhw3R8QGwO-xu5PDaDWVQkiqIeCIAbNQsdD43lmT-40lqEkggCSHzfkTs1QhaQ7eCfMtIUr65G7Le7loHNrg7JF-qveFVKR4qLDGjHjm7nA9IKcPl1APkMJCiu4f0SrkZnPv778UclBCC4xo-TDa445OMu4mq5veiLJ0vm6CXAdZlPTy6Bzs1RIYoLTP4fs"
+                  />
+                </div>
+                <div class="flex flex-col gap-space-xs w-full md:w-2/3">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="bg-secondary text-on-secondary px-2 py-0.5 rounded-full font-caption-micro text-caption-micro font-semibold uppercase"
+                      >Área 04</span
+                    >
+                    <span
+                      class="font-caption-micro text-caption-micro text-on-surface-variant"
+                      >Convivencia e identidad</span
+                    >
+                  </div>
+                  <h4 class="font-headline-sm text-headline-sm text-on-surface">
+                    Terapia Familiar &amp; Adolescentes
+                  </h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Apoyo profesional en épocas de distanciamiento afectivo,
+                    rebeldía o bloqueo escolar. Facilitamos un canal neutro de
+                    diálogo que refuerza los lazos parentales sin juicios
+                    punitivos.
+                  </p>
+                  <div class="flex items-center gap-space-xs pt-1">
+                    <img
+                      alt="Detalle de acompañamiento clínico familiar"
+                      class="w-7 h-7 rounded-full object-cover"
+                      src="https://lh3.googleusercontent.com/aida/AEtjO1VVpsIpeBBI_q1Ku6vepQGAPSoBSLnzdUhlYMgQPfuPczyhK0KYUSsSz9Whv5pSuDGHtRRyCVEPRbqop5vwhjrm63acDza7_mIuvKJ6wdZ5VTMMEi5OSrnxOyPn6f65KDtp2NB4mSiYz9NyVCyyWKLfC6XkvjIYCrrvegnCcBttbkS1bW8LrC0z37MirNrVEAumtse1BH7M2t2oWAQaixPhG8xd3FK1_JA8ypuoTV3fwaxbmk5HaB_J"
+                    />
+                    <span
+                      class="font-index-item text-index-item text-on-surface font-medium"
+                      >Intervención integradora orientada al sistema
+                      familiar</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- Card Oposiciones & Bachillerato -->
+              <div
+                class="bg-surface-container-high p-space-xl rounded-lg flex flex-col md:flex-row gap-space-lg items-center"
+              >
+                <div
+                  class="w-full md:w-1/3 aspect-square rounded-lg overflow-hidden bg-surface flex-shrink-0"
+                >
+                  <img
+                    alt="Orientación para opositores y estudiantes universitarios"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida/AEtjO1Ud5cYh8Krjef4upMeWpURazMq536WN0HSOCwojh6YKR3zNw9kxtXGLj8dQx_o6IKBd1oN0DB26Dkb024dsLfLcKIlQ5hnQePDw935ix2wF3E6LIYjhVl6oWsAHro6-rLK_GZN6Ux3m2yVDDOpwLnJqbuU5yzLVPf0bY85d0YYk0bIQV6PW85y21FzK4kbDiULQNKtOQNmC70GGBQssoSN5vhoFvwG6egcgkIhJSliaxXGaMHPgcD5V"
+                  />
+                </div>
+                <div class="flex flex-col gap-space-xs w-full md:w-2/3">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="bg-secondary text-on-secondary px-2 py-0.5 rounded-full font-caption-micro text-caption-micro font-semibold uppercase"
+                      >Área 05</span
+                    >
+                    <span
+                      class="font-caption-micro text-caption-micro text-on-surface-variant"
+                      >Alto Rendimiento Intelectual</span
+                    >
+                  </div>
+                  <h4 class="font-headline-sm text-headline-sm text-on-surface">
+                    Oposiciones, Bachillerato y Universidad
+                  </h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    La sobreexigencia académica genera parálisis por análisis,
+                    síndrome del impostor y fatiga crónica. Diseñamos planes de
+                    regulación de estrés y estructuración mental.
+                  </p>
+                  <div class="flex items-center gap-space-xs pt-1">
+                    <img
+                      alt="Detalle de estudio y concentración mental"
+                      class="w-7 h-7 rounded-full object-cover"
+                      src="https://lh3.googleusercontent.com/aida/AEtjO1VhQJX6LD9xpXTV4nMbniN1-591xVTpoJGppkgJBumHP3pSHSmY9xRTO2MCLamztc5s1QqXjKpDTapxvNLvB0McAYTXGFHwHbj6k6EkaAwTSXo8XT2YR0lFkAZL_6pmO0k0lObLBjJhCYETnr7IBWMkSwLzfduFK0j-hdy4n2T9_fNZPLkR2wEoIS4y2Bs63kVvQ4rjalzVtgckJVun9s11pInJtFmU7r1VcNsi129a7ziehZ8e4sk1"
+                    />
+                    <span
+                      class="font-index-item text-index-item text-on-surface font-medium"
+                      >Planificación cognitiva y prevención del colapso</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Proceso Terapéutico (4 Fases Paso a Paso) -->
+        <section
+          class="w-full bg-surface py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+        >
+          <div class="max-w-[1440px] mx-auto flex flex-col gap-space-2xl">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between gap-space-md"
+            >
+              <div>
+                <span
+                  class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                  >Itinerario Clínico</span
+                >
+                <h2
+                  class="font-headline-xl text-headline-xl text-on-surface mt-1"
+                >
+                  Cómo se estructura la psicoterapia
+                </h2>
+              </div>
+              <p
+                class="font-body-base text-body-base text-on-surface-variant max-w-lg"
+              >
+                Un proceso transparente sin terapias interminables. Cada etapa
+                tiene un propósito medible, orientado a consolidar tu autonomía
+                emocional.
+              </p>
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md"
+            >
+              <!-- Fase 1 -->
+              <div
+                class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col justify-between gap-space-md relative"
+              >
+                <span
+                  class="font-display-hero-mobile text-display-hero-mobile text-surface-variant font-light"
+                  >01</span
+                >
+                <div class="flex flex-col gap-space-xs">
+                  <span
+                    class="font-caption-micro text-caption-micro uppercase tracking-wider text-secondary font-semibold"
+                    >Fase Inicial</span
+                  >
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    Evaluación y Objetivos
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Comprender el motivo de consulta, tu historia personal y
+                    mapear los detonantes de la tensión. Fijamos metas
+                    terapéuticas realistas.
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-2 pt-space-xs text-secondary font-label-pill text-label-pill"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >edit_note</span
+                  >
+                  <span>1-2 sesiones</span>
+                </div>
+              </div>
+              <!-- Fase 2 -->
+              <div
+                class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col justify-between gap-space-md relative"
+              >
+                <span
+                  class="font-display-hero-mobile text-display-hero-mobile text-surface-variant font-light"
+                  >02</span
+                >
+                <div class="flex flex-col gap-space-xs">
+                  <span
+                    class="font-caption-micro text-caption-micro uppercase tracking-wider text-secondary font-semibold"
+                    >Fase Diagnóstica</span
+                  >
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    Devolución y Plan
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Te explico qué está ocurriendo a nivel psicológico y
+                    biológico. Trazamos conjuntamente la hoja de ruta clara de
+                    intervención.
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-2 pt-space-xs text-secondary font-label-pill text-label-pill"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >schema</span
+                  >
+                  <span>Claridad conceptual</span>
+                </div>
+              </div>
+              <!-- Fase 3 -->
+              <div
+                class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col justify-between gap-space-md relative"
+              >
+                <span
+                  class="font-display-hero-mobile text-display-hero-mobile text-surface-variant font-light"
+                  >03</span
+                >
+                <div class="flex flex-col gap-space-xs">
+                  <span
+                    class="font-caption-micro text-caption-micro uppercase tracking-wider text-secondary font-semibold"
+                    >Fase Práctica</span
+                  >
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    Intervención Activa
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Adquisición de recursos prácticos: regulación emocional,
+                    reestructuración de pensamientos distorsionados y técnicas
+                    de afrontamiento conductual.
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-2 pt-space-xs text-secondary font-label-pill text-label-pill"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >psychology_alt</span
+                  >
+                  <span>Frecuencia semanal</span>
+                </div>
+              </div>
+              <!-- Fase 4 -->
+              <div
+                class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col justify-between gap-space-md relative"
+              >
+                <span
+                  class="font-display-hero-mobile text-display-hero-mobile text-surface-variant font-light"
+                  >04</span
+                >
+                <div class="flex flex-col gap-space-xs">
+                  <span
+                    class="font-caption-micro text-caption-micro uppercase tracking-wider text-secondary font-semibold"
+                    >Fase de Autonomía</span
+                  >
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    Consolidación y Alta
+                  </h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Espaciado gradual de las sesiones a quincenales y mensuales
+                    para verificar que sostienes los cambios por ti mismo antes
+                    del alta médica definitiva.
+                  </p>
+                </div>
+                <div
+                  class="flex items-center gap-2 pt-space-xs text-secondary font-label-pill text-label-pill"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >task_alt</span
+                  >
+                  <span>Cierre y seguimiento</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Preguntas Frecuentes (FAQ Accordion Inspired by myhealthprac.com) -->
+        <section
+          class="w-full bg-surface-bone py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+        >
+          <div
+            class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-2xl"
+          >
+            <div class="lg:col-span-4 flex flex-col gap-space-sm">
+              <span
+                class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                >Resolución de Dudas</span
+              >
+              <h2 class="font-headline-xl text-headline-xl text-on-surface">
+                Preguntas Frecuentes
+              </h2>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                Iniciar terapia genera incertidumbres habituales. Consulta aquí
+                las respuestas a los aspectos organizativos y clínicos
+                fundamentales.
+              </p>
+              <div
+                class="mt-space-md p-space-md bg-surface-container rounded-lg flex flex-col gap-2"
+              >
+                <span
+                  class="font-label-pill text-label-pill text-on-surface font-semibold"
+                  >¿Tienes una pregunta específica?</span
+                >
+                <p
+                  class="font-caption-micro text-caption-micro text-on-surface-variant"
+                >
+                  Puedes escribir directamente por WhatsApp o llamar para
+                  resolverla personalmente.
+                </p>
+                <a
+                  class="inline-flex items-center gap-1 font-body-sm text-body-sm text-secondary hover:text-on-surface font-medium pt-1"
+                  href="tel:+34622588560"
+                >
+                  <span class="material-symbols-outlined text-[16px]"
+                    >call</span
+                  >
+                  <span>+34 622 58 85 60</span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="lg:col-span-8 flex flex-col gap-space-xs"
+              id="faq-accordion-container"
+            >
+              <!-- FAQ 1 -->
+              <div
+                class="faq-item bg-surface-container-lowest p-space-lg rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low"
+                onclick="toggleFaq(this)"
+              >
+                <div class="flex items-center justify-between gap-space-sm">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    ¿Cuándo es el momento adecuado para acudir al psicólogo?
+                  </h3>
+                  <span
+                    class="faq-icon material-symbols-outlined text-secondary transition-transform duration-300"
+                    >add</span
+                  >
+                </div>
+                <div
+                  class="faq-content hidden pt-space-sm font-body-base text-body-base text-on-surface-variant leading-relaxed"
+                >
+                  No es necesario haber tocado fondo ni estar viviendo un
+                  colapso. Si notas que la rumiación constante, la tristeza o la
+                  tensión física interfieren con tu vida cotidiana, pedir apoyo
+                  a tiempo previene cronificaciones y acorta significativamente
+                  el tiempo de recuperación.
+                </div>
+              </div>
+              <!-- FAQ 2 -->
+              <div
+                class="faq-item bg-surface-container-lowest p-space-lg rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low"
+                onclick="toggleFaq(this)"
+              >
+                <div class="flex items-center justify-between gap-space-sm">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    ¿Con qué frecuencia se realizan las sesiones de terapia?
+                  </h3>
+                  <span
+                    class="faq-icon material-symbols-outlined text-secondary transition-transform duration-300"
+                    >add</span
+                  >
+                </div>
+                <div
+                  class="faq-content hidden pt-space-sm font-body-base text-body-base text-on-surface-variant leading-relaxed"
+                >
+                  Al inicio, la recomendación estándar es de una sesión semanal
+                  para instaurar el vínculo y activar los cambios conductuales
+                  sin dilaciones. Posteriormente, a medida que adquieres
+                  recursos y disminuyen los síntomas, las sesiones se espacian a
+                  quincenales y mensuales.
+                </div>
+              </div>
+              <!-- FAQ 3 -->
+              <div
+                class="faq-item bg-surface-container-lowest p-space-lg rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low"
+                onclick="toggleFaq(this)"
+              >
+                <div class="flex items-center justify-between gap-space-sm">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    ¿Es totalmente confidencial lo hablado en consulta?
+                  </h3>
+                  <span
+                    class="faq-icon material-symbols-outlined text-secondary transition-transform duration-300"
+                    >add</span
+                  >
+                </div>
+                <div
+                  class="faq-content hidden pt-space-sm font-body-base text-body-base text-on-surface-variant leading-relaxed"
+                >
+                  Absolutamente sí. Toda la información vertida en sesión está
+                  amparada por el más estricto secreto profesional y el Código
+                  Deontológico del Colegio Oficial de Psicología de Aragón,
+                  garantizando máxima privacidad técnica y legal.
+                </div>
+              </div>
+              <!-- FAQ 4 -->
+              <div
+                class="faq-item bg-surface-container-lowest p-space-lg rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low"
+                onclick="toggleFaq(this)"
+              >
+                <div class="flex items-center justify-between gap-space-sm">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    ¿Cómo funciona la primera sesión informativa gratuita?
+                  </h3>
+                  <span
+                    class="faq-icon material-symbols-outlined text-secondary transition-transform duration-300"
+                    >add</span
+                  >
+                </div>
+                <div
+                  class="faq-content hidden pt-space-sm font-body-base text-body-base text-on-surface-variant leading-relaxed"
+                >
+                  Consiste en una videollamada o llamada de unos 20-30 minutos
+                  donde puedes exponerme brevemente qué te sucede, conocer mi
+                  forma de trabajar y comprobar si te sientes cómodo/a para
+                  iniciar el proceso, sin coste alguno y sin compromiso de
+                  continuidad.
+                </div>
+              </div>
+              <!-- FAQ 5 -->
+              <div
+                class="faq-item bg-surface-container-lowest p-space-lg rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low"
+                onclick="toggleFaq(this)"
+              >
+                <div class="flex items-center justify-between gap-space-sm">
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                    ¿Qué diferencias hay entre consulta presencial y terapia
+                    online?
+                  </h3>
+                  <span
+                    class="faq-icon material-symbols-outlined text-secondary transition-transform duration-300"
+                    >add</span
+                  >
+                </div>
+                <div
+                  class="faq-content hidden pt-space-sm font-body-base text-body-base text-on-surface-variant leading-relaxed"
+                >
+                  Ambas modalidades cuentan con idéntico aval científico en
+                  cuanto a resultados clínicos. La sesión online ofrece el
+                  beneficio de evitar desplazamientos y adaptar mejor los
+                  horarios a tu ritmo de trabajo o cuidado familiar.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Modern Appointment & Contact Section -->
+        <section
+          class="w-full bg-surface-container py-space-4xl px-gutter-mobile lg:px-gutter-desktop"
+          id="contacto-cita"
+        >
+          <div
+            class="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-2xl items-start"
+          >
+            <!-- Contact Info Left Column -->
+            <div class="lg:col-span-5 flex flex-col gap-space-lg">
+              <div>
+                <span
+                  class="font-caption-micro text-caption-micro uppercase tracking-widest text-secondary font-semibold"
+                  >Reserva tu cita</span
+                >
+                <h2
+                  class="font-headline-xl text-headline-xl text-on-surface mt-1"
+                >
+                  Da el primer paso hacia tu equilibrio.
+                </h2>
+                <p
+                  class="font-body-base text-body-base text-on-surface-variant mt-2 leading-relaxed"
+                >
+                  Completa este formulario breve para coordinar tu primera
+                  sesión informativa gratuita o solicitar información sobre
+                  disponibilidad presencial y online.
+                </p>
+              </div>
+              <div class="flex flex-col gap-space-sm pt-space-xs">
+                <div
+                  class="flex items-start gap-space-sm p-space-md bg-surface-container-lowest rounded-lg shadow-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[22px] mt-0.5"
+                    >location_on</span
+                  >
+                  <div class="flex flex-col">
+                    <span
+                      class="font-label-pill text-label-pill text-on-surface font-semibold"
+                      >Consulta en Zaragoza</span
+                    >
+                    <span
+                      class="font-body-sm text-body-sm text-on-surface-variant"
+                      >Paseo de Sagasta 17, entresuelo izquierda · 50008
+                      Zaragoza</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex items-start gap-space-sm p-space-md bg-surface-container-lowest rounded-lg shadow-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[22px] mt-0.5"
+                    >phone_in_talk</span
+                  >
+                  <div class="flex flex-col">
+                    <span
+                      class="font-label-pill text-label-pill text-on-surface font-semibold"
+                      >Atención Telefónica Directa</span
+                    >
+                    <a
+                      class="font-body-sm text-body-sm text-secondary hover:text-on-surface transition-colors"
+                      href="tel:+34622588560"
+                      >+34 622 58 85 60</a
+                    >
+                  </div>
+                </div>
+                <div
+                  class="flex items-start gap-space-sm p-space-md bg-surface-container-lowest rounded-lg shadow-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[22px] mt-0.5"
+                    >mail</span
+                  >
+                  <div class="flex flex-col">
+                    <span
+                      class="font-label-pill text-label-pill text-on-surface font-semibold"
+                      >Correo Electrónico</span
+                    >
+                    <a
+                      class="font-body-sm text-body-sm text-secondary hover:text-on-surface transition-colors"
+                      href="mailto:didacvalpsicologia@gmail.com"
+                      >didacvalpsicologia@gmail.com</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- Location Map Representation -->
+              <div
+                class="w-full h-44 rounded-lg bg-surface-container-high overflow-hidden shadow-sm flex items-center justify-center relative"
+                data-location="Paseo de Sagasta 17, Zaragoza, Spain"
+                style=""
+              >
+                <div class="absolute inset-0 bg-secondary/5"></div>
+                <div
+                  class="relative z-10 flex items-center gap-2 bg-surface-container-lowest/90 backdrop-blur px-space-md py-space-xs rounded-full shadow-sm"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary text-[18px]"
+                    >pin_drop</span
+                  >
+                  <span
+                    class="font-caption-micro text-caption-micro text-on-surface uppercase font-bold tracking-wider"
+                    >Centro de Zaragoza · Sagasta 17</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Modern Interactive Form Right Column -->
+            <div
+              class="lg:col-span-7 bg-surface-container-lowest p-space-xl lg:p-space-2xl rounded-xl shadow-md"
+            >
+              <div class="flex items-center justify-between pb-space-md">
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">
+                  Formulario de Primera Consulta
+                </h3>
+                <span
+                  class="font-caption-micro text-caption-micro uppercase px-2 py-0.5 rounded bg-sage-tint text-secondary font-semibold"
+                  >Gratuita y sin compromiso</span
+                >
+              </div>
+              <form
+                class="flex flex-col gap-space-md"
+                id="contact-psychology-form"
+                onsubmit="handleFormSubmit(event)"
+              >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+                  <div class="flex flex-col gap-1.5">
+                    <label
+                      class="font-caption-micro text-caption-micro uppercase tracking-wider text-on-surface-variant font-medium"
+                      for="form-name"
+                      >Nombre completo *</label
+                    >
+                    <input
+                      class="w-full px-space-md py-2.5 rounded bg-surface font-body-base text-body-base text-on-surface focus:outline-none focus:bg-surface-bone transition-all"
+                      id="form-name"
+                      placeholder="Ej: María García"
+                      required=""
+                      type="text"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    <label
+                      class="font-caption-micro text-caption-micro uppercase tracking-wider text-on-surface-variant font-medium"
+                      for="form-phone"
+                      >Teléfono de contacto *</label
+                    >
+                    <input
+                      class="w-full px-space-md py-2.5 rounded bg-surface font-body-base text-body-base text-on-surface focus:outline-none focus:bg-surface-bone transition-all"
+                      id="form-phone"
+                      placeholder="Ej: 600 000 000"
+                      required=""
+                      type="tel"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+                  <div class="flex flex-col gap-1.5">
+                    <label
+                      class="font-caption-micro text-caption-micro uppercase tracking-wider text-on-surface-variant font-medium"
+                      for="form-email"
+                      >Correo electrónico *</label
+                    >
+                    <input
+                      class="w-full px-space-md py-2.5 rounded bg-surface font-body-base text-body-base text-on-surface focus:outline-none focus:bg-surface-bone transition-all"
+                      id="form-email"
+                      placeholder="tuemail@ejemplo.com"
+                      required=""
+                      type="email"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    <label
+                      class="font-caption-micro text-caption-micro uppercase tracking-wider text-on-surface-variant font-medium"
+                      for="form-mode"
+                      >Modalidad preferente</label
+                    >
+                    <select
+                      class="w-full px-space-md py-2.5 rounded bg-surface font-body-base text-body-base text-on-surface focus:outline-none focus:bg-surface-bone transition-all"
+                      id="form-mode"
+                    >
+                      <option value="presencial">
+                        Presencial en Sagasta 17 (Zaragoza)
+                      </option>
+                      <option value="online">Online por videollamada</option>
+                      <option value="indiferente">
+                        Indiferente / Primera llamada valorativa
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label
+                    class="font-caption-micro text-caption-micro uppercase tracking-wider text-on-surface-variant font-medium"
+                    for="form-message"
+                    >Breve motivo de consulta (opcional)</label
+                  >
+                  <textarea
+                    class="w-full px-space-md py-2.5 rounded bg-surface font-body-base text-body-base text-on-surface focus:outline-none focus:bg-surface-bone transition-all resize-none"
+                    id="form-message"
+                    placeholder="Explica de forma concisa qué te gustaría trabajar (ansiedad, estrés laboral, problemas en pareja, etc.)"
+                    rows="3"
+                  ></textarea>
+                </div>
+                <div class="flex items-start gap-2.5 pt-space-xs">
+                  <input
+                    class="mt-1 rounded text-primary focus:ring-0 accent-primary"
+                    id="form-consent"
+                    required=""
+                    type="checkbox"
+                  />
+                  <label
+                    class="font-caption-micro text-caption-micro text-on-surface-variant leading-relaxed"
+                    for="form-consent"
+                  >
+                    Acepto el tratamiento confidencial de mis datos con el fin
+                    de ponerme en contacto con la consulta psicológica de Dídac
+                    Val según el Reglamento General de Protección de Datos
+                    (RGPD).
+                  </label>
+                </div>
+                <div class="pt-space-sm">
+                  <button
+                    class="w-full sm:w-auto inline-flex items-center justify-center pl-space-xl pr-space-xs py-space-xs bg-primary text-on-primary rounded-full font-label-pill text-label-pill tracking-wide transition-transform hover:opacity-90 active:scale-95 shadow-md"
+                    type="submit"
+                  >
+                    <span>Enviar Solicitud de Cita</span>
+                    <span
+                      class="w-7 h-7 ml-space-sm rounded-full bg-on-primary/20 flex items-center justify-center"
+                    >
+                      <span
+                        class="material-symbols-outlined text-[15px] text-on-primary"
+                        >arrow_forward</span
+                      >
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="hidden p-space-sm bg-secondary-container text-on-secondary-container rounded font-body-sm text-body-sm items-center gap-2"
+                  id="form-feedback"
+                >
+                  <span class="material-symbols-outlined text-[18px]"
+                    >check_circle</span
+                  >
+                  <span
+                    >Mensaje recibido correctamente. Dídac Val se pondrá en
+                    contacto contigo en menos de 24 horas laborables.</span
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+      <script>
+        function toggleFaq(cardElement) {
+          const content = cardElement.querySelector(".faq-content");
+          const icon = cardElement.querySelector(".faq-icon");
+          const isExpanded = !content.classList.contains("hidden");
+
+          // Close all FAQs in this container for crisp accordion behavior
+          const allItems = document.querySelectorAll(".faq-item");
+          allItems.forEach((item) => {
+            const c = item.querySelector(".faq-content");
+            const ic = item.querySelector(".faq-icon");
+            if (c) c.classList.add("hidden");
+            if (ic) {
+              ic.innerText = "add";
+              ic.classList.remove("rotate-45");
+            }
+          });
+
+          if (!isExpanded) {
+            content.classList.remove("hidden");
+            icon.innerText = "close";
+          }
+        }
+
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          const feedback = document.getElementById("form-feedback");
+          if (feedback) {
+            feedback.classList.remove("hidden");
+            feedback.classList.add("flex");
+          }
+          const form = document.getElementById("contact-psychology-form");
+          if (form) {
+            form.reset();
+          }
+        }
+      </script>
+    </main>
+    <footer class="w-full bg-surface-container-low">
+      <div
+        class="max-w-[1440px] mx-auto px-gutter-mobile lg:px-gutter-desktop py-space-3xl"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl">
+          <div class="md:col-span-4 flex flex-col gap-space-sm">
+            <span class="font-headline-sm text-headline-sm text-on-surface"
+              >Dídac Val</span
+            >
+            <p
+              class="font-body-sm text-body-sm text-on-surface-variant max-w-sm"
+            >
+              Atención psicológica clínica basada en la evidencia. Espacio de
+              seguridad y rigor técnico en Zaragoza y modalidad telemática.
+            </p>
+            <div class="inline-flex items-center gap-space-2xs pt-space-xs">
+              <span
+                class="w-2 h-2 rounded-full bg-secondary animate-pulse"
+              ></span
+              ><span
+                class="font-caption-micro text-caption-micro uppercase tracking-wider text-secondary"
+                >Consulta Activa · Citas Disponibles</span
+              >
+            </div>
+          </div>
+          <div class="md:col-span-3 flex flex-col gap-space-xs">
+            <span
+              class="font-caption-micro text-caption-micro uppercase text-secondary font-semibold"
+              >Ubicación &amp; Contacto</span
+            >
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Paseo Sagasta 17, Principal<br />50008 Zaragoza
+            </p>
+            <a
+              class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors"
+              href="tel:+34622588560"
+              >+34 622 58 85 60</a
+            ><a
+              class="font-body-sm text-body-sm text-on-surface hover:text-secondary transition-colors"
+              href="mailto:didacvalpsicologia@gmail.com"
+              >didacvalpsicologia@gmail.com</a
+            >
+          </div>
+          <div class="md:col-span-3 flex flex-col gap-space-xs">
+            <span
+              class="font-caption-micro text-caption-micro uppercase text-secondary font-semibold"
+              >Estructura Asistencial</span
+            ><a
+              class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              data-path="especialidades"
+              href="#"
+              >Ansiedad &amp; Regulación</a
+            ><a
+              class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              data-path="especialidades"
+              href="#"
+              >Trauma &amp; Apego</a
+            ><a
+              class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              data-path="especialidades"
+              href="#"
+              >Terapia de Pareja</a
+            ><a
+              class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors"
+              data-path="metodologia"
+              href="#"
+              >Metodología Integradora</a
+            >
+          </div>
+          <div class="md:col-span-2 flex flex-col gap-space-xs">
+            <span
+              class="font-caption-micro text-caption-micro uppercase text-secondary font-semibold"
+              >Colegiación &amp; Registro</span
+            ><span class="font-body-sm text-body-sm text-on-surface-variant"
+              >Col. Nº A-03214<br />Colegio Oficial de Psicología de
+              Aragón</span
+            ><span class="font-caption-micro text-caption-micro text-outline"
+              >Centro Sanitario Autorizado</span
+            >
+          </div>
+        </div>
+        <div
+          class="mt-space-2xl pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm"
+        >
+          <span
+            class="font-caption-micro text-caption-micro text-on-surface-variant"
+            >© 2024 Dídac Val Psicólogo. Todos los derechos reservados.</span
+          >
+          <div
+            class="flex items-center gap-space-md font-caption-micro text-caption-micro text-on-surface-variant"
+          >
+            <a class="hover:text-on-surface transition-colors" href="#"
+              >Aviso Legal</a
+            ><a class="hover:text-on-surface transition-colors" href="#"
+              >Política de Privacidad</a
+            ><a class="hover:text-on-surface transition-colors" href="#"
+              >Cookies</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

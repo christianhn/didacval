@@ -1,0 +1,323 @@
+---
+import { specialtiesData } from "../data/specialties";
+---
+
+<section id="areas-clinicas" class="specialties" aria-labelledby="specialties-title">
+  <div class="specialties__inner">
+    <header class="specialties__header">
+      <div>
+        <span class="specialties__eyebrow">{specialtiesData.eyebrow}</span>
+        <h2 id="specialties-title" class="specialties__title">{specialtiesData.title}</h2>
+      </div>
+      <p class="specialties__desc">{specialtiesData.description}</p>
+    </header>
+
+    <div class="specialties__grid">
+      {
+        specialtiesData.primary.map((card) => (
+          <article class="specialties__card">
+            <div class="specialties__card-top">
+              <span class="specialties__kicker">{card.kicker}</span>
+              <h3 class="specialties__card-title">{card.title}</h3>
+              <p class="specialties__card-desc">{card.description}</p>
+              <ul class="specialties__bullets" role="list">
+                {card.bullets.map((b) => (
+                  <li>
+                    <span class="specialties__dot" aria-hidden="true" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <a class="specialties__cta" href={card.cta.href}>
+              <span>{card.cta.label}</span>
+              <span class="material-symbols-outlined" aria-hidden="true">
+                arrow_forward
+              </span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="specialties__secondary">
+      {
+        specialtiesData.secondary.map((card) => (
+          <article class="specialties__secondary-card">
+            <div class="specialties__secondary-image">
+              <img src={card.image} alt={card.imageAlt} loading="lazy" />
+            </div>
+            <div class="specialties__secondary-content">
+              <div class="specialties__secondary-meta">
+                <span class="specialties__badge">{card.badge}</span>
+                <span class="specialties__meta">{card.meta}</span>
+              </div>
+              <h4 class="specialties__secondary-title">{card.title}</h4>
+              <p class="specialties__secondary-desc">{card.description}</p>
+              <div class="specialties__secondary-footer">
+                <img src={card.avatar} alt={card.avatarAlt} loading="lazy" />
+                <span>{card.footer}</span>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .specialties {
+    width: 100%;
+    background: var(--color-surface-bone);
+    padding: $space-4xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .specialties__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xl;
+  }
+
+  .specialties__header {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+
+    @media (min-width: $bp-lg) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .specialties__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .specialties__title {
+    @include text-headline-xl;
+    color: var(--color-on-surface);
+    margin: 4px 0 0;
+  }
+
+  .specialties__desc {
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    max-width: 28rem;
+    margin: 0;
+  }
+
+  .specialties__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-lg;
+
+    @media (min-width: $bp-md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .specialties__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $space-md;
+    background: var(--color-surface-container-lowest);
+    padding: $space-xl;
+    border-radius: $radius-default;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .specialties__card-top {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
+  .specialties__kicker {
+    @include text-caption-micro;
+    color: var(--color-secondary);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .specialties__card-title {
+    @include text-headline-lg;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+
+  .specialties__card-desc {
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .specialties__bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+    padding: $space-xs 0 0;
+    margin: 0;
+    @include text-body-sm;
+    color: var(--color-on-surface);
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .specialties__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    flex-shrink: 0;
+  }
+
+  .specialties__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: $space-sm;
+    @include text-label-pill;
+    color: var(--color-secondary);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+
+    .material-symbols-outlined {
+      font-size: 15px;
+    }
+  }
+
+  .specialties__secondary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-lg;
+    padding-top: $space-sm;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .specialties__secondary-card {
+    background: var(--color-surface-container-high);
+    padding: $space-xl;
+    border-radius: $radius-default;
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+    align-items: center;
+
+    @media (min-width: $bp-md) {
+      flex-direction: row;
+    }
+  }
+
+  .specialties__secondary-image {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: $radius-default;
+    overflow: hidden;
+    background: var(--color-surface);
+    flex-shrink: 0;
+
+    @media (min-width: $bp-md) {
+      width: 33%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .specialties__secondary-content {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    width: 100%;
+
+    @media (min-width: $bp-md) {
+      width: 67%;
+    }
+  }
+
+  .specialties__secondary-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .specialties__badge {
+    background: var(--color-secondary);
+    color: var(--color-on-secondary);
+    padding: 2px 8px;
+    border-radius: $radius-full;
+    @include text-caption-micro;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .specialties__meta {
+    @include text-caption-micro;
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .specialties__secondary-title {
+    @include text-headline-sm;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+
+  .specialties__secondary-desc {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .specialties__secondary-footer {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    padding-top: 4px;
+    @include text-index-item;
+    color: var(--color-on-surface);
+    font-weight: 500;
+
+    img {
+      width: 28px;
+      height: 28px;
+      border-radius: $radius-full;
+      object-fit: cover;
+    }
+  }
+</style>

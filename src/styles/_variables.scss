@@ -1,0 +1,96 @@
+// ==========================================
+// Variables globales — Dídac Val
+// Extraídas del mockup (tailwind.config)
+// ==========================================
+
+// ---------- Colors ----------
+$colors: (
+  "on-tertiary-fixed-variant": #394b40,
+  "on-surface": #191c1a,
+  "tertiary-container": #0d1f16,
+  "on-secondary": #ffffff,
+  "on-tertiary": #ffffff,
+  "surface-container": #ecefe9,
+  "on-primary-container": #838482,
+  "sage-muted": #6e8276,
+  "tertiary-fixed-dim": #b7cbbe,
+  "primary-fixed-dim": #c6c7c4,
+  "primary-fixed": #e2e3e0,
+  "surface-variant": #e1e3de,
+  "on-error-container": #93000a,
+  "primary": #000000,
+  "on-background": #191c1a,
+  "on-secondary-fixed-variant": #364b40,
+  "outline": #747875,
+  "sage-tint": #e8ece9,
+  "on-primary-fixed": #1a1c1b,
+  "inverse-on-surface": #eff1ec,
+  "border-dark-hairline": #232624,
+  "background": #f8faf5,
+  "error-container": #ffdad6,
+  "secondary-fixed-dim": #b4ccbd,
+  "surface-bright": #f8faf5,
+  "secondary": #4d6357,
+  "surface-subtle": #eeede8,
+  "error": #ba1a1a,
+  "on-secondary-fixed": #0a1f16,
+  "inverse-surface": #2e312e,
+  "secondary-container": #cde6d6,
+  "on-tertiary-container": #75887c,
+  "tertiary": #000000,
+  "surface-container-low": #f2f4ef,
+  "secondary-fixed": #d0e8d9,
+  "on-surface-variant": #444845,
+  "inverse-primary": #c6c7c4,
+  "outline-variant": #c4c7c4,
+  "surface-container-lowest": #ffffff,
+  "border-hairline": #e2e0d9,
+  "surface-canvas": #ffffff,
+  "surface-bone": #f8f7f4,
+  "on-primary-fixed-variant": #454746,
+  "on-primary": #ffffff,
+  "surface": #f8faf5,
+  "warm-sand": #d6c7b2,
+  "tertiary-fixed": #d3e8d9,
+  "primary-container": #1a1c1b,
+  "on-secondary-container": #51685b,
+  "on-tertiary-fixed": #0d1f16,
+  "surface-dim": #d8dbd6,
+  "surface-tint": #5d5f5d,
+  "surface-container-high": #e7e9e4,
+  "surface-dark": #0a0b0a,
+  "surface-container-highest": #e1e3de,
+  "on-error": #ffffff,
+);
+
+// ---------- Spacing ----------
+$space-3xs: 0.125rem;
+$space-2xs: 0.25rem;
+$space-xs: 0.5rem;
+$space-sm: 0.75rem;
+$space-md: 1rem;
+$space-lg: 1.5rem;
+$space-xl: 2rem;
+$space-2xl: 3rem;
+$space-3xl: 4.5rem;
+$space-4xl: 6.5rem;
+$space-5xl: 9rem;
+
+$gutter-mobile: 1.25rem;
+$gutter-desktop: 2rem;
+$container-max: 1440px;
+
+// ---------- Border Radius ----------
+$radius-default: 1rem;
+$radius-lg: 2rem;
+$radius-xl: 3rem;
+$radius-full: 9999px;
+
+// ---------- Breakpoints ----------
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+// ---------- Z-index ----------
+$z-header: 50;

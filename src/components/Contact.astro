@@ -1,0 +1,446 @@
+---
+import { contactData } from "../data/contact";
+---
+
+<section id="contacto-cita" class="contact" aria-labelledby="contact-title">
+  <div class="contact__inner">
+    <div class="contact__info">
+      <span class="contact__eyebrow">{contactData.eyebrow}</span>
+      <h2 id="contact-title" class="contact__title">{contactData.title}</h2>
+      <p class="contact__desc">{contactData.description}</p>
+
+      <div class="contact__cards">
+        {
+          contactData.infoCards.map((card) => (
+            <div class="contact__card">
+              <span class="material-symbols-outlined" aria-hidden="true">
+                {card.icon}
+              </span>
+              <div>
+                <span class="contact__card-title">{card.title}</span>
+                {card.href ? (
+                  <a class="contact__card-link" href={card.href}>
+                    {card.detail}
+                  </a>
+                ) : (
+                  <span class="contact__card-detail">{card.detail}</span>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="contact__map" data-location={contactData.map.location} role="img" aria-label={contactData.map.label}>
+        <div class="contact__map-overlay" aria-hidden="true"></div>
+        <div class="contact__map-badge">
+          <span class="material-symbols-outlined" aria-hidden="true">{contactData.map.icon}</span>
+          <span>{contactData.map.label}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact__form-wrap">
+      <div class="contact__form-header">
+        <h3 class="contact__form-title">{contactData.form.title}</h3>
+        <span class="contact__form-badge">{contactData.form.badge}</span>
+      </div>
+
+      <form id="contact-psychology-form" class="contact__form" novalidate>
+        <div class="contact__row">
+          <label class="contact__field">
+            <span class="contact__label">{contactData.form.fields.name.label}</span>
+            <input class="contact__input" type="text" id="form-name" placeholder={contactData.form.fields.name.placeholder} required autocomplete="name" />
+          </label>
+          <label class="contact__field">
+            <span class="contact__label">{contactData.form.fields.phone.label}</span>
+            <input class="contact__input" type="tel" id="form-phone" placeholder={contactData.form.fields.phone.placeholder} required autocomplete="tel" />
+          </label>
+        </div>
+
+        <div class="contact__row">
+          <label class="contact__field">
+            <span class="contact__label">{contactData.form.fields.email.label}</span>
+            <input class="contact__input" type="email" id="form-email" placeholder={contactData.form.fields.email.placeholder} required autocomplete="email" />
+          </label>
+          <label class="contact__field">
+            <span class="contact__label">{contactData.form.fields.mode.label}</span>
+            <select class="contact__input contact__select" id="form-mode">
+              {
+                contactData.form.fields.mode.options.map((opt) => (
+                  <option value={opt.value}>{opt.label}</option>
+                ))
+              }
+            </select>
+          </label>
+        </div>
+
+        <label class="contact__field">
+          <span class="contact__label">{contactData.form.fields.message.label}</span>
+          <textarea class="contact__input contact__textarea" id="form-message" placeholder={contactData.form.fields.message.placeholder} rows="3"></textarea>
+        </label>
+
+        <label class="contact__consent">
+          <input type="checkbox" id="form-consent" required />
+          <span>{contactData.form.fields.consent}</span>
+        </label>
+
+        <div class="contact__submit-wrap">
+          <button class="contact__submit" type="submit">
+            <span>{contactData.form.submit}</span>
+            <span class="contact__submit-icon" aria-hidden="true">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </span>
+          </button>
+        </div>
+
+        <div id="form-feedback" class="contact__feedback" hidden role="status" aria-live="polite">
+          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+          <span>{contactData.form.feedback}</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-psychology-form") as HTMLFormElement | null;
+  const feedback = document.getElementById("form-feedback");
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    if (feedback) {
+      feedback.hidden = false;
+      feedback.classList.add("contact__feedback--visible");
+    }
+    form.reset();
+  });
+</script>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .contact {
+    width: 100%;
+    background: var(--color-surface-container);
+    padding: $space-4xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .contact__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-2xl;
+    align-items: start;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  .contact__info {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+  }
+
+  .contact__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .contact__title {
+    @include text-headline-xl;
+    color: var(--color-on-surface);
+    margin: 4px 0 0;
+  }
+
+  .contact__desc {
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    margin: 8px 0 0;
+  }
+
+  .contact__cards {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    padding-top: $space-xs;
+  }
+
+  .contact__card {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    padding: $space-md;
+    background: var(--color-surface-container-lowest);
+    border-radius: $radius-default;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+
+    .material-symbols-outlined {
+      color: var(--color-secondary);
+      font-size: 22px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .contact__card-title {
+    @include text-label-pill;
+    color: var(--color-on-surface);
+    font-weight: 600;
+  }
+
+  .contact__card-detail,
+  .contact__card-link {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+  }
+
+  .contact__card-link {
+    color: var(--color-secondary);
+    &:hover {
+      color: var(--color-on-surface);
+    }
+  }
+
+  .contact__map {
+    width: 100%;
+    height: 176px;
+    border-radius: $radius-default;
+    background: var(--color-surface-container-high);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .contact__map-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(77, 99, 87, 0.05);
+  }
+
+  .contact__map-badge {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(6px);
+    padding: $space-xs $space-md;
+    border-radius: $radius-full;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    @include text-caption-micro;
+    color: var(--color-on-surface);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      color: var(--color-secondary);
+    }
+  }
+
+  .contact__form-wrap {
+    background: var(--color-surface-container-lowest);
+    padding: $space-xl;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+    @media (min-width: $bp-lg) {
+      padding: $space-2xl;
+    }
+  }
+
+  .contact__form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
+    padding-bottom: $space-md;
+    flex-wrap: wrap;
+  }
+
+  .contact__form-title {
+    @include text-headline-sm;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+
+  .contact__form-badge {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: $radius-default;
+    background: var(--color-sage-tint);
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+  }
+
+  .contact__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-md;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .contact__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact__label {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-on-surface-variant);
+    font-weight: 500;
+  }
+
+  .contact__input {
+    width: 100%;
+    padding: 10px $space-md;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: var(--color-surface);
+    @include text-body-base;
+    color: var(--color-on-surface);
+    transition: all 0.2s;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      background: var(--color-surface-bone);
+      border-color: var(--color-outline-variant);
+    }
+
+    &::placeholder {
+      color: var(--color-outline);
+    }
+  }
+
+  .contact__select {
+    cursor: pointer;
+  }
+
+  .contact__textarea {
+    resize: none;
+  }
+
+  .contact__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: $space-xs;
+    @include text-caption-micro;
+    color: var(--color-on-surface-variant);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.6;
+    cursor: pointer;
+
+    input {
+      margin-top: 4px;
+      accent-color: var(--color-primary);
+      flex-shrink: 0;
+    }
+  }
+
+  .contact__submit-wrap {
+    padding-top: $space-sm;
+  }
+
+  .contact__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $space-xs $space-2xs $space-xs $space-xl;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border: none;
+    border-radius: $radius-full;
+    @include text-label-pill;
+    letter-spacing: 0.02em;
+    transition:
+      opacity 0.2s,
+      transform 0.15s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  .contact__submit-icon {
+    width: 28px;
+    height: 28px;
+    margin-left: $space-sm;
+    border-radius: $radius-full;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 15px;
+      color: var(--color-on-primary);
+    }
+  }
+
+  .contact__feedback {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: $space-sm;
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+    border-radius: 8px;
+    @include text-body-sm;
+
+    &--visible {
+      display: flex;
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+  }
+</style>

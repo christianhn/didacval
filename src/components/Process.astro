@@ -1,0 +1,166 @@
+---
+import { processData } from "../data/process";
+---
+
+<section class="process" aria-labelledby="process-title">
+  <div class="process__inner">
+    <header class="process__header">
+      <div>
+        <span class="process__eyebrow">{processData.eyebrow}</span>
+        <h2 id="process-title" class="process__title">{processData.title}</h2>
+      </div>
+      <p class="process__desc">{processData.description}</p>
+    </header>
+
+    <ol class="process__grid" role="list">
+      {
+        processData.steps.map((step) => (
+          <li class="process__card">
+            <span class="process__number" aria-hidden="true">
+              {step.number}
+            </span>
+            <div class="process__card-body">
+              <span class="process__kicker">{step.kicker}</span>
+              <h3 class="process__card-title">{step.title}</h3>
+              <p class="process__card-desc">{step.description}</p>
+            </div>
+            <div class="process__meta">
+              <span class="material-symbols-outlined" aria-hidden="true">
+                {step.metaIcon}
+              </span>
+              <span>{step.metaText}</span>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .process {
+    width: 100%;
+    background: var(--color-surface);
+    padding: $space-4xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .process__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xl;
+  }
+
+  .process__header {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+
+    @media (min-width: $bp-md) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  .process__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .process__title {
+    @include text-headline-xl;
+    color: var(--color-on-surface);
+    margin: 4px 0 0;
+  }
+
+  .process__desc {
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    max-width: 28rem;
+    margin: 0;
+  }
+
+  .process__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-md;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media (min-width: $bp-md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .process__card {
+    background: var(--color-surface-container-lowest);
+    padding: $space-lg;
+    border-radius: $radius-default;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $space-md;
+  }
+
+  .process__number {
+    @include text-display-hero-mobile;
+    font-weight: 300;
+    color: var(--color-surface-variant);
+  }
+
+  .process__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .process__kicker {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .process__card-title {
+    @include text-headline-sm;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+
+  .process__card-desc {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .process__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: $space-xs;
+    color: var(--color-secondary);
+    @include text-label-pill;
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+</style>
