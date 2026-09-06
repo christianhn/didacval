@@ -5,38 +5,47 @@ import { siteData } from "../data/site";
 <header id="site-header" class="header header--transparent" data-header>
   <div class="header__inner">
     <div class="header__brand">
-      <img class="header__logo" src={siteData.brand.logo} alt={siteData.brand.logoAlt} width="32" height="32" />
+      <img
+        class="header__logo"
+        src={siteData.brand.logo}
+        alt={siteData.brand.logoAlt}
+        width="32"
+        height="32"
+      />
       <a class="header__brand-text" href="#inicio" data-path="inicio">
         <span class="header__brand-name">{siteData.brand.name}</span>
         <span class="header__brand-subtitle">{siteData.brand.subtitle}</span>
       </a>
     </div>
 
-    <nav class="header__nav" aria-label="Navegación principal">
-      {
-        siteData.nav.map((item) => (
-          <a
-            class:list={["header__nav-link", { "header__nav-link--active": item.active }]}
-            href={item.href}
-            data-path={item.path}
-            aria-current={item.active ? "page" : undefined}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-
     <div class="header__actions">
-      <a class="header__cta" href={siteData.cta.href} data-path={siteData.cta.path}>
+      <nav class="header__nav" aria-label="Navegación principal">
+        {
+          siteData.nav.map((item) => (
+            <a
+              class:list={[
+                "header__nav-link",
+                { "header__nav-link--active": item.active },
+              ]}
+              href={item.href}
+              data-path={item.path}
+              aria-current={item.active ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <a
+        class="header__cta"
+        href={siteData.cta.href}
+        data-path={siteData.cta.path}
+      >
         <span>{siteData.cta.label}</span>
         <span class="header__cta-icon" aria-hidden="true">
           <span class="material-symbols-outlined">arrow_forward</span>
         </span>
       </a>
-      <div class="header__avatar" aria-hidden="true">
-        <span class="material-symbols-outlined">person</span>
-      </div>
     </div>
   </div>
 </header>
@@ -76,7 +85,7 @@ import { siteData } from "../data/site";
               root: null,
               rootMargin: `-${header.offsetHeight}px 0px 0px 0px`,
               threshold: 0,
-            }
+            },
           );
           observer.observe(hero);
         };
@@ -137,7 +146,7 @@ import { siteData } from "../data/site";
           ticking = true;
         }
       },
-      { passive: true }
+      { passive: true },
     );
   }
 </script>
@@ -168,7 +177,6 @@ import { siteData } from "../data/site";
     background: rgba(248, 250, 245, 0.85);
     backdrop-filter: blur(12px);
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-    border-bottom: 1px solid transparent;
   }
 
   // Estado transparente sobre el video
@@ -176,7 +184,6 @@ import { siteData } from "../data/site";
     background: transparent;
     backdrop-filter: none;
     box-shadow: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .header__inner {
@@ -204,10 +211,6 @@ import { siteData } from "../data/site";
     height: 32px;
     width: auto;
     object-fit: contain;
-    // sobre video oscuro, el logo quizás necesite filtro claro si es oscuro
-    .header--transparent & {
-      filter: brightness(0) invert(1);
-    }
   }
 
   .header__brand-text {
@@ -350,37 +353,6 @@ import { siteData } from "../data/site";
       .header--transparent & {
         color: #0a0b0a;
       }
-    }
-  }
-
-  .header__avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: $radius-full;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      background 0.3s ease,
-      color 0.3s ease;
-
-    .header--solid & {
-      background: var(--color-primary);
-      .material-symbols-outlined {
-        color: var(--color-on-primary);
-      }
-    }
-    .header--transparent & {
-      background: rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      .material-symbols-outlined {
-        color: #fff;
-      }
-    }
-
-    .material-symbols-outlined {
-      font-size: 18px;
     }
   }
 </style>
