@@ -43,21 +43,103 @@ import { siteData } from "../data/site";
 
 <script>
   const header = document.querySelector("[data-header]") as HTMLElement | null;
+  const hero = document.querySelector(".hero-video") as HTMLElement | null;
 
-  const onScroll = () => {
-    if (!header) return;
-    if (window.scrollY > 40) {
-      header.classList.remove("header--transparent");
-      header.classList.add("header--solid");
+  if (!header) {
+    // sin header, nada que hacer
+  } else {
+    // --- 1) Transparente sobre vídeo / sólido al salir ---
+    const setHeaderState = (isOverHero: boolean) => {
+      header.classList.toggle("header--transparent", isOverHero);
+      header.classList.toggle("header--solid", !isOverHero);
+    };
+
+    if (!hero) {
+      // Sin video hero (otras páginas), siempre sólido
+      setHeaderState(false);
     } else {
-      header.classList.add("header--transparent");
-      header.classList.remove("header--solid");
-    }
-  };
+      const update = () => {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        const headerHeight = header.offsetHeight;
+        const isOverHero = heroBottom > headerHeight;
+        setHeaderState(isOverHero);
+      };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  // inicial
-  onScroll();
+      if ("IntersectionObserver" in window) {
+        let observer: IntersectionObserver | null = null;
+
+        const createObserver = () => {
+          if (observer) observer.disconnect();
+          observer = new IntersectionObserver(
+            ([entry]) => setHeaderState(entry.isIntersecting),
+            {
+              root: null,
+              rootMargin: `-${header.offsetHeight}px 0px 0px 0px`,
+              threshold: 0,
+            }
+          );
+          observer.observe(hero);
+        };
+
+        createObserver();
+
+        let resizeTimer: number;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(() => {
+            createObserver();
+            update();
+          }, 100) as unknown as number;
+        });
+
+        update();
+      } else {
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+      }
+    }
+
+    // --- 2) Ocultar al hacer scroll down, mostrar al hacer scroll up ---
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    const DELTA_THRESHOLD = 8;
+    const HIDE_AFTER = 80;
+
+    const onScrollHideShow = () => {
+      const currentY = window.scrollY;
+      const diff = currentY - lastScrollY;
+
+      if (Math.abs(diff) < DELTA_THRESHOLD) {
+        ticking = false;
+        return;
+      }
+
+      if (diff > 0 && currentY > HIDE_AFTER) {
+        header.classList.add("header--hidden");
+      } else if (diff < 0) {
+        header.classList.remove("header--hidden");
+      }
+
+      if (currentY <= HIDE_AFTER) {
+        header.classList.remove("header--hidden");
+      }
+
+      lastScrollY = currentY;
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(onScrollHideShow);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
 </script>
 
 <style lang="scss">
@@ -72,7 +154,13 @@ import { siteData } from "../data/site";
       background 0.3s ease,
       backdrop-filter 0.3s ease,
       box-shadow 0.3s ease,
-      border-color 0.3s ease;
+      border-color 0.3s ease,
+      transform 0.35s ease;
+    will-change: transform;
+  }
+
+  .header--hidden {
+    transform: translateY(-100%);
   }
 
   // Estado sólido (cuando se hace scroll o sin hero video)
