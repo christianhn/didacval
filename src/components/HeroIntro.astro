@@ -1,0 +1,233 @@
+---
+import { introData } from "../data/intro";
+---
+
+<section id="intro" class="intro" aria-label="Presentación">
+  <div class="intro__inner">
+    <!-- Columna izquierda: texto -->
+    <div class="intro__main">
+      <div class="intro__eyebrow">
+        <span class="material-symbols-outlined" aria-hidden="true">{introData.eyebrow.icon}</span>
+        <span>{introData.eyebrow.text}</span>
+      </div>
+
+      <p class="intro__desc">{introData.description}</p>
+
+      <div class="intro__ctas">
+        <a class="intro__cta intro__cta--primary" href={introData.ctas.primary.href}>
+          <span>{introData.ctas.primary.label}</span>
+          <span class="intro__cta-icon intro__cta-icon--primary" aria-hidden="true">
+            <span class="material-symbols-outlined">{introData.ctas.primary.icon}</span>
+          </span>
+        </a>
+        <a class="intro__cta intro__cta--secondary" href={introData.ctas.secondary.href}>
+          <span>{introData.ctas.secondary.label}</span>
+          <span class="material-symbols-outlined intro__cta-icon-inline" aria-hidden="true">{introData.ctas.secondary.icon}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card lateral -->
+    <aside class="intro__card" aria-label="Gabinete psicológico">
+      <div class="intro__card-header">
+        <span class="intro__card-eyebrow">{introData.microCard.eyebrow}</span>
+        <span class="intro__card-index">{introData.microCard.index}</span>
+      </div>
+      <blockquote class="intro__card-quote">{introData.microCard.quote}</blockquote>
+      <div class="intro__card-author">
+        <div class="intro__card-avatar" aria-hidden="true">
+          <span class="material-symbols-outlined">{introData.microCard.author.icon}</span>
+        </div>
+        <div>
+          <div class="intro__card-name">{introData.microCard.author.name}</div>
+          <div class="intro__card-role">{introData.microCard.author.role}</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .intro {
+    width: 100%;
+    background: var(--color-surface);
+    padding: $space-2xl $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding: $space-3xl $gutter-desktop;
+    }
+  }
+
+  .intro__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+    align-items: start;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: 7fr 4fr;
+      gap: $space-2xl;
+    }
+  }
+
+  .intro__main {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+  }
+
+  .intro__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    width: fit-content;
+    background: var(--color-surface-subtle);
+    padding: 4px 12px;
+    border-radius: $radius-full;
+    color: var(--color-secondary);
+    @include text-label-pill;
+
+    .material-symbols-outlined {
+      font-size: 15px;
+    }
+  }
+
+  .intro__desc {
+    @include text-body-lg;
+    color: var(--color-on-surface-variant);
+    max-width: 42rem;
+    margin: 0;
+  }
+
+  .intro__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-sm;
+    padding-top: $space-xs;
+  }
+
+  .intro__cta {
+    display: inline-flex;
+    align-items: center;
+    border-radius: $radius-full;
+    @include text-label-pill;
+    transition: all 0.2s;
+
+    &--primary {
+      padding: $space-xs $space-2xs $space-xs $space-lg;
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      &:hover {
+        background: #222;
+      }
+    }
+
+    &--secondary {
+      padding: $space-xs $space-lg;
+      background: var(--color-surface-container);
+      color: var(--color-on-surface);
+      &:hover {
+        background: var(--color-surface-container-high);
+      }
+    }
+  }
+
+  .intro__cta-icon--primary {
+    width: 28px;
+    height: 28px;
+    margin-left: $space-xs;
+    border-radius: $radius-full;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-symbols-outlined {
+      font-size: 15px;
+      color: var(--color-on-primary);
+    }
+  }
+
+  .intro__cta-icon-inline {
+    font-size: 16px;
+    margin-left: 6px;
+    color: var(--color-secondary);
+  }
+
+  .intro__card {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    background: var(--color-surface-container-lowest);
+    padding: $space-lg;
+    border-radius: $radius-default;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .intro__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: $space-xs;
+  }
+
+  .intro__card-eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .intro__card-index {
+    @include text-index-item;
+    color: var(--color-on-surface-variant);
+  }
+
+  .intro__card-quote {
+    @include text-body-sm;
+    color: var(--color-on-surface);
+    margin: 0;
+    font-style: normal;
+    border: 0;
+    padding: 0;
+  }
+
+  .intro__card-author {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    padding-top: $space-xs;
+  }
+
+  .intro__card-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    background: var(--color-surface-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .material-symbols-outlined {
+      color: var(--color-secondary);
+    }
+  }
+
+  .intro__card-name {
+    @include text-label-pill;
+    color: var(--color-on-surface);
+    font-weight: 600;
+  }
+
+  .intro__card-role {
+    @include text-caption-micro;
+    color: var(--color-outline);
+    font-weight: 400;
+  }
+</style>

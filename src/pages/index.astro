@@ -1,8 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import NoticeBar from "../components/NoticeBar.astro";
 import Hero from "../components/Hero.astro";
+import HeroIntro from "../components/HeroIntro.astro";
+import NoticeBar from "../components/NoticeBar.astro";
 import BentoStrip from "../components/BentoStrip.astro";
 import Metrics from "../components/Metrics.astro";
 import EditorialPortal from "../components/EditorialPortal.astro";
@@ -16,8 +17,9 @@ import Footer from "../components/Footer.astro";
 <Layout>
   <Header />
   <main class="page-main">
-    <NoticeBar />
     <Hero />
+    <NoticeBar />
+    <HeroIntro />
     <BentoStrip />
     <Metrics />
     <EditorialPortal />
@@ -31,8 +33,7 @@ import Footer from "../components/Footer.astro";
 
 <style lang="scss">
   .page-main {
-    padding-top: 80px;
-    min-height: calc(100vh - 80px);
+    // sin padding-top: el Hero video es fullscreen y el header es transparente overlay
     background: var(--color-surface);
   }
 </style>

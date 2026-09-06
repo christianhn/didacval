@@ -2,7 +2,7 @@
 import { siteData } from "../data/site";
 ---
 
-<header class="header">
+<header id="site-header" class="header header--transparent" data-header>
   <div class="header__inner">
     <div class="header__brand">
       <img class="header__logo" src={siteData.brand.logo} alt={siteData.brand.logoAlt} width="32" height="32" />
@@ -41,6 +41,25 @@ import { siteData } from "../data/site";
   </div>
 </header>
 
+<script>
+  const header = document.querySelector("[data-header]") as HTMLElement | null;
+
+  const onScroll = () => {
+    if (!header) return;
+    if (window.scrollY > 40) {
+      header.classList.remove("header--transparent");
+      header.classList.add("header--solid");
+    } else {
+      header.classList.add("header--transparent");
+      header.classList.remove("header--solid");
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  // inicial
+  onScroll();
+</script>
+
 <style lang="scss">
   @use "../styles/variables" as *;
   @use "../styles/typography" as *;
@@ -49,9 +68,27 @@ import { siteData } from "../data/site";
     position: fixed;
     inset: 0 0 auto 0;
     z-index: $z-header;
+    transition:
+      background 0.3s ease,
+      backdrop-filter 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  // Estado sólido (cuando se hace scroll o sin hero video)
+  .header--solid {
     background: rgba(248, 250, 245, 0.85);
     backdrop-filter: blur(12px);
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid transparent;
+  }
+
+  // Estado transparente sobre el video
+  .header--transparent {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .header__inner {
@@ -79,6 +116,10 @@ import { siteData } from "../data/site";
     height: 32px;
     width: auto;
     object-fit: contain;
+    // sobre video oscuro, el logo quizás necesite filtro claro si es oscuro
+    .header--transparent & {
+      filter: brightness(0) invert(1);
+    }
   }
 
   .header__brand-text {
@@ -89,15 +130,30 @@ import { siteData } from "../data/site";
   .header__brand-name {
     @include text-headline-sm;
     letter-spacing: -0.015em;
-    color: var(--color-on-surface);
+    transition: color 0.3s ease;
+
+    .header--solid & {
+      color: var(--color-on-surface);
+    }
+    .header--transparent & {
+      color: #fff;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+    }
   }
 
   .header__brand-subtitle {
     @include text-caption-micro;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--color-secondary);
     font-size: 9px;
+    transition: color 0.3s ease;
+
+    .header--solid & {
+      color: var(--color-secondary);
+    }
+    .header--transparent & {
+      color: rgba(255, 255, 255, 0.75);
+    }
   }
 
   .header__nav {
@@ -114,17 +170,33 @@ import { siteData } from "../data/site";
     padding: $space-2xs $space-sm;
     border-radius: $radius-full;
     @include text-body-sm;
-    color: var(--color-on-surface-variant);
-    transition: color 0.2s;
+    transition:
+      color 0.3s ease,
+      background 0.3s ease;
 
-    &:hover {
-      color: var(--color-on-surface);
+    .header--solid & {
+      color: var(--color-on-surface-variant);
+      &:hover {
+        color: var(--color-on-surface);
+      }
+      &--active {
+        background: var(--color-secondary-container);
+        color: var(--color-on-secondary-container);
+        font-weight: 500;
+      }
     }
 
-    &--active {
-      background: var(--color-secondary-container);
-      color: var(--color-on-secondary-container);
-      font-weight: 500;
+    .header--transparent & {
+      color: rgba(255, 255, 255, 0.86);
+      &:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      &--active {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-weight: 500;
+      }
     }
   }
 
@@ -138,17 +210,27 @@ import { siteData } from "../data/site";
     display: inline-flex;
     align-items: center;
     padding: $space-2xs $space-2xs $space-2xs $space-lg;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
     border-radius: $radius-full;
     @include text-label-pill;
     letter-spacing: 0.02em;
     transition:
+      background 0.3s ease,
+      color 0.3s ease,
       opacity 0.2s,
       transform 0.15s;
 
+    .header--solid & {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .header--transparent & {
+      background: #fff;
+      color: #0a0b0a;
+    }
+
     &:hover {
-      opacity: 0.9;
+      opacity: 0.92;
     }
     &:active {
       transform: scale(0.97);
@@ -160,14 +242,26 @@ import { siteData } from "../data/site";
     height: 24px;
     margin-left: $space-xs;
     border-radius: $radius-full;
-    background: rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.3s ease;
+
+    .header--solid & {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .header--transparent & {
+      background: rgba(0, 0, 0, 0.08);
+    }
 
     .material-symbols-outlined {
       font-size: 14px;
-      color: var(--color-on-primary);
+      .header--solid & {
+        color: var(--color-on-primary);
+      }
+      .header--transparent & {
+        color: #0a0b0a;
+      }
     }
   }
 
@@ -175,14 +269,30 @@ import { siteData } from "../data/site";
     width: 32px;
     height: 32px;
     border-radius: $radius-full;
-    background: var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition:
+      background 0.3s ease,
+      color 0.3s ease;
+
+    .header--solid & {
+      background: var(--color-primary);
+      .material-symbols-outlined {
+        color: var(--color-on-primary);
+      }
+    }
+    .header--transparent & {
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      .material-symbols-outlined {
+        color: #fff;
+      }
+    }
 
     .material-symbols-outlined {
       font-size: 18px;
-      color: var(--color-on-primary);
     }
   }
 </style>

@@ -1,255 +1,193 @@
 ---
 import { heroData } from "../data/hero";
+import natureVideo from "../assets/hero/nature.mp4";
 ---
 
-<section class="hero" aria-labelledby="hero-title">
-  <div class="hero__grid">
-    <!-- Left column -->
-    <div class="hero__main">
-      <div class="hero__eyebrow">
-        <span class="material-symbols-outlined" aria-hidden="true">{heroData.eyebrow.icon}</span>
-        <span>{heroData.eyebrow.text}</span>
-      </div>
+<section class="hero-video" aria-labelledby="hero-title">
+  <video
+    class="hero-video__media"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    aria-hidden="true"
+  >
+    <source src={natureVideo} type="video/mp4" />
+  </video>
 
-      <h1 id="hero-title" class="hero__title">
-        {heroData.title.line1}<br class="hero__br" />
-        <span class="hero__title-accent">{heroData.title.line2}</span>
+  <!-- Overlay para legibilidad -->
+  <div class="hero-video__overlay" aria-hidden="true"></div>
+  <div class="hero-video__vignette" aria-hidden="true"></div>
+
+  <div class="hero-video__content">
+    <div class="hero-video__text">
+      <h1 id="hero-title" class="hero-video__title">
+        {heroData.title.line1}
+        <span class="hero-video__title-accent">{heroData.title.line2}</span>
       </h1>
-
-      <p class="hero__desc">{heroData.description}</p>
-
-      <div class="hero__ctas">
-        <a class="hero__cta hero__cta--primary" href={heroData.ctas.primary.href}>
-          <span>{heroData.ctas.primary.label}</span>
-          <span class="hero__cta-icon hero__cta-icon--primary" aria-hidden="true">
-            <span class="material-symbols-outlined">{heroData.ctas.primary.icon}</span>
-          </span>
-        </a>
-        <a class="hero__cta hero__cta--secondary" href={heroData.ctas.secondary.href}>
-          <span>{heroData.ctas.secondary.label}</span>
-          <span class="material-symbols-outlined hero__cta-icon-inline" aria-hidden="true">{heroData.ctas.secondary.icon}</span>
-        </a>
-      </div>
     </div>
-
-    <!-- Right micro-summary -->
-    <aside class="hero__card" aria-label="Gabinete psicológico">
-      <div class="hero__card-header">
-        <span class="hero__card-eyebrow">{heroData.microCard.eyebrow}</span>
-        <span class="hero__card-index">{heroData.microCard.index}</span>
-      </div>
-      <p class="hero__card-quote">{heroData.microCard.quote}</p>
-      <div class="hero__card-author">
-        <div class="hero__card-avatar" aria-hidden="true">
-          <span class="material-symbols-outlined">{heroData.microCard.author.icon}</span>
-        </div>
-        <div>
-          <div class="hero__card-name">{heroData.microCard.author.name}</div>
-          <div class="hero__card-role">{heroData.microCard.author.role}</div>
-        </div>
-      </div>
-    </aside>
   </div>
+
+  <!-- Indicador scroll sutil -->
+  <a class="hero-video__scroll" href="#intro" aria-label="Descubrir más">
+    <span>Descubre</span>
+    <span class="material-symbols-outlined" aria-hidden="true">keyboard_arrow_down</span>
+  </a>
 </section>
 
 <style lang="scss">
   @use "../styles/variables" as *;
   @use "../styles/typography" as *;
 
-  .hero {
+  .hero-video {
+    position: relative;
     width: 100%;
-    background: var(--color-surface);
-    padding: $space-2xl $gutter-mobile;
-
-    @media (min-width: $bp-lg) {
-      padding: $space-4xl $gutter-desktop;
-    }
+    height: 100vh;
+    min-height: 560px;
+    max-height: 920px;
+    overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    background: var(--color-surface-dark);
   }
 
-  .hero__grid {
+  .hero-video__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -2;
+  }
+
+  .hero-video__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    // degradado lateral izquierda para texto + superior para header transparente
+    background:
+      linear-gradient(
+        90deg,
+        rgba(10, 11, 10, 0.72) 0%,
+        rgba(10, 11, 10, 0.55) 36%,
+        rgba(10, 11, 10, 0.18) 68%,
+        rgba(10, 11, 10, 0.06) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(10, 11, 10, 0.38) 0%,
+        rgba(10, 11, 10, 0) 28%,
+        rgba(10, 11, 10, 0.22) 100%
+      );
+  }
+
+  .hero-video__vignette {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, transparent 56%, rgba(0, 0, 0, 0.22) 100%);
+    pointer-events: none;
+  }
+
+  .hero-video__content {
+    width: 100%;
     max-width: $container-max;
     margin-inline: auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $space-xl;
-    align-items: start;
+    padding-inline: $gutter-mobile;
+    padding-top: 80px; // compensa header fixed
+    // centrado vertical, alineado a la izquierda
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
 
     @media (min-width: $bp-lg) {
-      grid-template-columns: 8fr 4fr;
+      padding-inline: $gutter-desktop;
     }
   }
 
-  .hero__main {
-    display: flex;
-    flex-direction: column;
-    gap: $space-lg;
-  }
-
-  .hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: $space-xs;
-    width: fit-content;
-    background: var(--color-surface-subtle);
-    padding: 4px 12px;
-    border-radius: $radius-full;
-    color: var(--color-secondary);
-    @include text-label-pill;
-
-    .material-symbols-outlined {
-      font-size: 15px;
-    }
-  }
-
-  .hero__title {
-    @include text-display-hero;
-    color: var(--color-on-surface);
-    max-width: 48rem;
-    text-wrap: balance;
-    margin: 0;
-  }
-
-  .hero__title-accent {
-    font-style: italic;
-    font-weight: 300;
-    color: var(--color-secondary);
-  }
-
-  .hero__br {
-    display: none;
-    @media (min-width: 640px) {
-      display: inline;
-    }
-  }
-
-  .hero__desc {
-    @include text-body-lg;
-    color: var(--color-on-surface-variant);
-    max-width: 42rem;
-    margin: 0;
-  }
-
-  .hero__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: $space-sm;
-    padding-top: $space-xs;
-  }
-
-  .hero__cta {
-    display: inline-flex;
-    align-items: center;
-    border-radius: $radius-full;
-    @include text-label-pill;
-    transition: all 0.2s;
-
-    &--primary {
-      padding: $space-xs $space-2xs $space-xs $space-lg;
-      background: var(--color-primary);
-      color: var(--color-on-primary);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-      &:hover {
-        background: #222;
-      }
-    }
-
-    &--secondary {
-      padding: $space-xs $space-lg;
-      background: var(--color-surface-container);
-      color: var(--color-on-surface);
-      &:hover {
-        background: var(--color-surface-container-high);
-      }
-    }
-  }
-
-  .hero__cta-icon--primary {
-    width: 28px;
-    height: 28px;
-    margin-left: $space-xs;
-    border-radius: $radius-full;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .material-symbols-outlined {
-      font-size: 15px;
-      color: var(--color-on-primary);
-    }
-  }
-
-  .hero__cta-icon-inline {
-    font-size: 16px;
-    margin-left: 6px;
-    color: var(--color-secondary);
-  }
-
-  .hero__card {
+  .hero-video__text {
+    max-width: 760px;
     display: flex;
     flex-direction: column;
     gap: $space-md;
-    background: var(--color-surface-container-lowest);
-    padding: $space-lg;
-    border-radius: $radius-default;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   }
 
-  .hero__card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: $space-xs;
-  }
-
-  .hero__card-eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
-  }
-
-  .hero__card-index {
-    @include text-index-item;
-    color: var(--color-on-surface-variant);
-  }
-
-  .hero__card-quote {
-    @include text-body-sm;
-    color: var(--color-on-surface);
+  .hero-video__title {
+    @include text-display-hero;
+    color: #fff;
     margin: 0;
-  }
+    text-wrap: balance;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
 
-  .hero__card-author {
-    display: flex;
-    align-items: center;
-    gap: $space-sm;
-    padding-top: $space-xs;
-  }
+    @media (max-width: 768px) {
+      font-size: 40px;
+      line-height: 42px;
+    }
 
-  .hero__card-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: $radius-full;
-    background: var(--color-surface-container);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .material-symbols-outlined {
-      color: var(--color-secondary);
+    @media (max-width: 480px) {
+      font-size: 32px;
+      line-height: 34px;
     }
   }
 
-  .hero__card-name {
-    @include text-label-pill;
-    color: var(--color-on-surface);
-    font-weight: 600;
+  .hero-video__title-accent {
+    display: block;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-warm-sand);
+    margin-top: 0.12em;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
   }
 
-  .hero__card-role {
+  .hero-video__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: $space-lg;
+    transform: translateX(-50%);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: rgba(255, 255, 255, 0.9);
     @include text-caption-micro;
-    color: var(--color-outline);
-    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px;
+      animation: hero-bounce 1.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes hero-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(4px);
+      opacity: 0.85;
+    }
+  }
+
+  // Respeta usuarios con reduced motion
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video__media {
+      // no autoplay effect, but keep muted
+    }
+    .hero-video__scroll .material-symbols-outlined {
+      animation: none;
+    }
   }
 </style>
