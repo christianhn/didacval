@@ -1,5 +1,5 @@
 export const specialtiesData = {
-  eyebrow: "Catálogo Asistencial",
+  eyebrow: "En qué puedo ayudarte",
   title: "Especialidades Clínicas",
   description:
     "Estructuración temática con intervenciones personalizadas para responder de forma concisa y eficaz a cada dimensión del sufrimiento psicológico.",

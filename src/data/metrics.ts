@@ -1,5 +1,5 @@
 export const metricsData = {
-  eyebrow: "Arquitectura Terapéutica",
+  eyebrow: "Cómo trabajamos",
   title: "Un método clínico claro. 4 pilares, sin rodeos.",
   description:
     "Sin diagnósticos simplistas ni etiquetas perpetuas. Intervención orientada a resolver dinámicas limitantes mediante técnicas cognitivo-conductuales e integradoras.",

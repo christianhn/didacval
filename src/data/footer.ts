@@ -12,17 +12,21 @@ export const footerData = {
     email: { label: "didacvalpsicologia@gmail.com", href: "mailto:didacvalpsicologia@gmail.com" },
   },
   links: {
-    title: "Estructura Asistencial",
+    title: "Áreas de trabajo",
     items: [
       { label: "Ansiedad & Regulación", href: "#" },
+      // REVISAR CON DIDAC: confirmar dato real antes de publicar
       { label: "Trauma & Apego", href: "#" },
+      // REVISAR CON DIDAC: confirmar dato real antes de publicar
       { label: "Terapia de Pareja", href: "#" },
       { label: "Metodología Integradora", href: "#" },
     ],
   },
   legal: {
     title: "Colegiación & Registro",
+    // REVISAR CON DIDAC: confirmar dato real antes de publicar
     collegiate: ["Col. Nº A-03214", "Colegio Oficial de Psicología de Aragón"],
+    // REVISAR CON DIDAC: confirmar dato real antes de publicar
     note: "Centro Sanitario Autorizado",
   },
   bottom: {

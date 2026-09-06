@@ -1,5 +1,5 @@
 export const processData = {
-  eyebrow: "Itinerario Clínico",
+  eyebrow: "El proceso, paso a paso",
   title: "Cómo se estructura la psicoterapia",
   description:
     "Un proceso transparente sin terapias interminables. Cada etapa tiene un propósito medible, orientado a consolidar tu autonomía emocional.",

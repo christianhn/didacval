@@ -1,8 +1,8 @@
 export const editorialData = {
-  eyebrow: "Punto de Inflexión",
-  title: "La terapia no es solo para momentos límite. Es aprender a escucharte antes de que el cuerpo te obligue a parar.",
+  eyebrow: "Un buen momento para empezar",
+  title: "No hace falta llegar al límite para pedir ayuda. A veces basta con no seguir aplazándolo.",
   description:
-    "La mayoría de pacientes acuden tras semanas o meses ignorando señales claras de saturación mental. Esperar a que la crisis sea insostenible solo prolonga un sufrimiento innecesario.",
+    "Muchas personas esperan semanas o meses antes de dar el paso, aunque ya notan que algo no va bien. Empezar antes no es exagerar: es cuidarte a tiempo.",
   checklist: [
     "Sensación continua de agobio, rumiación mental y presión en el pecho",
     "Insomnio recurrente al acostarse y fatiga emocional al despertar",
@@ -10,7 +10,7 @@ export const editorialData = {
     "Exigencia desmedida ante oposiciones, universidad o desempeño profesional",
   ],
   card: {
-    eyebrow: "Protocolo Clínico Activo",
+    eyebrow: "Disponibilidad ahora",
     title: "Espacio Clínico Sagasta 17",
     description:
       "Atención rigurosa en pleno centro neurálgico de Zaragoza. Un entorno diseñado para desacelerar el ritmo exterior y reconectar con la serenidad interior.",

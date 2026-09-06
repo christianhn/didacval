@@ -19,6 +19,7 @@ export const introData = {
   },
   microCard: {
     eyebrow: "Gabinete Psicológico",
+    // REVISAR CON DIDAC: confirmar dato real antes de publicar
     index: "Centro Habilitado",
     quote:
       '"El malestar emocional no es una debilidad de carácter, sino una señal de alarma psicofisiológica que requiere descodificación y herramientas sistemáticas."',
