@@ -48,10 +48,10 @@ export const contactData = {
           "Explica de forma concisa qué te gustaría trabajar (ansiedad, estrés laboral, problemas en pareja, etc.)",
       },
       consent:
-        "Acepto el tratamiento confidencial de mis datos con el fin de ponerme en contacto con la consulta psicológica de Dídac Val según el Reglamento General de Protección de Datos (RGPD).",
+        "Acepto el tratamiento confidencial de mis datos con el fin de ponerme en contacto con la consulta psicológica de Didac Val según el Reglamento General de Protección de Datos (RGPD).",
     },
     submit: "Enviar Solicitud de Cita",
     feedback:
-      "Mensaje recibido correctamente. Dídac Val se pondrá en contacto contigo en menos de 24 horas laborables.",
+      "Mensaje recibido correctamente. Didac Val se pondrá en contacto contigo en menos de 24 horas laborables.",
   },
 } as const;

@@ -1,6 +1,6 @@
 export const footerData = {
   brand: {
-    name: "Dídac Val",
+    name: "Didac Val",
     description:
       "Atención psicológica clínica basada en la evidencia. Espacio de seguridad y rigor técnico en Zaragoza y modalidad telemática.",
     status: "Consulta Activa · Citas Disponibles",
@@ -30,7 +30,7 @@ export const footerData = {
     note: "Centro Sanitario Autorizado",
   },
   bottom: {
-    copyright: "© 2024 Dídac Val Psicólogo. Todos los derechos reservados.",
+    copyright: "© 2024 Didac Val Psicólogo. Todos los derechos reservados.",
     links: [
       { label: "Aviso Legal", href: "#" },
       { label: "Política de Privacidad", href: "#" },

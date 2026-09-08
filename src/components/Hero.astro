@@ -32,7 +32,9 @@ import natureVideo from "../assets/hero/nature.mp4";
   <!-- Indicador scroll sutil -->
   <a class="hero-video__scroll" href="#intro" aria-label="Descubrir más">
     <span>Descubre</span>
-    <span class="material-symbols-outlined" aria-hidden="true">keyboard_arrow_down</span>
+    <span class="material-symbols-outlined" aria-hidden="true"
+      >keyboard_arrow_down</span
+    >
   </a>
 </section>
 
@@ -88,7 +90,11 @@ import natureVideo from "../assets/hero/nature.mp4";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: radial-gradient(ellipse at center, transparent 56%, rgba(0, 0, 0, 0.22) 100%);
+    background: radial-gradient(
+      ellipse at center,
+      transparent 56%,
+      rgba(0, 0, 0, 0.22) 100%
+    );
     pointer-events: none;
   }
 
@@ -121,6 +127,8 @@ import natureVideo from "../assets/hero/nature.mp4";
     margin: 0;
     text-wrap: balance;
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+    line-height: 60px;
+    letter-spacing: -5px;
 
     @media (max-width: 768px) {
       font-size: 40px;

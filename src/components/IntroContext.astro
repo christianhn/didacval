@@ -1,0 +1,152 @@
+---
+import { introContextData } from "../data/introContext";
+---
+
+<section class="intro-context" aria-label="Contexto clínico">
+  <div class="intro-context__inner">
+    <div class="intro-context__text">
+      <p class="intro-context__desc">{introContextData.description}</p>
+      <p class="intro-context__tagline">{introContextData.tagline}</p>
+    </div>
+
+    <div class="intro-context__meta">
+      <ul class="intro-context__motifs" role="list">
+        {
+          introContextData.motifs.map((m) => (
+            <li class="intro-context__motif">
+              <span class="material-symbols-outlined" aria-hidden="true">
+                {m.icon}
+              </span>
+              <span>{m.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <span class="intro-context__location">
+        <span class="material-symbols-outlined" aria-hidden="true"
+          >{introContextData.location.icon}</span
+        >
+        <span
+          >{introContextData.location.address} · {
+            introContextData.location.city
+          }</span
+        >
+      </span>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+
+  .intro-context {
+    width: 100%;
+    background: var(--color-surface);
+    padding: 0 $gutter-mobile $space-2xl;
+    border-top: 1px solid var(--color-border-hairline);
+
+    @media (min-width: $bp-lg) {
+      padding: 0 $gutter-desktop $space-3xl;
+    }
+  }
+
+  .intro-context__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-top: $space-xl;
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+    border-top: 1px solid transparent; // spacer, the section already has border
+
+    @media (min-width: $bp-lg) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: $space-2xl;
+      padding-top: $space-lg;
+    }
+  }
+
+  .intro-context__text {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    max-width: 42rem;
+  }
+
+  .intro-context__desc {
+    @include text-body-base;
+    color: var(--color-on-surface-variant);
+    margin: 0;
+  }
+
+  .intro-context__tagline {
+    @include text-body-sm;
+    color: var(--color-secondary);
+    font-style: italic;
+    margin: 0;
+  }
+
+  .intro-context__meta {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    flex-shrink: 0;
+
+    @media (min-width: $bp-lg) {
+      align-items: flex-end;
+      max-width: 360px;
+    }
+  }
+
+  .intro-context__motifs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    @media (min-width: $bp-lg) {
+      justify-content: flex-end;
+    }
+  }
+
+  .intro-context__motif {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: $radius-full;
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline-variant);
+    @include text-caption-micro;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+
+    .material-symbols-outlined {
+      font-size: 14px;
+      color: var(--color-secondary);
+    }
+  }
+
+  .intro-context__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-outline);
+    font-weight: 600;
+
+    .material-symbols-outlined {
+      font-size: 14px;
+    }
+  }
+</style>

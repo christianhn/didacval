@@ -12,7 +12,7 @@ export const bentoData: BentoItem[] = [
       "https://lh3.googleusercontent.com/aida/AEtjO1W8u104qkCbqE9eskX9XRU7ZBuUzYqhsK6I-lpCsfDBJZnZA0zFNxGAYEBOaZRLlqB7_wJkJtSeZ3ggy_Wp1WR0rEHPl-kPPntJJ63edKx4KO-tol6ikDlKy7pe40cyh--3AjA4TtG8OYq9XsZRA1s2AXjZ7bQQZUaEwbTrn3nQVU4nIInWoetipbN4QqxITqIIALSePiXToHHECxGiVWFYC0btqfsl2z_ujQDZuBNVcSe2eEnrhHA",
     alt: "Didac Val Capdevila en consulta de psicología",
     kicker: "Dirección Clínica",
-    title: "Dídac Val Capdevila",
+    title: "Didac Val Capdevila",
     subtitle: "Paseo Sagasta 17 · Zaragoza",
   },
   {
