@@ -21,7 +21,6 @@ import didacImg from "../assets/perfil/didac.jpeg";
     </div>
 
     <div class="profile__content">
-      <span class="profile__eyebrow">{profileData.eyebrow}</span>
       <h2 id="profile-title" class="profile__title">{profileData.title}</h2>
       <p class="profile__subtitle">{profileData.subtitle}</p>
       <p class="profile__desc">{profileData.description}</p>
@@ -29,13 +28,6 @@ import didacImg from "../assets/perfil/didac.jpeg";
       <ul class="profile__tags" role="list">
         {profileData.tags.map((tag) => <li class="profile__tag">{tag}</li>)}
       </ul>
-
-      <a class="profile__cta" href={profileData.cta.href}>
-        <span>{profileData.cta.label}</span>
-        <span class="material-symbols-outlined" aria-hidden="true"
-          >{profileData.cta.icon}</span
-        >
-      </a>
     </div>
   </div>
 </section>
@@ -71,9 +63,9 @@ import didacImg from "../assets/perfil/didac.jpeg";
   .profile__media {
     position: relative;
     width: 100%;
-    max-width: 480px;
+    max-width: 550px;
     margin-inline: auto;
-    border-radius: $radius-lg;
+    border-radius: $radius-default;
     overflow: hidden;
     background: var(--color-surface-container-high);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
@@ -98,14 +90,6 @@ import didacImg from "../assets/perfil/didac.jpeg";
     gap: $space-sm;
   }
 
-  .profile__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
-  }
-
   .profile__title {
     @include text-headline-xl;
     color: var(--color-on-surface);
@@ -113,10 +97,8 @@ import didacImg from "../assets/perfil/didac.jpeg";
   }
 
   .profile__subtitle {
-    @include text-headline-sm;
-    color: var(--color-secondary);
-    font-weight: 400;
-    font-style: italic;
+    @include text-profile-subtitle;
+    color: var(--color-text-muted);
     margin: 0;
     padding-bottom: $space-xs;
   }
@@ -124,8 +106,9 @@ import didacImg from "../assets/perfil/didac.jpeg";
   .profile__desc {
     @include text-body-lg;
     color: var(--color-on-surface-variant);
-    margin: 0;
+    margin: 1rem 0 0;
     max-width: 38rem;
+    font-size: 1rem;
 
     &--secondary {
       @include text-body-base;
@@ -153,28 +136,5 @@ import didacImg from "../assets/perfil/didac.jpeg";
     font-weight: 500;
     letter-spacing: 0.02em;
     text-transform: none;
-  }
-
-  .profile__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    width: fit-content;
-    margin-top: $space-md;
-    padding: $space-xs $space-lg;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    border-radius: $radius-full;
-    @include text-label-pill;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: background 0.2s;
-
-    &:hover {
-      background: #222;
-    }
-
-    .material-symbols-outlined {
-      font-size: 16px;
-    }
   }
 </style>

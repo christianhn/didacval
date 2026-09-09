@@ -61,6 +61,7 @@ $colors: (
   "surface-dark": #0a0b0a,
   "surface-container-highest": #e1e3de,
   "on-error": #ffffff,
+  "text-muted": #d1d1d1,
 );
 
 // ---------- Spacing ----------
@@ -81,9 +82,9 @@ $gutter-desktop: 2rem;
 $container-max: 1440px;
 
 // ---------- Border Radius ----------
-$radius-default: 1rem;
-$radius-lg: 2rem;
-$radius-xl: 3rem;
+$radius-default: 0.5rem;
+$radius-lg: 1.5rem;
+$radius-xl: 2rem;
 $radius-full: 9999px;
 
 // ---------- Breakpoints ----------

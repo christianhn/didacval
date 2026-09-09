@@ -59,9 +59,17 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   }
 }
 
+@mixin text-profile-subtitle {
+  font-family: $font-family-base;
+  font-size: 2.4rem;
+  line-height: 0.8;
+  letter-spacing: -2px;
+  font-weight: 500;
+}
+
 @mixin text-body-lg {
   font-family: $font-family-base;
-  font-size: 17px;
+  font-size: 1rem;
   line-height: 26px;
   letter-spacing: -0.005em;
   font-weight: 400;
@@ -85,9 +93,9 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
 
 @mixin text-headline-xl {
   font-family: $font-family-base;
-  font-size: 44px;
-  line-height: 50px;
-  letter-spacing: -0.025em;
+        font-size: 55px;
+    letter-spacing: -2px;
+      line-height: 50px;
   font-weight: 500;
 
   @media (max-width: 768px) {

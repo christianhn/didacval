@@ -1,5 +1,6 @@
 ---
 import { heroData } from "../data/hero";
+import { profileData } from "../data/profile";
 import natureVideo from "../assets/hero/nature.mp4";
 ---
 
@@ -23,7 +24,8 @@ import natureVideo from "../assets/hero/nature.mp4";
   <div class="hero-video__content">
     <div class="hero-video__text">
       <h1 id="hero-title" class="hero-video__title">
-        {heroData.title.line1}
+        <span class="hero-video__eyebrow">{profileData.eyebrow}</span>
+        <span class="hero-video__title-main">{heroData.title.line1}</span>
         <span class="hero-video__title-accent">{heroData.title.line2}</span>
       </h1>
     </div>
@@ -138,6 +140,30 @@ import natureVideo from "../assets/hero/nature.mp4";
       font-size: 32px;
       line-height: 34px;
     }
+  }
+
+  .hero-video__eyebrow {
+    display: block;
+    font-family: $font-family-base;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.22em;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: $space-md;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+
+    @media (max-width: 480px) {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      margin-bottom: $space-sm;
+    }
+  }
+
+  .hero-video__title-main {
+    display: block;
+    font-weight: 500;
   }
 
   .hero-video__title-accent {
