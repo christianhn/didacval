@@ -40,7 +40,7 @@ import { introData } from "../data/intro";
     flex-direction: column;
     align-items: flex-start;
     gap: $space-lg;
-    max-width: 1440px;
+    max-width: $container-max;
 
     @media (min-width: $bp-lg) {
       gap: $space-xl;
@@ -52,6 +52,7 @@ import { introData } from "../data/intro";
     color: var(--color-on-surface);
     margin: 0;
     text-wrap: balance;
+    max-width: 70rem;
 
     @media (min-width: $bp-lg) {
       font-size: 62px;
