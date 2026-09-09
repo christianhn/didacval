@@ -9,7 +9,6 @@ import natureVideo from "../assets/hero/nature.mp4";
     class="hero-video__media"
     autoplay
     muted
-    loop
     playsinline
     preload="metadata"
     aria-hidden="true"
@@ -64,13 +63,16 @@ import natureVideo from "../assets/hero/nature.mp4";
     object-fit: cover;
     object-position: center;
     z-index: -2;
+    transform: scale(1.05);
+    opacity: 1;
+    transition: opacity 0.9s ease;
+    will-change: opacity;
   }
 
   .hero-video__overlay {
     position: absolute;
     inset: 0;
     z-index: -1;
-    // degradado lateral izquierda para texto + superior para header transparente
     background:
       linear-gradient(
         90deg,
@@ -217,10 +219,47 @@ import natureVideo from "../assets/hero/nature.mp4";
   // Respeta usuarios con reduced motion
   @media (prefers-reduced-motion: reduce) {
     .hero-video__media {
-      // no autoplay effect, but keep muted
+      transition: none;
     }
     .hero-video__scroll .material-symbols-outlined {
       animation: none;
     }
   }
 </style>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>(".hero-video__media");
+  if (video) {
+    const FADE_SEC = 0.5;
+
+    // Asegura autoplay en algunos navegadores
+    video.muted = true;
+    video.play().catch(() => {});
+
+    video.addEventListener("timeupdate", () => {
+      if (!video.duration || Number.isNaN(video.duration)) return;
+      const timeLeft = video.duration - video.currentTime;
+      // Fade out al acercarse al final
+      if (timeLeft <= FADE_SEC && timeLeft > 0.05) {
+        video.style.opacity = "0";
+      }
+    });
+
+    video.addEventListener("ended", () => {
+      video.currentTime = 0;
+      // fuerza reflow para que la transición de opacity se aplique
+      void video.offsetWidth;
+      video.style.opacity = "1";
+      video.play().catch(() => {});
+    });
+
+    // Si por cualquier motivo el vídeo se reinicia (ej. seek a 0), asegura fade-in
+    video.addEventListener("seeked", () => {
+      if (video.currentTime < 0.2) {
+        requestAnimationFrame(() => {
+          video.style.opacity = "1";
+        });
+      }
+    });
+  }
+</script>
