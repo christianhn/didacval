@@ -157,8 +157,8 @@ import { siteData } from "../data/site";
   // Estado sólido (cuando se hace scroll o sin hero video)
   .header--solid {
     background: rgba(248, 250, 245, 0.85);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(0.75rem);
+    box-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.04);
   }
 
   // Estado transparente sobre el video
@@ -169,7 +169,7 @@ import { siteData } from "../data/site";
   }
 
   .header__inner {
-    height: 80px;
+    height: 5rem;
     max-width: $container-max;
     margin-inline: auto;
     padding-inline: $gutter-mobile;
@@ -190,7 +190,7 @@ import { siteData } from "../data/site";
   }
 
   .header__logo {
-    height: 32px;
+    height: 2rem;
     width: auto;
     object-fit: contain;
   }
@@ -210,7 +210,7 @@ import { siteData } from "../data/site";
     }
     .header--transparent & {
       color: #fff;
-      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+      text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
     }
   }
 
@@ -218,7 +218,7 @@ import { siteData } from "../data/site";
     @include text-caption-micro;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-size: 9px;
+    font-size: 0.5625rem;
     transition: color 0.3s ease;
 
     .header--solid & {
@@ -311,8 +311,8 @@ import { siteData } from "../data/site";
   }
 
   .header__cta-icon {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     margin-left: $space-xs;
     border-radius: $radius-full;
     display: flex;
@@ -328,7 +328,7 @@ import { siteData } from "../data/site";
     }
 
     .material-symbols-outlined {
-      font-size: 14px;
+      font-size: 0.875rem;
       .header--solid & {
         color: var(--color-on-primary);
       }

@@ -48,7 +48,7 @@ import natureVideo from "../assets/hero/nature.mp4";
     position: relative;
     width: 100%;
     height: 100vh;
-    min-height: 560px;
+    min-height: 35rem;
     overflow: hidden;
     isolation: isolate;
     display: flex;
@@ -104,7 +104,7 @@ import natureVideo from "../assets/hero/nature.mp4";
     max-width: $container-max;
     margin-inline: auto;
     padding-inline: $gutter-mobile;
-    padding-top: 80px; // compensa header fixed
+    padding-top: 5rem; // compensa header fixed
     // centrado vertical, alineado a la izquierda
     display: flex;
     align-items: center;
@@ -116,7 +116,7 @@ import natureVideo from "../assets/hero/nature.mp4";
   }
 
   .hero-video__text {
-    max-width: 760px;
+    max-width: 47.5rem;
     display: flex;
     flex-direction: column;
     gap: $space-md;
@@ -127,35 +127,35 @@ import natureVideo from "../assets/hero/nature.mp4";
     color: #fff;
     margin: 0;
     text-wrap: balance;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
-    line-height: 60px;
-    letter-spacing: -5px;
+    text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.35);
+    line-height: 3.75rem;
+    letter-spacing: -0.3125rem;
 
-    @media (max-width: 768px) {
-      font-size: 40px;
-      line-height: 42px;
+    @media (max-width: 48rem) {
+      font-size: 2.5rem;
+      line-height: 2.625rem;
     }
 
-    @media (max-width: 480px) {
-      font-size: 32px;
-      line-height: 34px;
+    @media (max-width: 30rem) {
+      font-size: 2rem;
+      line-height: 2.125rem;
     }
   }
 
   .hero-video__eyebrow {
     display: block;
     font-family: $font-family-base;
-    font-size: 11px;
+    font-size: 0.6875rem;
     line-height: 1;
     letter-spacing: 0.22em;
     font-weight: 400;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.82);
     margin-bottom: $space-md;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
 
-    @media (max-width: 480px) {
-      font-size: 10px;
+    @media (max-width: 30rem) {
+      font-size: 0.625rem;
       letter-spacing: 0.18em;
       margin-bottom: $space-sm;
     }
@@ -172,7 +172,7 @@ import natureVideo from "../assets/hero/nature.mp4";
     font-weight: 300;
     color: var(--color-warm-sand);
     margin-top: 0.12em;
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 0.125rem 1.125rem rgba(0, 0, 0, 0.35);
   }
 
   .hero-video__scroll {
@@ -183,7 +183,7 @@ import natureVideo from "../assets/hero/nature.mp4";
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 0.125rem;
     color: rgba(255, 255, 255, 0.9);
     @include text-caption-micro;
     letter-spacing: 0.14em;
@@ -197,7 +197,7 @@ import natureVideo from "../assets/hero/nature.mp4";
     }
 
     .material-symbols-outlined {
-      font-size: 18px;
+      font-size: 1.125rem;
       animation: hero-bounce 1.6s ease-in-out infinite;
     }
   }
@@ -209,7 +209,7 @@ import natureVideo from "../assets/hero/nature.mp4";
       opacity: 1;
     }
     50% {
-      transform: translateY(4px);
+      transform: translateY(0.25rem);
       opacity: 0.85;
     }
   }

@@ -111,7 +111,7 @@ import { specialtiesData } from "../data/specialties";
   .specialties__title {
     @include text-headline-xl;
     color: var(--color-on-surface);
-    margin: 4px 0 0;
+    margin: 0.25rem 0 0;
   }
 
   .specialties__desc {
@@ -142,7 +142,7 @@ import { specialtiesData } from "../data/specialties";
     background: var(--color-surface-container-lowest);
     padding: $space-xl;
     border-radius: $radius-default;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.05);
   }
 
   .specialties__card-top {
@@ -173,7 +173,7 @@ import { specialtiesData } from "../data/specialties";
   .specialties__bullets {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     list-style: none;
     padding: $space-xs 0 0;
     margin: 0;
@@ -183,13 +183,13 @@ import { specialtiesData } from "../data/specialties";
     li {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0.5rem;
     }
   }
 
   .specialties__dot {
-    width: 6px;
-    height: 6px;
+    width: 0.375rem;
+    height: 0.375rem;
     border-radius: 50%;
     background: var(--color-secondary);
     flex-shrink: 0;
@@ -198,7 +198,7 @@ import { specialtiesData } from "../data/specialties";
   .specialties__cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
     padding-top: $space-sm;
     @include text-label-pill;
     color: var(--color-secondary);
@@ -209,7 +209,7 @@ import { specialtiesData } from "../data/specialties";
     }
 
     .material-symbols-outlined {
-      font-size: 15px;
+      font-size: 0.9375rem;
     }
   }
 
@@ -271,13 +271,13 @@ import { specialtiesData } from "../data/specialties";
   .specialties__secondary-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   .specialties__badge {
     background: var(--color-secondary);
     color: var(--color-on-secondary);
-    padding: 2px 8px;
+    padding: 0.125rem 0.5rem;
     border-radius: $radius-full;
     @include text-caption-micro;
     font-weight: 600;
@@ -308,14 +308,14 @@ import { specialtiesData } from "../data/specialties";
     display: flex;
     align-items: center;
     gap: $space-xs;
-    padding-top: 4px;
+    padding-top: 0.25rem;
     @include text-index-item;
     color: var(--color-on-surface);
     font-weight: 500;
 
     img {
-      width: 28px;
-      height: 28px;
+      width: 1.75rem;
+      height: 1.75rem;
       border-radius: $radius-full;
       object-fit: cover;
     }

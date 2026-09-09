@@ -22,7 +22,7 @@ import { noticeBarData } from "../data/noticeBar";
   .notice-bar {
     width: 100%;
     background: var(--color-surface-container-high);
-    padding: 10px $gutter-mobile;
+    padding: 0.625rem $gutter-mobile;
 
     @media (min-width: $bp-lg) {
       padding-inline: $gutter-desktop;
@@ -36,7 +36,7 @@ import { noticeBarData } from "../data/noticeBar";
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 8px 16px;
+    gap: 0.5rem 1rem;
     @include text-caption-micro;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -50,8 +50,8 @@ import { noticeBarData } from "../data/noticeBar";
   }
 
   .notice-bar__dot {
-    width: 8px;
-    height: 8px;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 50%;
     background: var(--color-secondary);
     display: inline-block;
@@ -80,7 +80,7 @@ import { noticeBarData } from "../data/noticeBar";
   .notice-bar__badge {
     background: var(--color-sage-tint);
     color: var(--color-secondary);
-    padding: 2px 8px;
+    padding: 0.125rem 0.5rem;
     border-radius: $radius-full;
     font-weight: 600;
   }
