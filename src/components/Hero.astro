@@ -216,7 +216,6 @@ import natureVideo from "../assets/hero/nature.mp4";
     }
   }
 
-  // Respeta usuarios con reduced motion
   @media (prefers-reduced-motion: reduce) {
     .hero-video__media {
       transition: none;
@@ -231,15 +230,15 @@ import natureVideo from "../assets/hero/nature.mp4";
   const video = document.querySelector<HTMLVideoElement>(".hero-video__media");
   if (video) {
     const FADE_SEC = 0.5;
+    const PLAY_SEC = 1;
 
-    // Asegura autoplay en algunos navegadores
     video.muted = true;
+    video.playbackRate = PLAY_SEC;
     video.play().catch(() => {});
 
     video.addEventListener("timeupdate", () => {
       if (!video.duration || Number.isNaN(video.duration)) return;
       const timeLeft = video.duration - video.currentTime;
-      // Fade out al acercarse al final
       if (timeLeft <= FADE_SEC && timeLeft > 0.05) {
         video.style.opacity = "0";
       }
@@ -247,13 +246,12 @@ import natureVideo from "../assets/hero/nature.mp4";
 
     video.addEventListener("ended", () => {
       video.currentTime = 0;
-      // fuerza reflow para que la transición de opacity se aplique
       void video.offsetWidth;
       video.style.opacity = "1";
+      video.playbackRate = PLAY_SEC;
       video.play().catch(() => {});
     });
 
-    // Si por cualquier motivo el vídeo se reinicia (ej. seek a 0), asegura fade-in
     video.addEventListener("seeked", () => {
       if (video.currentTime < 0.2) {
         requestAnimationFrame(() => {
