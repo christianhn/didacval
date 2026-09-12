@@ -46,11 +46,11 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
 
-  // --- tokens locales de la card ---
-  $ink: #191c1a;
-  $muted: #5f6762;
-  $accent: #6e8276;
-  $media-bg: #efefed;
+  // --- tokens de la card mapeados a variables globales ---
+  $ink: var(--color-on-surface);
+  $muted: var(--color-on-surface-variant);
+  $accent: var(--color-sage-muted);
+  $media-bg: var(--color-surface-subtle);
 
   // --- mixin: evita repetir la lista de propiedades en reposo/hover ---
   @mixin media-transition($duration, $easing, $delay: 0s) {
@@ -64,11 +64,13 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
 
   .specialty-card {
     position: relative;
-    background: #ffffff;
+    background: var(--color-surface-container-lowest);
     border-radius: 1rem;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid
+      color-mix(in srgb, var(--color-primary) 4%, transparent);
+    box-shadow: 0 1px 12px
+      color-mix(in srgb, var(--color-primary) 4%, transparent);
     height: 28rem;
     isolation: isolate;
     outline: none;
@@ -107,9 +109,9 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     padding: 2.2rem 1rem 1.15rem;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.58) 8%,
-      rgba(0, 0, 0, 0.28) 42%,
-      rgba(0, 0, 0, 0.06) 68%,
+      color-mix(in srgb, var(--color-primary) 58%, transparent) 8%,
+      color-mix(in srgb, var(--color-primary) 28%, transparent) 42%,
+      color-mix(in srgb, var(--color-primary) 6%, transparent) 68%,
       transparent 100%
     );
     display: flex;
@@ -127,10 +129,11 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     line-height: 1.1;
     letter-spacing: -0.025em;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-surface-container-lowest);
     text-wrap: balance;
     padding-left: 0.15rem;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 12px
+      color-mix(in srgb, var(--color-primary) 35%, transparent);
     max-width: 94%;
 
     @media (min-width: $bp-lg) {
@@ -142,7 +145,7 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     position: absolute;
     inset: auto 0 0 0;
     z-index: 2;
-    background: #ffffff;
+    background: var(--color-surface-container-lowest);
     opacity: 0;
     transform: translateY(14px);
     pointer-events: none;

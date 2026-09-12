@@ -44,13 +44,13 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
 
-  $ink: #191c1a;
-  $muted: #5a5e5b;
-  $accent: #6e8276;
+  $ink: var(--color-on-surface);
+  $muted: var(--color-on-surface-variant);
+  $accent: var(--color-sage-muted);
 
   .specialties {
     width: 100%;
-    background: #f4f3f1;
+    background: var(--color-surface-bone);
     padding: 3rem $gutter-mobile 3.5rem;
 
     @media (min-width: $bp-lg) {

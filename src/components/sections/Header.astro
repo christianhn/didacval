@@ -156,9 +156,14 @@ import { siteData } from "../../data/site";
 
   // Estado sólido (cuando se hace scroll o sin hero video)
   .header--solid {
-    background: rgba(248, 250, 245, 0.85);
+    background: color-mix(
+      in srgb,
+      var(--color-surface-bright) 85%,
+      transparent
+    );
     backdrop-filter: blur(0.75rem);
-    box-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0.0625rem 0.5rem
+      color-mix(in srgb, var(--color-primary) 4%, transparent);
   }
 
   // Estado transparente sobre el video
@@ -209,8 +214,9 @@ import { siteData } from "../../data/site";
       color: var(--color-on-surface);
     }
     .header--transparent & {
-      color: #fff;
-      text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
+      color: var(--color-surface-container-lowest);
+      text-shadow: 0 0.0625rem 0.75rem
+        color-mix(in srgb, var(--color-primary) 35%, transparent);
     }
   }
 
@@ -225,7 +231,11 @@ import { siteData } from "../../data/site";
       color: var(--color-secondary);
     }
     .header--transparent & {
-      color: rgba(255, 255, 255, 0.75);
+      color: color-mix(
+        in srgb,
+        var(--color-surface-container-lowest) 75%,
+        transparent
+      );
     }
   }
 
@@ -260,14 +270,26 @@ import { siteData } from "../../data/site";
     }
 
     .header--transparent & {
-      color: rgba(255, 255, 255, 0.86);
+      color: color-mix(
+        in srgb,
+        var(--color-surface-container-lowest) 86%,
+        transparent
+      );
       &:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.1);
+        color: var(--color-surface-container-lowest);
+        background: color-mix(
+          in srgb,
+          var(--color-surface-container-lowest) 10%,
+          transparent
+        );
       }
       &--active {
-        background: rgba(255, 255, 255, 0.16);
-        color: #fff;
+        background: color-mix(
+          in srgb,
+          var(--color-surface-container-lowest) 16%,
+          transparent
+        );
+        color: var(--color-surface-container-lowest);
         font-weight: 500;
       }
     }
@@ -298,8 +320,8 @@ import { siteData } from "../../data/site";
     }
 
     .header--transparent & {
-      background: #fff;
-      color: #0a0b0a;
+      background: var(--color-surface-container-lowest);
+      color: var(--color-surface-dark);
     }
 
     &:hover {
@@ -321,10 +343,18 @@ import { siteData } from "../../data/site";
     transition: background 0.3s ease;
 
     .header--solid & {
-      background: rgba(255, 255, 255, 0.15);
+      background: color-mix(
+        in srgb,
+        var(--color-surface-container-lowest) 15%,
+        transparent
+      );
     }
     .header--transparent & {
-      background: rgba(0, 0, 0, 0.08);
+      background: color-mix(
+        in srgb,
+        var(--color-primary) 8%,
+        transparent
+      );
     }
 
     .material-symbols-outlined {
@@ -333,7 +363,7 @@ import { siteData } from "../../data/site";
         color: var(--color-on-primary);
       }
       .header--transparent & {
-        color: #0a0b0a;
+        color: var(--color-surface-dark);
       }
     }
   }
