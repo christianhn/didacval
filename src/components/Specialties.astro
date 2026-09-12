@@ -1,65 +1,39 @@
 ---
 import { specialtiesData } from "../data/specialties";
+import SpecialtyCard from "./SpecialtyCard.astro";
 ---
 
-<section id="areas-clinicas" class="specialties" aria-labelledby="specialties-title">
+<section
+  id="areas-clinicas"
+  class="specialties"
+  aria-labelledby="specialties-title"
+>
   <div class="specialties__inner">
     <header class="specialties__header">
-      <div>
+      <div class="specialties__heading">
         <span class="specialties__eyebrow">{specialtiesData.eyebrow}</span>
-        <h2 id="specialties-title" class="specialties__title">{specialtiesData.title}</h2>
+        <h2 id="specialties-title" class="specialties__title">
+          {specialtiesData.title}
+        </h2>
+        <p class="specialties__desc">{specialtiesData.description}</p>
       </div>
-      <p class="specialties__desc">{specialtiesData.description}</p>
+      <a class="specialties__header-cta" href={specialtiesData.headerCta.href}>
+        <span>{specialtiesData.headerCta.label}</span>
+        <span class="specialties__header-cta-icon" aria-hidden="true">↗</span>
+      </a>
     </header>
 
     <div class="specialties__grid">
       {
-        specialtiesData.primary.map((card) => (
-          <article class="specialties__card">
-            <div class="specialties__card-top">
-              <span class="specialties__kicker">{card.kicker}</span>
-              <h3 class="specialties__card-title">{card.title}</h3>
-              <p class="specialties__card-desc">{card.description}</p>
-              <ul class="specialties__bullets" role="list">
-                {card.bullets.map((b) => (
-                  <li>
-                    <span class="specialties__dot" aria-hidden="true" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <a class="specialties__cta" href={card.cta.href}>
-              <span>{card.cta.label}</span>
-              <span class="material-symbols-outlined" aria-hidden="true">
-                arrow_forward
-              </span>
-            </a>
-          </article>
-        ))
-      }
-    </div>
-
-    <div class="specialties__secondary">
-      {
-        specialtiesData.secondary.map((card) => (
-          <article class="specialties__secondary-card">
-            <div class="specialties__secondary-image">
-              <img src={card.image} alt={card.imageAlt} loading="lazy" />
-            </div>
-            <div class="specialties__secondary-content">
-              <div class="specialties__secondary-meta">
-                <span class="specialties__badge">{card.badge}</span>
-                <span class="specialties__meta">{card.meta}</span>
-              </div>
-              <h4 class="specialties__secondary-title">{card.title}</h4>
-              <p class="specialties__secondary-desc">{card.description}</p>
-              <div class="specialties__secondary-footer">
-                <img src={card.avatar} alt={card.avatarAlt} loading="lazy" />
-                <span>{card.footer}</span>
-              </div>
-            </div>
-          </article>
+        specialtiesData.cards.map((card) => (
+          <SpecialtyCard
+            image={card.image}
+            imageAlt={card.imageAlt}
+            title={card.title}
+            kicker={card.kicker}
+            description={card.description}
+            cta={card.cta}
+          />
         ))
       }
     </div>
@@ -70,13 +44,17 @@ import { specialtiesData } from "../data/specialties";
   @use "../styles/variables" as *;
   @use "../styles/typography" as *;
 
+  $ink: #191c1a;
+  $muted: #5a5e5b;
+  $accent: #6e8276;
+
   .specialties {
     width: 100%;
-    background: var(--color-surface-bone);
-    padding: $space-4xl $gutter-mobile;
+    background: #f4f3f1;
+    padding: 3rem $gutter-mobile 3.5rem;
 
     @media (min-width: $bp-lg) {
-      padding-inline: $gutter-desktop;
+      padding: 4.5rem $gutter-desktop 4.5rem;
     }
   }
 
@@ -85,239 +63,115 @@ import { specialtiesData } from "../data/specialties";
     margin-inline: auto;
     display: flex;
     flex-direction: column;
-    gap: $space-2xl;
+    gap: 2rem;
+
+    @media (min-width: $bp-lg) {
+      gap: 2.5rem;
+    }
   }
 
   .specialties__header {
     display: flex;
     flex-direction: column;
-    gap: $space-md;
+    gap: 1.25rem;
 
     @media (min-width: $bp-lg) {
       flex-direction: row;
       align-items: flex-end;
       justify-content: space-between;
+      gap: 2rem;
     }
+  }
+
+  .specialties__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 36rem;
   }
 
   .specialties__eyebrow {
     @include text-caption-micro;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
+    letter-spacing: 0.1em;
+    color: $accent;
     font-weight: 600;
+    font-size: 0.625rem;
   }
 
   .specialties__title {
-    @include text-headline-xl;
-    color: var(--color-on-surface);
-    margin: 0.25rem 0 0;
+    margin: 0;
+    color: $ink;
+    font-family: $font-family-base;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+
+    @media (min-width: $bp-md) {
+      font-size: 2.75rem;
+    }
+    @media (min-width: $bp-lg) {
+      font-size: 3.25rem;
+      letter-spacing: -0.04em;
+    }
   }
 
   .specialties__desc {
-    @include text-body-base;
-    color: var(--color-on-surface-variant);
-    max-width: 28rem;
-    margin: 0;
+    margin: 0.25rem 0 0;
+    @include text-body-sm;
+    color: $muted;
+    line-height: 1.5;
+    max-width: 30rem;
+    font-size: 0.8125rem;
+
+    @media (min-width: $bp-lg) {
+      font-size: 0.875rem;
+    }
+  }
+
+  .specialties__header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    font-family: $font-family-base;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: $ink;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition:
+      opacity 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+      border-color: $ink;
+    }
+  }
+
+  .specialties__header-cta-icon {
+    font-size: 0.85rem;
+    line-height: 1;
+    transform: translateY(-1px);
   }
 
   .specialties__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: $space-lg;
+    gap: 1rem;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-sm) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
-    @media (min-width: $bp-lg) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .specialties__card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: $space-md;
-    background: var(--color-surface-container-lowest);
-    padding: $space-xl;
-    border-radius: $radius-default;
-    box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.05);
-  }
-
-  .specialties__card-top {
-    display: flex;
-    flex-direction: column;
-    gap: $space-sm;
-  }
-
-  .specialties__kicker {
-    @include text-caption-micro;
-    color: var(--color-secondary);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-  }
-
-  .specialties__card-title {
-    @include text-headline-lg;
-    color: var(--color-on-surface);
-    margin: 0;
-  }
-
-  .specialties__card-desc {
-    @include text-body-base;
-    color: var(--color-on-surface-variant);
-    margin: 0;
-  }
-
-  .specialties__bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    list-style: none;
-    padding: $space-xs 0 0;
-    margin: 0;
-    @include text-body-sm;
-    color: var(--color-on-surface);
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-  }
-
-  .specialties__dot {
-    width: 0.375rem;
-    height: 0.375rem;
-    border-radius: 50%;
-    background: var(--color-secondary);
-    flex-shrink: 0;
-  }
-
-  .specialties__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding-top: $space-sm;
-    @include text-label-pill;
-    color: var(--color-secondary);
-    transition: color 0.2s;
-
-    &:hover {
-      color: var(--color-on-surface);
-    }
-
-    .material-symbols-outlined {
-      font-size: 0.9375rem;
-    }
-  }
-
-  .specialties__secondary {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $space-lg;
-    padding-top: $space-sm;
 
     @media (min-width: $bp-lg) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .specialties__secondary-card {
-    background: var(--color-surface-container-high);
-    padding: $space-xl;
-    border-radius: $radius-default;
-    display: flex;
-    flex-direction: column;
-    gap: $space-lg;
-    align-items: center;
-
-    @media (min-width: $bp-md) {
-      flex-direction: row;
-    }
-  }
-
-  .specialties__secondary-image {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: $radius-default;
-    overflow: hidden;
-    background: var(--color-surface);
-    flex-shrink: 0;
-
-    @media (min-width: $bp-md) {
-      width: 33%;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .specialties__secondary-content {
-    display: flex;
-    flex-direction: column;
-    gap: $space-xs;
-    width: 100%;
-
-    @media (min-width: $bp-md) {
-      width: 67%;
-    }
-  }
-
-  .specialties__secondary-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .specialties__badge {
-    background: var(--color-secondary);
-    color: var(--color-on-secondary);
-    padding: 0.125rem 0.5rem;
-    border-radius: $radius-full;
-    @include text-caption-micro;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .specialties__meta {
-    @include text-caption-micro;
-    color: var(--color-on-surface-variant);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-
-  .specialties__secondary-title {
-    @include text-headline-sm;
-    color: var(--color-on-surface);
-    margin: 0;
-  }
-
-  .specialties__secondary-desc {
-    @include text-body-sm;
-    color: var(--color-on-surface-variant);
-    margin: 0;
-  }
-
-  .specialties__secondary-footer {
-    display: flex;
-    align-items: center;
-    gap: $space-xs;
-    padding-top: 0.25rem;
-    @include text-index-item;
-    color: var(--color-on-surface);
-    font-weight: 500;
-
-    img {
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: $radius-full;
-      object-fit: cover;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      align-items: start;
     }
   }
 </style>
