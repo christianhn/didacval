@@ -1,6 +1,6 @@
 ---
-import { specialtiesData } from "../data/specialties";
-import SpecialtyCard from "./SpecialtyCard.astro";
+import { specialtiesData } from "../../data/specialties";
+import SpecialtyCard from "../ui/SpecialtyCard.astro";
 ---
 
 <section
@@ -41,8 +41,8 @@ import SpecialtyCard from "./SpecialtyCard.astro";
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   $ink: #191c1a;
   $muted: #5a5e5b;

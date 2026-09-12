@@ -1,5 +1,5 @@
 ---
-import { faqData } from "../data/faq";
+import { faqData } from "../../data/faq";
 ---
 
 <section id="faq" class="faq" aria-labelledby="faq-title">
@@ -25,7 +25,10 @@ import { faqData } from "../data/faq";
           <details class="faq__item" name="faq-group">
             <summary class="faq__question">
               <h3>{item.question}</h3>
-              <span class="material-symbols-outlined faq__icon" aria-hidden="true">
+              <span
+                class="material-symbols-outlined faq__icon"
+                aria-hidden="true"
+              >
                 add
               </span>
             </summary>
@@ -40,8 +43,8 @@ import { faqData } from "../data/faq";
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .faq {
     width: 100%;

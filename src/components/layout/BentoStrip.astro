@@ -1,5 +1,5 @@
 ---
-import { bentoData } from "../data/bento";
+import { bentoData } from "../../data/bento";
 ---
 
 <section class="bento" aria-label="Áreas clínicas destacadas">
@@ -7,7 +7,12 @@ import { bentoData } from "../data/bento";
     {
       bentoData.map((item) => (
         <article class="bento__card">
-          <img class="bento__image" src={item.image} alt={item.alt} loading="lazy" />
+          <img
+            class="bento__image"
+            src={item.image}
+            alt={item.alt}
+            loading="lazy"
+          />
           <div class="bento__overlay" aria-hidden="true" />
           <div class="bento__content">
             <span class="bento__kicker">{item.kicker}</span>
@@ -21,8 +26,8 @@ import { bentoData } from "../data/bento";
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .bento {
     width: 100%;
@@ -80,7 +85,12 @@ import { bentoData } from "../data/bento";
   .bento__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(10, 11, 10, 0.85), rgba(10, 11, 10, 0.2) 60%, transparent);
+    background: linear-gradient(
+      to top,
+      rgba(10, 11, 10, 0.85),
+      rgba(10, 11, 10, 0.2) 60%,
+      transparent
+    );
     z-index: 0;
   }
 

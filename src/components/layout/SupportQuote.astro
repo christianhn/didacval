@@ -1,5 +1,5 @@
 ---
-import { supportQuoteData } from "../data/supportQuote";
+import { supportQuoteData } from "../../data/supportQuote";
 ---
 
 <section class="support-quote" aria-label="Cita de apoyo">
@@ -9,10 +9,14 @@ import { supportQuoteData } from "../data/supportQuote";
         <span class="support-quote__eyebrow">{supportQuoteData.eyebrow}</span>
         <span class="support-quote__index">{supportQuoteData.index}</span>
       </div>
-      <blockquote class="support-quote__quote">{supportQuoteData.quote}</blockquote>
+      <blockquote class="support-quote__quote">
+        {supportQuoteData.quote}
+      </blockquote>
       <div class="support-quote__author">
         <div class="support-quote__avatar" aria-hidden="true">
-          <span class="material-symbols-outlined">{supportQuoteData.author.icon}</span>
+          <span class="material-symbols-outlined"
+            >{supportQuoteData.author.icon}</span
+          >
         </div>
         <div>
           <div class="support-quote__name">{supportQuoteData.author.name}</div>
@@ -24,8 +28,8 @@ import { supportQuoteData } from "../data/supportQuote";
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .support-quote {
     width: 100%;

@@ -1,5 +1,5 @@
 ---
-import { editorialData } from "../data/editorial";
+import { editorialData } from "../../data/editorial";
 ---
 
 <section class="portal" aria-labelledby="portal-title">
@@ -46,15 +46,17 @@ import { editorialData } from "../data/editorial";
 
       <a class="portal__cta" href={editorialData.card.cta.href}>
         <span>{editorialData.card.cta.label}</span>
-        <span class="material-symbols-outlined" aria-hidden="true">{editorialData.card.cta.icon}</span>
+        <span class="material-symbols-outlined" aria-hidden="true"
+          >{editorialData.card.cta.icon}</span
+        >
       </a>
     </aside>
   </div>
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .portal {
     width: 100%;

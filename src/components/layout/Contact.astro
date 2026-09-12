@@ -1,5 +1,5 @@
 ---
-import { contactData } from "../data/contact";
+import { contactData } from "../../data/contact";
 ---
 
 <section id="contacto-cita" class="contact" aria-labelledby="contact-title">
@@ -31,10 +31,17 @@ import { contactData } from "../data/contact";
         }
       </div>
 
-      <div class="contact__map" data-location={contactData.map.location} role="img" aria-label={contactData.map.label}>
+      <div
+        class="contact__map"
+        data-location={contactData.map.location}
+        role="img"
+        aria-label={contactData.map.label}
+      >
         <div class="contact__map-overlay" aria-hidden="true"></div>
         <div class="contact__map-badge">
-          <span class="material-symbols-outlined" aria-hidden="true">{contactData.map.icon}</span>
+          <span class="material-symbols-outlined" aria-hidden="true"
+            >{contactData.map.icon}</span
+          >
           <span>{contactData.map.label}</span>
         </div>
       </div>
@@ -49,22 +56,51 @@ import { contactData } from "../data/contact";
       <form id="contact-psychology-form" class="contact__form" novalidate>
         <div class="contact__row">
           <label class="contact__field">
-            <span class="contact__label">{contactData.form.fields.name.label}</span>
-            <input class="contact__input" type="text" id="form-name" placeholder={contactData.form.fields.name.placeholder} required autocomplete="name" />
+            <span class="contact__label"
+              >{contactData.form.fields.name.label}</span
+            >
+            <input
+              class="contact__input"
+              type="text"
+              id="form-name"
+              placeholder={contactData.form.fields.name.placeholder}
+              required
+              autocomplete="name"
+            />
           </label>
           <label class="contact__field">
-            <span class="contact__label">{contactData.form.fields.phone.label}</span>
-            <input class="contact__input" type="tel" id="form-phone" placeholder={contactData.form.fields.phone.placeholder} required autocomplete="tel" />
+            <span class="contact__label"
+              >{contactData.form.fields.phone.label}</span
+            >
+            <input
+              class="contact__input"
+              type="tel"
+              id="form-phone"
+              placeholder={contactData.form.fields.phone.placeholder}
+              required
+              autocomplete="tel"
+            />
           </label>
         </div>
 
         <div class="contact__row">
           <label class="contact__field">
-            <span class="contact__label">{contactData.form.fields.email.label}</span>
-            <input class="contact__input" type="email" id="form-email" placeholder={contactData.form.fields.email.placeholder} required autocomplete="email" />
+            <span class="contact__label"
+              >{contactData.form.fields.email.label}</span
+            >
+            <input
+              class="contact__input"
+              type="email"
+              id="form-email"
+              placeholder={contactData.form.fields.email.placeholder}
+              required
+              autocomplete="email"
+            />
           </label>
           <label class="contact__field">
-            <span class="contact__label">{contactData.form.fields.mode.label}</span>
+            <span class="contact__label"
+              >{contactData.form.fields.mode.label}</span
+            >
             <select class="contact__input contact__select" id="form-mode">
               {
                 contactData.form.fields.mode.options.map((opt) => (
@@ -76,8 +112,14 @@ import { contactData } from "../data/contact";
         </div>
 
         <label class="contact__field">
-          <span class="contact__label">{contactData.form.fields.message.label}</span>
-          <textarea class="contact__input contact__textarea" id="form-message" placeholder={contactData.form.fields.message.placeholder} rows="3"></textarea>
+          <span class="contact__label"
+            >{contactData.form.fields.message.label}</span
+          >
+          <textarea
+            class="contact__input contact__textarea"
+            id="form-message"
+            placeholder={contactData.form.fields.message.placeholder}
+            rows="3"></textarea>
         </label>
 
         <label class="contact__consent">
@@ -94,8 +136,16 @@ import { contactData } from "../data/contact";
           </button>
         </div>
 
-        <div id="form-feedback" class="contact__feedback" hidden role="status" aria-live="polite">
-          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <div
+          id="form-feedback"
+          class="contact__feedback"
+          hidden
+          role="status"
+          aria-live="polite"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true"
+            >check_circle</span
+          >
           <span>{contactData.form.feedback}</span>
         </div>
       </form>
@@ -104,7 +154,9 @@ import { contactData } from "../data/contact";
 </section>
 
 <script>
-  const form = document.getElementById("contact-psychology-form") as HTMLFormElement | null;
+  const form = document.getElementById(
+    "contact-psychology-form",
+  ) as HTMLFormElement | null;
   const feedback = document.getElementById("form-feedback");
 
   form?.addEventListener("submit", (e) => {
@@ -122,8 +174,8 @@ import { contactData } from "../data/contact";
 </script>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .contact {
     width: 100%;

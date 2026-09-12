@@ -1,5 +1,5 @@
 ---
-import { metricsData } from "../data/metrics";
+import { metricsData } from "../../data/metrics";
 ---
 
 <section class="metrics" aria-labelledby="metrics-title">
@@ -17,8 +17,18 @@ import { metricsData } from "../data/metrics";
         metricsData.items.map((item) => (
           <article class="metrics__card">
             <div class="metrics__card-top">
-              <span class:list={["metrics__counter", `metrics__counter--${item.metricVariant}`]}>{item.metric}</span>
-              <span class="material-symbols-outlined metrics__icon" aria-hidden="true">
+              <span
+                class:list={[
+                  "metrics__counter",
+                  `metrics__counter--${item.metricVariant}`,
+                ]}
+              >
+                {item.metric}
+              </span>
+              <span
+                class="material-symbols-outlined metrics__icon"
+                aria-hidden="true"
+              >
                 {item.icon}
               </span>
             </div>
@@ -32,8 +42,8 @@ import { metricsData } from "../data/metrics";
 </section>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .metrics {
     width: 100%;

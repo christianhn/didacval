@@ -1,5 +1,5 @@
 ---
-import { footerData } from "../data/footer";
+import { footerData } from "../../data/footer";
 ---
 
 <footer class="footer">
@@ -19,8 +19,16 @@ import { footerData } from "../data/footer";
         <p class="footer__address">
           {footerData.contact.address[0]}<br />{footerData.contact.address[1]}
         </p>
-        <a class="footer__link footer__link--strong" href={footerData.contact.phone.href}>{footerData.contact.phone.label}</a>
-        <a class="footer__link footer__link--strong" href={footerData.contact.email.href}>{footerData.contact.email.label}</a>
+        <a
+          class="footer__link footer__link--strong"
+          href={footerData.contact.phone.href}
+          >{footerData.contact.phone.label}</a
+        >
+        <a
+          class="footer__link footer__link--strong"
+          href={footerData.contact.email.href}
+          >{footerData.contact.email.label}</a
+        >
       </div>
 
       <div class="footer__col">
@@ -57,8 +65,8 @@ import { footerData } from "../data/footer";
 </footer>
 
 <style lang="scss">
-  @use "../styles/variables" as *;
-  @use "../styles/typography" as *;
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
 
   .footer {
     width: 100%;
