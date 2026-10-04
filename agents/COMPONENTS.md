@@ -118,11 +118,12 @@ border-radius: $radius-full;
 
 Nunca declares `font-family`, `font-size`, `line-height`, `letter-spacing` a mano. Usa los mixins de `_typography.scss`:
 
-`text-body-sm`, `text-body-base`, `text-body-lg`, `text-headline-sm`, `text-headline-lg`, `text-headline-xl`, `text-headline-xl-mobile`, `text-display-hero`, `text-display-hero-mobile`, `text-metric-counter`, `text-index-item`, `text-label-pill`, `text-caption-micro`, `text-profile-subtitle`
+`text-body-sm`, `text-body-base`, `text-body-lg`, `text-headline-sm`, `text-headline-lg`, `text-headline-xl`, `text-headline-xl-mobile`, `text-display-hero`, `text-display-hero-mobile`, `text-metric-counter`, `text-index-item`, `text-label-pill`, `text-caption-micro`, `text-profile-subtitle`, `eyebrow`
 
 ```scss
 .titulo { @include text-headline-xl; color: var(--color-on-surface); }
-.eyebrow { @include text-caption-micro; color: var(--color-sage-muted); text-transform: uppercase; }
+.bloque__eyebrow { @include eyebrow; } // caption-micro + uppercase + tracking + color
+.bloque__eyebrow { @include eyebrow($color: var(--color-secondary)); }
 ```
 
 `$font-family-base` solo se usa dentro de los mixins o casos muy excepcionales.
@@ -244,7 +245,7 @@ import Card from "../ui/Card.astro";
     @media (min-width: $bp-lg) { padding-inline: $gutter-desktop; }
   }
   .new-section__inner { max-width: $container-max; margin-inline: auto; display: flex; flex-direction: column; gap: $space-xl; }
-  .new-section__eyebrow { @include text-caption-micro; color: var(--color-sage-muted); }
+  .new-section__eyebrow { @include eyebrow; }
   .new-section__title { @include text-headline-xl; color: var(--color-on-surface); }
   .new-section__desc { @include text-body-sm; color: var(--color-on-surface-variant); }
   .new-section__grid { display: grid; gap: $space-md; @media (min-width: $bp-md) { grid-template-columns: repeat(2, 1fr); } @media (min-width: $bp-lg) { grid-template-columns: repeat(4, 1fr); } }

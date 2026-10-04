@@ -46,7 +46,6 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
 
   $ink: var(--color-on-surface);
   $muted: var(--color-on-surface-variant);
-  $accent: var(--color-sage-muted);
 
   .specialties {
     width: 100%;
@@ -91,12 +90,7 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
   }
 
   .specialties__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: $accent;
-    font-weight: 600;
-    font-size: 0.625rem;
+    @include eyebrow;
   }
 
   .specialties__title {

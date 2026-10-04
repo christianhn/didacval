@@ -145,14 +145,14 @@ import natureVideo from "../../assets/hero/nature2.mp4";
   }
 
   .hero-video__eyebrow {
+    @include eyebrow(
+      $color: rgba(255, 255, 255, 0.82),
+      $tracking: 0.22em
+    );
     display: block;
-    font-family: $font-family-base;
     font-size: 0.6875rem;
     line-height: 1;
-    letter-spacing: 0.22em;
     font-weight: 400;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.82);
     margin-bottom: $space-md;
     text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
 

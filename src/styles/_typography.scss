@@ -128,3 +128,12 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   letter-spacing: 0.06em;
   font-weight: 600;
 }
+
+// Kicker de sección (eyebrow): caption-micro + mayúsculas + tracking ancho.
+// Uso: @include eyebrow;  /  @include eyebrow($color: var(--color-secondary));
+@mixin eyebrow($color: var(--color-sage-muted), $tracking: 0.1em) {
+  @include text-caption-micro;
+  text-transform: uppercase;
+  letter-spacing: $tracking;
+  color: $color;
+}

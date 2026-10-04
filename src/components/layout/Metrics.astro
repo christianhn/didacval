@@ -78,11 +78,7 @@ import { metricsData } from "../../data/metrics";
   }
 
   .metrics__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
+    @include eyebrow($color: var(--color-secondary));
   }
 
   .metrics__title {

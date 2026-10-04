@@ -89,11 +89,7 @@ import { editorialData } from "../../data/editorial";
   }
 
   .portal__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-warm-sand);
-    font-weight: 600;
+    @include eyebrow($color: var(--color-warm-sand));
   }
 
   .portal__title {

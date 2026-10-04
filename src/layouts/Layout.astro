@@ -38,4 +38,32 @@ const {
   <body>
     <slot />
   </body>
+
+  <script>
+    import Lenis from "lenis";
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    // Smooth scroll solo en PC (puntero fino + hover), no en táctiles
+    const isDesktop = window.matchMedia(
+      "(pointer: fine) and (hover: hover)",
+    ).matches;
+
+    if (isDesktop) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        anchors: true,
+        syncTouch: false,
+      });
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      gsap.ticker.lagSmoothing(0);
+    }
+  </script>
 </html>
