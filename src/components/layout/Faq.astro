@@ -5,18 +5,16 @@ import { faqData } from "../../data/faq";
 <section id="faq" class="faq" aria-labelledby="faq-title">
   <div class="faq__inner">
     <div class="faq__intro">
-      <span class="faq__eyebrow">{faqData.eyebrow}</span>
-      <h2 id="faq-title" class="faq__title">{faqData.title}</h2>
-      <p class="faq__desc">{faqData.description}</p>
+      <img
+        src="src/assets/ask/hand.jpg"
+        alt="Ilustración de mano"
+        class="faq__hero-image"
+      />
 
-      <aside class="faq__contact-box">
-        <span class="faq__contact-title">{faqData.contactBox.title}</span>
-        <p class="faq__contact-desc">{faqData.contactBox.description}</p>
-        <a class="faq__phone" href={faqData.contactBox.phoneHref}>
-          <span class="material-symbols-outlined" aria-hidden="true">call</span>
-          <span>{faqData.contactBox.phone}</span>
-        </a>
-      </aside>
+      <div class="faq__text-overlay">
+        <h2 id="faq-title" class="faq__title">{faqData.title}</h2>
+        <p class="faq__desc">{faqData.description}</p>
+      </div>
     </div>
 
     <div class="faq__list" role="list">
@@ -54,146 +52,310 @@ import { faqData } from "../../data/faq";
     @media (min-width: $bp-lg) {
       padding-inline: $gutter-desktop;
     }
-  }
 
-  .faq__inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $space-2xl;
-
-    @media (min-width: $bp-lg) {
-      grid-template-columns: 4fr 8fr;
+    // --- Header ---
+    &__header {
+      max-width: $container-max;
+      margin-inline: auto;
+      margin-bottom: $space-2xl;
     }
-  }
 
-  .faq__intro {
-    display: flex;
-    flex-direction: column;
-    gap: $space-sm;
-  }
-
-  .faq__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
-  }
-
-  .faq__title {
-    @include text-headline-xl;
-    color: var(--color-on-surface);
-    margin: 0;
-  }
-
-  .faq__desc {
-    @include text-body-sm;
-    color: var(--color-on-surface-variant);
-    margin: 0;
-  }
-
-  .faq__contact-box {
-    margin-top: $space-md;
-    padding: $space-md;
-    background: var(--color-surface-container);
-    border-radius: $radius-default;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .faq__contact-title {
-    @include text-label-pill;
-    color: var(--color-on-surface);
-    font-weight: 600;
-  }
-
-  .faq__contact-desc {
-    @include text-caption-micro;
-    color: var(--color-on-surface-variant);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    margin: 0;
-  }
-
-  .faq__phone {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    @include text-body-sm;
-    color: var(--color-secondary);
-    font-weight: 500;
-    padding-top: 0.25rem;
-
-    &:hover {
+    &__eyebrow {
+      font-size: 2.6rem;
+      margin-bottom: 3rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
       color: var(--color-on-surface);
     }
 
-    .material-symbols-outlined {
-      font-size: 1rem;
-    }
-  }
+    // --- Layout ---
+    &__inner {
+      max-width: $container-max;
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $space-2xl;
 
-  .faq__list {
-    display: flex;
-    flex-direction: column;
-    gap: $space-xs;
-  }
-
-  .faq__item {
-    background: var(--color-surface-container-lowest);
-    padding: $space-lg;
-    border-radius: $radius-default;
-    box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition: background 0.2s;
-
-    &:hover {
-      background: var(--color-surface-container-low);
+      @media (min-width: $bp-lg) {
+        grid-template-columns: 4fr 8fr;
+      }
     }
 
-    &[open] .faq__icon {
+    // --- Intro (imagen + overlay de texto) ---
+    &__intro {
+      position: relative;
+      border-radius: $radius-default;
+      overflow: hidden;
+      min-height: 32rem;
+
+      @media (min-width: $bp-lg) {
+        min-height: 40rem;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          transparent 50%,
+          rgba(0, 0, 0, 0.5) 100%
+        );
+        pointer-events: none;
+      }
+    }
+
+    &__hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__text-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: $space-2xl;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: $space-sm;
+    }
+
+    &__title {
+      @include text-headline-xl;
+      color: #ffffff;
+      margin: 0;
+      margin-left: -3px;
+    }
+
+    &__desc {
+      @include text-body-sm;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+    }
+
+    // --- Lista de preguntas ---
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: $space-xs;
+
+      @media (min-width: $bp-lg) {
+        align-self: start;
+        position: sticky;
+        top: var(--faq-sticky-top, 0px);
+      }
+    }
+
+    &__item {
+      background: var(--color-surface-container-lowest);
+      padding: $space-lg;
+      border-radius: $radius-default;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    &__item[open] &__icon {
       transform: rotate(45deg);
     }
-  }
 
-  .faq__question {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: $space-sm;
-    list-style: none;
-    cursor: pointer;
+    &__question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $space-sm;
+      list-style: none;
+      cursor: pointer;
 
-    &::-webkit-details-marker {
-      display: none;
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      h3 {
+        @include text-headline-sm;
+        color: var(--color-on-surface);
+        margin: 0;
+        font-size: 1.0625rem;
+      }
     }
 
-    h3 {
-      @include text-headline-sm;
-      color: var(--color-on-surface);
-      margin: 0;
-      font-size: 1.0625rem;
+    &__icon {
+      color: var(--color-secondary);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
     }
-  }
 
-  .faq__icon {
-    color: var(--color-secondary);
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-  }
+    &__answer {
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
 
-  .faq__answer {
-    padding-top: $space-sm;
-    @include text-body-base;
-    color: var(--color-on-surface-variant);
-    line-height: 1.7;
-
-    p {
-      margin: 0;
+      & > p {
+        padding-top: $space-sm;
+        @include text-body-base;
+        font-weight: 300;
+        color: var(--color-on-surface-variant);
+        line-height: 1.7;
+        margin: 0;
+      }
     }
   }
 </style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const intro = document.querySelector<HTMLElement>(".faq__intro");
+  const heroImage = document.querySelector<HTMLElement>(".faq__hero-image");
+
+  if (
+    intro &&
+    heroImage &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    gsap.set(heroImage, { scale: 1.15, yPercent: -7 });
+
+    gsap.to(heroImage, {
+      yPercent: 7,
+      ease: "none",
+      scrollTrigger: {
+        trigger: intro,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  }
+
+  const list = document.querySelector<HTMLElement>(".faq__list");
+
+  const updateStickyTop = () => {
+    if (!list) return;
+
+    if (!window.matchMedia("(min-width: 64rem)").matches) {
+      list.style.removeProperty("--faq-sticky-top");
+      return;
+    }
+
+    list.style.setProperty(
+      "--faq-sticky-top",
+      `${Math.max(16, window.innerHeight / 2 - list.offsetHeight / 2)}px`,
+    );
+  };
+
+  if (list) {
+    updateStickyTop();
+    window.addEventListener("resize", updateStickyTop);
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(updateStickyTop).observe(list);
+    }
+  }
+
+  const closeItem = (item: HTMLElement, onComplete?: () => void) => {
+    const answer = item.querySelector<HTMLElement>(".faq__answer");
+    const text = answer?.querySelector<HTMLElement>("p");
+    if (!answer || !text) return;
+
+    gsap.killTweensOf([answer, text]);
+
+    gsap.to(text, {
+      y: 40,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.inOut",
+      overwrite: "auto",
+    });
+    gsap.to(answer, {
+      height: 0,
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.inOut",
+      overwrite: "auto",
+      onComplete: () => {
+        item.open = false;
+        onComplete?.();
+      },
+    });
+  };
+
+  const openItem = (item: HTMLElement) => {
+    const answer = item.querySelector<HTMLElement>(".faq__answer");
+    const text = answer?.querySelector<HTMLElement>("p");
+    if (!answer || !text) return;
+
+    gsap.killTweensOf([answer, text]);
+    gsap.set(answer, { height: 0, opacity: 0 });
+    gsap.set(text, { y: 40, opacity: 0 });
+
+    item.open = true;
+
+    gsap.to(answer, {
+      height: "auto",
+      opacity: 1,
+      duration: 0.4,
+      ease: "power2.inOut",
+      overwrite: "auto",
+    });
+    gsap.to(text, {
+      y: 0,
+      opacity: 1,
+      duration: 0.4,
+      ease: "power2.inOut",
+      delay: 0.1,
+      overwrite: "auto",
+    });
+  };
+
+  document.querySelectorAll<HTMLElement>(".faq__item").forEach((item) => {
+    const summary = item.querySelector<HTMLElement>(".faq__question");
+    if (!summary) return;
+
+    const answer = item.querySelector<HTMLElement>(".faq__answer");
+    const text = answer?.querySelector<HTMLElement>("p");
+    if (answer && text) {
+      gsap.set(answer, { height: 0, opacity: 0 });
+      gsap.set(text, { y: 40, opacity: 0 });
+    }
+
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      if (item.open) {
+        closeItem(item);
+      } else {
+        const openItems = Array.from(
+          document.querySelectorAll<HTMLElement>(".faq__item[open]"),
+        ).filter((el) => el !== item);
+
+        if (openItems.length > 0) {
+          let remaining = openItems.length;
+          openItems.forEach((other) => {
+            closeItem(other, () => {
+              remaining--;
+              if (remaining === 0) openItem(item);
+            });
+          });
+        } else {
+          openItem(item);
+        }
+      }
+    });
+  });
+</script>

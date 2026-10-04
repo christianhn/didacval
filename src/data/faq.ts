@@ -1,6 +1,5 @@
 export const faqData = {
-  eyebrow: "Resolución de Dudas",
-  title: "Preguntas Frecuentes",
+  title: "Resuelvo tus dudas",
   description:
     "Iniciar terapia genera incertidumbres habituales. Consulta aquí las respuestas a los aspectos organizativos y clínicos fundamentales.",
   contactBox: {
@@ -34,6 +33,11 @@ export const faqData = {
       question: "¿Qué diferencias hay entre consulta presencial y terapia online?",
       answer:
         "Ambas modalidades cuentan con idéntico aval científico en cuanto a resultados clínicos. La sesión online ofrece el beneficio de evitar desplazamientos y adaptar mejor los horarios a tu ritmo de trabajo o cuidado familiar.",
+    },
+    {
+      question: "¿Cuáles son los beneficios de ir al psicólogo?",
+      answer:
+        "Acudir al psicólogo te permite comprender mejor lo que sientes, pensar con mayor claridad y actuar de forma más consciente. Entre los principales beneficios se encuentran: mejorar tu bienestar emocional, reducir el malestar psicológico (como ansiedad, estrés o tristeza), fortalecer tu autoestima, desarrollar habilidades para afrontar situaciones difíciles y mejorar tus relaciones personales. Además, la terapia te ofrece un espacio seguro y confidencial donde ser escuchado sin juicios y trabajar en tu crecimiento personal.",
     },
   ],
 } as const;
