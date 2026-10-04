@@ -1,6 +1,6 @@
 export const processData = {
   eyebrow: "El proceso, paso a paso",
-  title: "Cómo se estructura la psicoterapia",
+  title: "Cómo se estructura la terapia psicológica",
   description:
     "Un proceso transparente sin terapias interminables. Cada etapa tiene un propósito medible, orientado a consolidar tu autonomía emocional.",
   steps: [
@@ -20,25 +20,26 @@ export const processData = {
       description:
         "Te explico qué está ocurriendo a nivel psicológico y biológico. Trazamos conjuntamente la hoja de ruta clara de intervención.",
       metaIcon: "schema",
-      metaText: "Claridad conceptual",
+      metaText: "1 sesión",
     },
     {
       number: "03",
-      kicker: "Fase Práctica",
+      kicker: "Fase Terapéutica",
       title: "Intervención Activa",
       description:
-        "Adquisición de recursos prácticos: regulación emocional, reestructuración de pensamientos distorsionados y técnicas de afrontamiento conductual.",
+        "Aplicamos estrategias psicológicas adaptadas a tu caso (cognitivo-conductuales, humanistas o integradoras) para trabajar pensamientos, emociones y patrones que generan malestar, incorporando recursos de regulación emocional y afrontamiento.",
       metaIcon: "psychology_alt",
-      metaText: "Frecuencia semanal",
+      metaText: "Sesiones semanales",
     },
     {
       number: "04",
       kicker: "Fase de Autonomía",
-      title: "Consolidación y Alta",
+      title: "Revisión y cierre",
       description:
-        "Espaciado gradual de las sesiones a quincenales y mensuales para verificar que sostienes los cambios por ti mismo antes del alta médica definitiva.",
+        "A lo largo del proceso, revisamos los avances y adaptamos el plan terapéutico. El alta se produce cuando sientes que has alcanzado tus objetivos y puedes aplicar lo aprendido en tu vida diaria.",
       metaIcon: "task_alt",
-      metaText: "Cierre y seguimiento",
+      metaText: "Quincenal → mensual",
     },
   ],
+  note: "¡Y recuerda! La terapia no es solo para momentos de crisis: también es una vía para conocerte mejor, tomar decisiones con claridad y vivir de forma más plena.",
 } as const;

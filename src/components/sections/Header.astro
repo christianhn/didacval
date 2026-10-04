@@ -263,8 +263,8 @@ import { siteData } from "../../data/site";
         color: var(--color-on-surface);
       }
       &--active {
-        background: var(--color-secondary-container);
-        color: var(--color-on-secondary-container);
+        color: var(--color-on-secondary);
+        background: var(--color-on-secondary-container);
         font-weight: 500;
       }
     }
@@ -350,11 +350,7 @@ import { siteData } from "../../data/site";
       );
     }
     .header--transparent & {
-      background: color-mix(
-        in srgb,
-        var(--color-primary) 8%,
-        transparent
-      );
+      background: color-mix(in srgb, var(--color-primary) 8%, transparent);
     }
 
     .material-symbols-outlined {

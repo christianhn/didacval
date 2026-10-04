@@ -3,37 +3,123 @@ import { processData } from "../../data/process";
 ---
 
 <section class="process" aria-labelledby="process-title">
-  <div class="process__inner">
-    <header class="process__header">
-      <div>
+  <div class="process__container">
+    <!-- COLUMNA IZQUIERDA (FIXED / STICKY SIDEBAR) -->
+    <div class="process__sidebar">
+      <header class="process__header">
         <span class="process__eyebrow">{processData.eyebrow}</span>
         <h2 id="process-title" class="process__title">{processData.title}</h2>
-      </div>
-      <p class="process__desc">{processData.description}</p>
-    </header>
+        <p class="process__desc">{processData.description}</p>
+      </header>
 
-    <ol class="process__grid" role="list">
       {
-        processData.steps.map((step) => (
-          <li class="process__card">
-            <span class="process__number" aria-hidden="true">
-              {step.number}
-            </span>
-            <div class="process__card-body">
-              <span class="process__kicker">{step.kicker}</span>
-              <h3 class="process__card-title">{step.title}</h3>
-              <p class="process__card-desc">{step.description}</p>
+        processData.note && (
+          <aside class="process__note js-process-note">
+            <div class="process__note-icon-wrap">
+              <svg
+                class="process__note-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
             </div>
-            <div class="process__meta">
-              <span class="material-symbols-outlined" aria-hidden="true">
-                {step.metaIcon}
-              </span>
-              <span>{step.metaText}</span>
+            <div class="process__note-body">
+              <span class="process__note-label">Nota importante</span>
+              <p class="process__note-text">{processData.note}</p>
             </div>
-          </li>
+          </aside>
+        )
+      }
+    </div>
+
+    <!-- COLUMNA DERECHA (STACKED CARDS SCROLL) -->
+    <div class="process__stack">
+      {
+        processData.steps.map((step, index) => (
+          <article class="process__step" data-index={index}>
+            <div class="process__step-top">
+              <span class="process__step-number">{step.number}</span>
+              <div class="process__step-heading">
+                <span class="process__step-heading-kicker">{step.kicker}</span>
+                <h3 class="process__step-heading-title">{step.title}</h3>
+                <p class="process__step-heading-desc">{step.description}</p>
+                <div class="process__step-heading-meta">
+                  <span
+                    class="process__step-heading-meta-icon"
+                    aria-hidden="true"
+                  >
+                    {step.metaIcon === "notes" && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M8 3.5h8a1 1 0 0 1 1 1V5h1.5A1.5 1.5 0 0 1 20 6.5v14A1.5 1.5 0 0 1 18.5 22h-13A1.5 1.5 0 0 1 4 20.5v-14A1.5 1.5 0 0 1 5.5 5H7v-.5a1 1 0 0 1 1-1Z" />
+                        <path d="M9 12h6M9 16h4" />
+                      </svg>
+                    )}
+                    {step.metaIcon === "path" && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="6" cy="6" r="2.25" />
+                        <circle cx="18" cy="18" r="2.25" />
+                        <path d="M8.2 7.6 15.8 16.4M6 8.25V13a3 3 0 0 0 3 3h2" />
+                      </svg>
+                    )}
+                    {step.metaIcon === "spark" && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 3v2.2M12 3c-2.4 0-4 1.7-4 3.8 0 1.2.5 2 .5 3.3 0 1.6-1 2-1 3.7A4 4 0 0 0 11.5 18v2.5M12 3c2.4 0 4 1.7 4 3.8 0 1.2-.5 2-.5 3.3 0 1.6 1 2 1 3.7A4 4 0 0 1 12.5 18v2.5" />
+                        <path d="M10 20.5h4" />
+                      </svg>
+                    )}
+                    {step.metaIcon === "check" && (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="m8.5 12.5 2.3 2.3L15.5 9.8" />
+                      </svg>
+                    )}
+                  </span>
+                  <span class="process__step-heading-meta-text">
+                    {step.metaText}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
         ))
       }
-    </ol>
+    </div>
   </div>
 </section>
 
@@ -42,125 +128,235 @@ import { processData } from "../../data/process";
   @use "../../styles/typography" as *;
 
   .process {
+    position: relative;
     width: 100%;
-    background: var(--color-surface);
-    padding: $space-4xl $gutter-mobile;
+    background: var(--color-surface, #fcfcfd);
+    padding: $space-5xl $gutter-mobile;
 
     @media (min-width: $bp-lg) {
+      padding-block: 15rem;
       padding-inline: $gutter-desktop;
     }
-  }
 
-  .process__inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    gap: $space-2xl;
-  }
+    &__container {
+      max-width: $container-max;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: $space-3xl;
 
-  .process__header {
-    display: flex;
-    flex-direction: column;
-    gap: $space-md;
-
-    @media (min-width: $bp-md) {
-      flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-between;
+      @media (min-width: $bp-lg) {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
     }
-  }
 
-  .process__eyebrow {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
-  }
-
-  .process__title {
-    @include text-headline-xl;
-    color: var(--color-on-surface);
-    margin: 0.25rem 0 0;
-  }
-
-  .process__desc {
-    @include text-body-base;
-    color: var(--color-on-surface-variant);
-    max-width: 28rem;
-    margin: 0;
-  }
-
-  .process__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $space-md;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    @media (min-width: $bp-md) {
-      grid-template-columns: repeat(2, 1fr);
+    /* --- SIDEBAR IZQUIERDA (STICKY) --- */
+    &__sidebar {
+      @media (min-width: $bp-lg) {
+        position: sticky;
+        top: 20dvh;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
     }
-    @media (min-width: $bp-lg) {
-      grid-template-columns: repeat(4, 1fr);
+
+    &__header {
+      display: flex;
+      flex-direction: column;
     }
-  }
 
-  .process__card {
-    background: var(--color-surface-container-lowest);
-    padding: $space-lg;
-    border-radius: $radius-default;
-    box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: $space-md;
-  }
+    &__eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-primary, #2563eb);
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
 
-  .process__number {
-    @include text-display-hero-mobile;
-    font-weight: 300;
-    color: var(--color-surface-variant);
-  }
+    &__title {
+      font-size: 2.6rem;
+      margin-bottom: 3rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--color-on-surface, #0f172a);
+    }
 
-  .process__card-body {
-    display: flex;
-    flex-direction: column;
-    gap: $space-xs;
-  }
+    &__desc {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--color-on-surface-variant, #475569);
+      margin: 0;
+      font-weight: 400;
+    }
 
-  .process__kicker {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-secondary);
-    font-weight: 600;
-  }
+    /* --- NOTA DE ABAJO EN COLUMNA IZQUIERDA --- */
+    &__note {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--color-surface-container-lowest, #ffffff);
+      border: 1px solid var(--color-outline-variant-transparent);
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
 
-  .process__card-title {
-    @include text-headline-sm;
-    color: var(--color-on-surface);
-    margin: 0;
-  }
+      &-icon-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.5rem;
+        background: #c5c7c03d;
+        color: var(--color-primary);
+        flex-shrink: 0;
+      }
 
-  .process__card-desc {
-    @include text-body-sm;
-    color: var(--color-on-surface-variant);
-    margin: 0;
-  }
+      &-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
 
-  .process__meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-top: $space-xs;
-    color: var(--color-secondary);
-    @include text-label-pill;
+      &-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
 
-    .material-symbols-outlined {
-      font-size: 1rem;
+      &-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-primary, #2563eb);
+      }
+
+      &-text {
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: var(--color-on-surface-variant, #334155);
+        margin: 0;
+      }
+    }
+
+    /* --- TARJETAS DERECHA (STACK & SHADOWS) --- */
+    &__stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      @media (min-width: $bp-lg) {
+        gap: 2rem;
+      }
+    }
+
+    &__step {
+      background: var(--color-surface-container-lowest, #ffffff);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      box-shadow:
+        0 10px 30px -5px rgba(0, 0, 0, 0.04),
+        0 2px 6px -1px rgba(0, 0, 0, 0.02);
+      transition:
+        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        border-color: rgba(37, 99, 235, 0.25);
+        box-shadow:
+          0 16px 36px -6px rgba(0, 0, 0, 0.07),
+          0 4px 12px -2px rgba(37, 99, 235, 0.05);
+      }
+
+      &-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+
+      &-number {
+        font-size: 2.6rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: var(--color-on-secondary-container);
+        min-width: 2.75rem;
+        flex-shrink: 0;
+      }
+
+      &-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+
+        &-kicker {
+          font-size: 0.7rem;
+          line-height: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: var(--color-secondary, #64748b);
+        }
+
+        &-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          color: var(--color-on-surface, #0f172a);
+          margin: 0.2rem 0 0 0;
+        }
+
+        &-desc {
+          font-size: 0.975rem;
+          line-height: 1.65;
+          color: var(--color-on-surface-variant, #475569);
+          margin: 0.75rem 0 0 0;
+        }
+
+        &-meta {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 1rem;
+          padding: 0.4rem 0.85rem;
+          background: var(--color-secondary-btn, #f1f5f9);
+          border: 1px solid rgba(0, 0, 0, 0.04);
+          border-radius: 9999px;
+          color: var(--color-on-surface-variant, #334155);
+          font-size: 0.825rem;
+          font-weight: 600;
+
+          &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+            background: #595959;
+            border-radius: 50px;
+            flex-shrink: 0;
+
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          &-text {
+            line-height: 1;
+          }
+        }
+      }
     }
   }
 </style>
