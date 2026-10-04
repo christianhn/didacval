@@ -1,0 +1,129 @@
+---
+import DetailIcon from "./DetailIcon.astro";
+import type { DetailIconName } from "../../data/details";
+
+interface Props {
+  icon: DetailIconName;
+  kicker: string;
+  title: string;
+  subtitle: string;
+  bullets: readonly string[];
+}
+
+const { icon, kicker, title, subtitle, bullets } = Astro.props;
+---
+
+<article class="detail-row">
+  <span class="detail-row__icon" aria-hidden="true">
+    <DetailIcon name={icon} />
+  </span>
+
+  <div class="detail-row__main">
+    <span class="detail-row__kicker">{kicker}</span>
+    <h3 class="detail-row__title">{title}</h3>
+  </div>
+
+  <div class="detail-row__meta">
+    <span class="detail-row__subtitle">{subtitle}</span>
+    <ul class="detail-row__bullets">
+      {bullets.map((bullet) => <li>{bullet}</li>)}
+    </ul>
+  </div>
+</article>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+
+  // 56px no existe como token de spacing → variable local para no
+  // repetir el literal. Propongo extraerla a _variables.scss si se reutiliza.
+  $icon-size: 3.5rem;
+
+  .detail-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-md;
+    padding-block: $space-lg;
+    border-top: 1px dashed var(--color-outline-variant);
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: $icon-size minmax(0, 1fr) minmax(0, 1.15fr);
+      align-items: center;
+      gap: $space-xl;
+      padding-block: $space-xl;
+    }
+  }
+
+  .detail-row__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $icon-size;
+    height: $icon-size;
+    border: 1px solid var(--color-outline-variant);
+    border-radius: $radius-full;
+    color: var(--color-secondary);
+  }
+
+  .detail-row__main {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+    min-width: 0;
+  }
+
+  .detail-row__kicker {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    // mismo tracking y peso que el kicker de fase (Process.astro:303-308)
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .detail-row__title {
+    @include text-headline-sm;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+
+    // "algo mayor" que el título de las tarjetas de fase (1.5rem hardcodeado
+    // en Process.astro:312) → se usa el token directamente.
+    @media (min-width: $bp-lg) {
+      @include text-headline-lg;
+    }
+  }
+
+  .detail-row__meta {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+    min-width: 0;
+  }
+
+  .detail-row__subtitle {
+    @include text-body-lg;
+    font-weight: 500;
+    color: var(--color-on-surface);
+  }
+
+  .detail-row__bullets {
+    margin: $space-2xs 0 0;
+    padding-left: $space-md;
+    list-style-type: disc;
+    list-style-position: outside;
+
+    li {
+      @include text-body-base;
+      color: var(--color-on-surface-variant);
+
+      & + li {
+        margin-top: $space-2xs;
+      }
+
+      &::marker {
+        color: var(--color-secondary);
+      }
+    }
+  }
+</style>

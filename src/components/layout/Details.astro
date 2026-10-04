@@ -1,0 +1,183 @@
+---
+import { detailsData } from "../../data/details";
+import DetailRow from "../ui/DetailRow.astro";
+---
+
+<section id="mas-informacion" class="details" aria-labelledby="details-title">
+  <div class="details__inner">
+    <header class="details__header">
+      <div class="details__heading">
+        <span class="details__eyebrow">{detailsData.eyebrow}</span>
+        <h2 id="details-title" class="details__title">{detailsData.title}</h2>
+        <p class="details__desc">{detailsData.description}</p>
+      </div>
+      <a class="details__header-cta" href={detailsData.headerCta.href}>
+        <span>{detailsData.headerCta.label}</span>
+        <span class="details__header-cta-icon" aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <div class="details__list">
+      {
+        detailsData.items.map((item) => (
+          <DetailRow
+            icon={item.icon}
+            kicker={item.kicker}
+            title={item.title}
+            subtitle={item.subtitle}
+            bullets={item.bullets}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+
+  .details {
+    margin-inline: $space-2xl;
+    border-radius: $radius-lg;
+    background: var(--color-surface-bone-dark);
+    border-top: 1px solid var(--color-border-hairline);
+    padding: $space-2xl 0 $space-xl;
+
+    @media (min-width: $bp-lg) {
+      padding: $space-3xl 0 $space-2xl;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .details {
+      margin-inline: 0;
+      border-radius: 0;
+    }
+  }
+
+  .details__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xl;
+
+    @media (min-width: $bp-lg) {
+      gap: $space-2xl;
+    }
+  }
+
+  .details__header {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    padding-inline: $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: $space-xl;
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .details__heading {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    max-width: 40rem;
+  }
+
+  .details__eyebrow {
+    @include text-caption-micro;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-sage-muted);
+  }
+
+  .details__title {
+    @include text-headline-xl;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .details__desc {
+    @include text-body-sm;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    line-height: 1.6;
+    max-width: 34rem;
+
+    @media (min-width: $bp-lg) {
+      @include text-body-base;
+    }
+  }
+
+  .details__header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    @include text-body-sm;
+    font-weight: 600;
+    color: var(--color-on-surface);
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition:
+      opacity 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+      border-color: var(--color-on-surface);
+    }
+  }
+
+  .details__header-cta-icon {
+    font-size: 0.85rem;
+    line-height: 1;
+    transform: translateY(-1px);
+  }
+
+  .details__list {
+    display: flex;
+    flex-direction: column;
+    padding-inline: $gutter-mobile;
+    border-bottom: 1px dashed var(--color-outline-variant);
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector<HTMLElement>(".details");
+
+  if (
+    section &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    gsap.to(section, {
+      marginLeft: 0,
+      marginRight: 0,
+      borderRadius: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+      },
+    });
+  }
+</script>
