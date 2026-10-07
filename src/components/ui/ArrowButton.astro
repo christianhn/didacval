@@ -1,0 +1,237 @@
+---
+interface Props {
+  label: string;
+  type?: "submit" | "button" | "reset";
+  disabled?: boolean;
+  class?: string;
+  "aria-label"?: string;
+  variant?: "primary" | "secondary" | "accent";
+}
+
+const {
+  label,
+  type = "submit",
+  disabled = false,
+  class: className = "",
+  "aria-label": ariaLabel,
+  variant = "primary",
+  ...attrs
+} = Astro.props;
+---
+
+<button
+  class={`cta cta--${variant} ${className}`}
+  type={type}
+  disabled={disabled}
+  aria-label={ariaLabel}
+  data-cta
+  {...attrs}
+>
+  <span class="cta__label" aria-hidden="true">
+    <span class="cta__clip">
+      <span class="cta__stack" data-stack>
+        <span class="cta__line">{label}</span>
+        <span class="cta__line" aria-hidden="true">{label}</span>
+      </span>
+    </span>
+  </span>
+  <span class="cta__icon" aria-hidden="true">
+    <span class="material-symbols-outlined">north_east</span>
+  </span>
+</button>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+
+  .cta {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: $space-sm;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+
+    &.cta--primary {
+      .cta__label {
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+      }
+
+      .cta__icon {
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+
+        .material-symbols-outlined {
+          color: var(--color-on-primary);
+        }
+      }
+    }
+
+    &.cta--secondary {
+      .cta__label {
+        background: var(--color-secondary);
+        color: var(--color-on-secondary);
+      }
+
+      .cta__icon {
+        background: var(--color-secondary);
+        color: var(--color-on-secondary);
+
+        .material-symbols-outlined {
+          color: var(--color-on-secondary);
+        }
+      }
+    }
+
+    &.cta--accent {
+      .cta__label {
+        background: var(--color-accent);
+        color: var(--color-on-accent);
+      }
+
+      .cta__icon {
+        background: var(--color-accent-strong);
+        color: var(--color-on-accent);
+
+        .material-symbols-outlined {
+          color: var(--color-on-accent);
+        }
+      }
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 0.25rem;
+      border-radius: $radius-full;
+    }
+  }
+
+  .cta__label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 $space-lg;
+    height: 2.75rem;
+    border-radius: $radius-full;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    z-index: 1;
+  }
+
+  .cta__clip {
+    position: relative;
+    overflow: hidden;
+    height: 1.3em;
+  }
+
+  .cta__stack {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+  }
+
+  .cta__line {
+    display: block;
+    height: 1.3em;
+    @include text-body-base;
+    line-height: 1.1375rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .cta__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: $radius-full;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    transition: transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+
+    .material-symbols-outlined {
+      font-size: 1.125rem;
+      color: var(--color-on-primary);
+    }
+  }
+
+  @media (hover: hover) {
+    .cta:not(:disabled):hover .cta__icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  .cta:not(:disabled):focus-visible .cta__icon {
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta__icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (!prefersReducedMotion) {
+    document.querySelectorAll("[data-cta]").forEach((btn) => {
+      const stack = btn.querySelector<HTMLElement>("[data-stack]");
+      if (!stack) return;
+
+      let animating = false;
+
+      const roll = () => {
+        if (animating) return;
+        animating = true;
+
+        const anim = stack.animate(
+          [{ transform: "translateY(0)" }, { transform: "translateY(-50%)" }],
+          { duration: 350, easing: "cubic-bezier(.65, 0, .35, 1)" },
+        );
+
+        anim.onfinish = () => {
+          animating = false;
+        };
+      };
+
+      const isFocusVisible = (e: FocusEvent) => {
+        return btn.matches(":focus-visible");
+      };
+
+      btn.addEventListener("pointerenter", (e: PointerEvent) => {
+        if (e.pointerType === "mouse" && !btn.disabled) roll();
+      });
+
+      btn.addEventListener("pointerleave", (e: PointerEvent) => {
+        if (e.pointerType === "mouse" && !btn.disabled) roll();
+      });
+
+      btn.addEventListener("focusin", (e: FocusEvent) => {
+        if (isFocusVisible(e) && !btn.disabled) roll();
+      });
+
+      btn.addEventListener("focusout", (e: FocusEvent) => {
+        if (isFocusVisible(e) && !btn.disabled) roll();
+      });
+    });
+  }
+</script>

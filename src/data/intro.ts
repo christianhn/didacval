@@ -8,7 +8,7 @@ export const introData = {
     primary: {
       label: "Primera valoración gratuita",
       href: "#contacto-cita",
-      icon: "arrow_forward",
+      icon: "north_east",
     },
   },
 } as const;

@@ -2,56 +2,41 @@ export const contactData = {
   eyebrow: "Reserva tu cita",
   title: "Da el primer paso hacia tu equilibrio.",
   description:
-    "Completa este formulario breve para coordinar tu primera sesión informativa gratuita o solicitar información sobre disponibilidad presencial y online.",
-  infoCards: [
-    {
-      icon: "location_on",
-      title: "Consulta en Zaragoza",
-      detail: "Paseo de Sagasta 17, entresuelo izquierda · 50008 Zaragoza",
-    },
-    {
-      icon: "phone_in_talk",
-      title: "Atención Telefónica Directa",
-      detail: "+34 622 58 85 60",
-      href: "tel:+34622588560",
-    },
-    {
-      icon: "mail",
-      title: "Correo Electrónico",
-      detail: "didacvalpsicologia@gmail.com",
-      href: "mailto:didacvalpsicologia@gmail.com",
-    },
-  ],
-  map: {
-    label: "Centro de Zaragoza · Sagasta 17",
-    icon: "pin_drop",
-    location: "Paseo de Sagasta 17, Zaragoza, Spain",
+    "Primera consulta informativa gratuita y sin compromiso. Te responderé en menos de 24 horas laborables.",
+  media: {
+    badge: "Sagasta 17 · Zaragoza",
+    placeholder: "Espacio para la imagen de la consulta",
   },
   form: {
-    title: "Formulario de Primera Consulta",
-    badge: "Gratuita y sin compromiso",
     fields: {
-      name: { label: "Nombre completo *", placeholder: "Ej: María García" },
-      phone: { label: "Teléfono de contacto *", placeholder: "Ej: 600 000 000" },
-      email: { label: "Correo electrónico *", placeholder: "tuemail@ejemplo.com" },
+      name: { label: "Nombre", placeholder: "Ej: María García" },
+      phone: { label: "Teléfono", placeholder: "Ej: 600 000 000" },
+      email: {
+        label: "Correo electrónico",
+        placeholder: "tuemail@ejemplo.com",
+      },
       mode: {
         label: "Modalidad preferente",
         options: [
-          { value: "presencial", label: "Presencial en Sagasta 17 (Zaragoza)" },
-          { value: "online", label: "Online por videollamada" },
-          { value: "indiferente", label: "Indiferente / Primera llamada valorativa" },
+          { value: "presencial", label: "Presencial", description: "Paseo de Sagasta 17, Zaragoza", icon: "location_on" },
+          { value: "online", label: "Online", description: "Por videollamada", icon: "videocam" },
         ],
       },
       message: {
-        label: "Breve motivo de consulta (opcional)",
+        label: "Motivo de consulta (opcional)",
         placeholder:
-          "Explica de forma concisa qué te gustaría trabajar (ansiedad, estrés laboral, problemas en pareja, etc.)",
+          "Ansiedad, estrés laboral, problemas de pareja, autoestima…",
       },
-      consent:
-        "Acepto el tratamiento confidencial de mis datos con el fin de ponerme en contacto con la consulta psicológica de Didac Val según el Reglamento General de Protección de Datos (RGPD).",
+      consent: {
+        text: "Acepto la",
+        // REVISAR CON DIDAC: la web aún no tiene página de política de
+        // privacidad (el footer enlaza a "#"). Apuntarla al crearla.
+        link: { label: "política de privacidad", href: "#" },
+      },
     },
     submit: "Enviar Solicitud de Cita",
     feedback:
       "Mensaje recibido correctamente. Didac Val se pondrá en contacto contigo en menos de 24 horas laborables.",
+    error: "Revisa los campos obligatorios e inténtalo de nuevo.",
   },
 } as const;

@@ -10,7 +10,7 @@ $colors: (
   "tertiary-container": #0d1f16,
   "on-secondary": #ffffff,
   "on-tertiary": #ffffff,
-  "surface-container": #ecefe9,
+  "surface-container": #e7e9e6,
   "on-primary-container": #838482,
   "sage-muted": #6e8276,
   "tertiary-fixed-dim": #b7cbbe,
@@ -38,7 +38,7 @@ $colors: (
   "secondary-container": #cde6d6c1,
   "on-tertiary-container": #75887c,
   "tertiary": #000000,
-  "surface-container-low": #f2f4ef,
+  "surface-container-low": #f7f8f6,
   "secondary-fixed": #d0e8d9,
   "on-surface-variant": #444845,
   "inverse-primary": #c6c7c4,
@@ -47,8 +47,11 @@ $colors: (
   "surface-container-lowest": #ffffff,
   "border-hairline": #e2e0d9,
   "surface-canvas": #ffffff,
-  // "surface-bone": #F4F3F1,
-  // "surface-bone": #ede9e4,
+  // Crema cálido. Though it is hue 45° (yellow, not green), at 22% saturation
+  // it gives the site its herbal/natural character, and it harmonizes with the
+  // warm photography (golden, olive, wood tones).
+  // --color-background (#f8faf5, green at 84°) is kept in the palette as the
+  // greener alternative in case the tone needs to be pushed later.
   "surface-bone": #f1efe9,
   "surface-bone-dark": #dedcd5,
   "on-primary-fixed-variant": #454746,
@@ -61,12 +64,28 @@ $colors: (
   "on-tertiary-fixed": #0d1f16,
   "surface-dim": #d8dbd6,
   "surface-tint": #5d5f5d,
-  "surface-container-high": #ecedea,
+  "surface-container-high": #f1f2ee,
   "surface-dark": #0a0b0a,
   "surface-container-highest": #e1e3de,
   "on-error": #ffffff,
   "text-muted": #aeb9b1,
   "secondary-btn": #efefef,
+  "success": #6daf8b,
+  // Verde de acento (CTAs destacados). $accent-strong es la versión
+  // oscura usada para el icono circular y el hover.
+  "accent": #5f8150,
+  "accent-strong": #273a1f,
+  "on-accent": #ffffff,
+  // Verde de los eyebrows (kickers de sección). Oscuro y poco saturado a
+  // propósito: sobre los fondos claros un verde medio vibra demasiado, y
+  // aclarar baja del 4.5:1 que pide WCAG para texto de 10px.
+  // 5.6:1 sobre --color-surface-bone y 4.5:1 sobre --color-surface-bone-dark
+  // (Details y Contact usan el oscuro).
+  "eyebrow-accent": #44694a,
+  // Hover/focus de campos: un punto más claro que el gris base (#f2f2f2),
+  // tirando a blanco. --color-surface-container-high (#f1f2ee) queda
+  // demasiado cerca del base y el hover no se aprecia.
+  "input-hover": #fafafa,
 );
 
 // ---------- Spacing ----------
