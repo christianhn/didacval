@@ -7,6 +7,7 @@
 $colors: (
   "on-tertiary-fixed-variant": #394b40,
   "on-surface": #191c1a,
+  "on-surface-muted": #191c1a6c,
   "tertiary-container": #0d1f16,
   "on-secondary": #ffffff,
   "on-tertiary": #ffffff,
@@ -118,4 +119,5 @@ $bp-lg: 64rem;
 $bp-xl: 80rem;
 
 // ---------- Z-index ----------
+$z-footer: 40;
 $z-header: 50;

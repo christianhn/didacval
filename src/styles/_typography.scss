@@ -121,6 +121,18 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   font-weight: 400;
 }
 
+// Tamaño pequeño legible para textos legales, copyright y notas al pie.
+// `text-caption-micro` (10px) queda para kickers en mayúscula, donde el
+// peso y el tracking compensan; en prosa mixta a 10px la lectura sostenida
+// se resiente, así que el pie usa esta variante de 11px.
+@mixin text-caption-sm {
+  font-family: $font-family-base;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
 @mixin text-caption-micro {
   font-family: $font-family-base;
   font-size: 0.625rem;

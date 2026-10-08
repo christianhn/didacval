@@ -1,14 +1,15 @@
 ---
 import { footerData } from "../../data/footer";
+
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="footer">
+<footer class="footer" data-footer>
   <div class="footer__inner">
     <div class="footer__grid">
-      <div class="footer__brand">
-        <span class="footer__brand-name">{footerData.brand.name}</span>
-        <p class="footer__brand-desc">{footerData.brand.description}</p>
-        <div class="footer__status">
+      <div class="footer__desc">
+        <p class="footer__desc-text">{footerData.brand.description}</p>
+        <div class="footer__desc-status">
           <span class="footer__dot" aria-hidden="true"></span>
           <span>{footerData.brand.status}</span>
         </div>
@@ -51,8 +52,12 @@ import { footerData } from "../../data/footer";
       </div>
     </div>
 
+    <div class="footer__brand">
+      <span class="footer__brand-name">{footerData.brand.name}</span>
+    </div>
+
     <div class="footer__bottom">
-      <span class="footer__copyright">{footerData.bottom.copyright}</span>
+      <span class="footer__copyright">© {currentYear} Didac Val Psicólogo. Todos los derechos reservados.</span>
       <nav class="footer__legal-nav" aria-label="Legal">
         {
           footerData.bottom.links.map((link) => (
@@ -64,19 +69,202 @@ import { footerData } from "../../data/footer";
   </div>
 </footer>
 
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const FOOTER_VIEWPORT_RATIO = 2 / 3;
+  const PEEK_RATIO = 0.2;
+  const PEEK_END = PEEK_RATIO / (1 + PEEK_RATIO);
+  const END = 1 / (1 + PEEK_RATIO);
+  const LIFT = END - PEEK_END;
+
+  const footer = document.querySelector<HTMLElement>("[data-footer]");
+  const contact = document.querySelector<HTMLElement>(".contact");
+  const dim = document.querySelector<HTMLElement>("[data-contact-dim]");
+  const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
+
+  const canAnimate =
+    !!footer &&
+    !!contact &&
+    !!dim &&
+    !!footerInner &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (footer && contact && dim && footerInner && canAnimate) {
+    const applyHeight = () => {
+      const viewport = window.innerHeight;
+      footer.style.height = "auto";
+
+      const content = Math.ceil(footerInner.getBoundingClientRect().height);
+
+      footer.style.height = `${Math.min(
+        viewport,
+        Math.max(viewport * FOOTER_VIEWPORT_RATIO, content),
+      )}px`;
+    };
+
+    const revealTargets = footer.querySelectorAll(
+      ".footer__desc-text, .footer__desc-status, .footer__col, .footer__brand, .footer__bottom",
+    );
+
+    footer.classList.add("footer--fixed");
+    applyHeight();
+    gsap.set(footer, { yPercent: 100 });
+    gsap.set(revealTargets, { yPercent: 14, opacity: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: contact,
+        start: "bottom bottom",
+        end: () => "+=" + footer.offsetHeight * (1 + PEEK_RATIO),
+        scrub: true,
+      },
+    });
+
+    const marker = {};
+    tl.set(marker, { ready: true }, 1);
+
+    tl.fromTo(
+      footer,
+      { yPercent: 100 },
+      {
+        yPercent: 100 - PEEK_RATIO * 100,
+        duration: PEEK_END,
+        ease: "none",
+      },
+      0,
+    );
+
+    tl.fromTo(
+      footer,
+      { yPercent: 100 - PEEK_RATIO * 100 },
+      {
+        yPercent: 0,
+        duration: LIFT,
+        ease: "power2.out",
+        immediateRender: false,
+      },
+      PEEK_END,
+    )
+      .fromTo(
+        dim,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: LIFT * 0.55,
+          ease: "power1.out",
+          immediateRender: false,
+        },
+        PEEK_END,
+      )
+      .fromTo(
+        revealTargets,
+        { yPercent: 14, opacity: 0 },
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: LIFT * 0.5,
+          ease: "power2.out",
+          stagger: 0.05,
+          immediateRender: false,
+        },
+        PEEK_END,
+      );
+
+    ScrollTrigger.create({
+      trigger: contact,
+      start: () => `bottom bottom-=${footer.offsetHeight * PEEK_RATIO}`,
+      end: () => "+=" + footer.offsetHeight,
+      pin: contact,
+      anticipatePin: 1,
+    });
+
+    const refresh = () => {
+      applyHeight();
+      ScrollTrigger.refresh();
+    };
+
+    let refreshTimer: number;
+    const scheduleRefresh = () => {
+      clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(refresh, 200);
+    };
+
+    window.addEventListener("resize", scheduleRefresh);
+    document.fonts?.ready.then(scheduleRefresh);
+
+    if ("ResizeObserver" in window) {
+      let lastHeight = document.documentElement.offsetHeight;
+      new ResizeObserver(() => {
+        const height = document.documentElement.offsetHeight;
+        if (height === lastHeight) return;
+        lastHeight = height;
+        scheduleRefresh();
+      }).observe(document.documentElement);
+    }
+  }
+</script>
+
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
+
+  @mixin footer-label {
+    @include text-caption-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    color: var(--color-on-secondary-container);
+  }
 
   .footer {
+    position: relative;
+    z-index: $z-footer;
     width: 100%;
     background: var(--color-surface-container-low);
+    box-shadow: 0 0.0625rem 0.5rem
+      color-mix(in srgb, var(--color-primary) 4%, transparent);
+  }
+
+  .footer--fixed {
+    position: fixed;
+    inset: auto 0 0 0;
+    height: 66.6667vh;
+    max-height: 100vh;
+    will-change: transform;
+
+    .footer__inner {
+      padding-block-start: $space-2xl;
+    }
+
+    .footer__inner {
+      overscroll-behavior: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-outline-variant) transparent;
+
+      &::-webkit-scrollbar {
+        width: 0.375rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: $radius-full;
+        background: var(--color-outline-variant);
+      }
+    }
   }
 
   .footer__inner {
+    display: flex;
+    flex-direction: column;
     max-width: $container-max;
+    height: 100%;
     margin-inline: auto;
     padding: $space-3xl $gutter-mobile;
+    overflow-y: auto;
 
     @media (min-width: $bp-lg) {
       padding-inline: $gutter-desktop;
@@ -88,12 +276,14 @@ import { footerData } from "../../data/footer";
     grid-template-columns: 1fr;
     gap: $space-xl;
 
+    flex-shrink: 0;
+
     @media (min-width: $bp-md) {
       grid-template-columns: repeat(12, 1fr);
     }
   }
 
-  .footer__brand {
+  .footer__desc {
     display: flex;
     flex-direction: column;
     gap: $space-sm;
@@ -103,30 +293,55 @@ import { footerData } from "../../data/footer";
     }
   }
 
-  .footer__brand-name {
-    @include text-headline-sm;
-    color: var(--color-on-surface);
+  .footer__brand {
+    container-type: inline-size;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-block-start: $space-2xl;
   }
 
-  .footer__brand-desc {
+  .footer__brand-name {
+    @include text-headline-sm;
+    display: block;
+    font-size: 25cqi;
+    line-height: 0.82;
+    letter-spacing: -0.035em;
+    word-spacing: -0.5rem;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--color-secondary) 25%, transparent);
+    margin-left: -0.075em;
+    font-weight: 400;
+    @supports (text-fit: grow) {
+      text-fit: grow;
+    }
+  }
+
+  @media (max-width: $bp-md) {
+    .footer__brand {
+      margin-top: $space-md;
+      padding-block-start: $space-md;
+    }
+  }
+
+  .footer__desc-text {
     @include text-body-sm;
     color: var(--color-on-surface-variant);
     max-width: 22rem;
     margin: 0;
   }
 
-  .footer__status {
+  .footer__desc-status {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
-    gap: 0.25rem;
-    padding-top: $space-xs;
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-secondary);
+    gap: 0.375rem;
+    padding-top: $space-sm;
+    @include footer-label;
+    color: var(--color-on-surface-variant);
   }
 
   .footer__dot {
+    flex: 0 0 auto;
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
@@ -141,6 +356,12 @@ import { footerData } from "../../data/footer";
     }
     50% {
       opacity: 0.5;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer__dot {
+      animation: none;
     }
   }
 
@@ -163,10 +384,8 @@ import { footerData } from "../../data/footer";
   }
 
   .footer__col-title {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    color: var(--color-secondary);
-    font-weight: 600;
+    @include footer-label;
+    margin-bottom: $space-xs;
   }
 
   .footer__address,
@@ -179,63 +398,77 @@ import { footerData } from "../../data/footer";
   .footer__link {
     @include text-body-sm;
     color: var(--color-on-surface-variant);
-    transition: color 0.2s;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-outline-variant);
+    transition:
+      color 0.2s,
+      text-decoration-color 0.2s;
+    @include focus-ring;
 
     &:hover {
       color: var(--color-on-surface);
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-on-surface);
     }
 
     &--strong {
       color: var(--color-on-surface);
+
       &:hover {
-        color: var(--color-secondary);
+        color: var(--color-eyebrow-accent);
+        text-decoration-color: var(--color-eyebrow-accent);
       }
     }
   }
 
   .footer__note {
-    @include text-caption-micro;
-    color: var(--color-outline);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
+    @include text-body-sm;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 80%, transparent);
+    margin-top: $space-2xs;
   }
 
   .footer__bottom {
-    margin-top: $space-2xl;
-    padding-top: $space-md;
+    flex-shrink: 0;
+    margin-top: $space-xs;
+    padding-top: $space-lg;
     border-top: 0.0625rem solid var(--color-outline-variant);
     display: flex;
     flex-direction: column;
     gap: $space-sm;
     align-items: center;
 
-    @media (min-width: 40rem) {
+    @media (min-width: $bp-sm) {
       flex-direction: row;
       justify-content: space-between;
+      align-items: baseline;
     }
   }
 
   .footer__copyright {
-    @include text-caption-micro;
-    color: var(--color-on-surface-variant);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
+    @include text-caption-sm;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
   }
 
   .footer__legal-nav {
     display: flex;
     align-items: center;
-    gap: $space-md;
-    @include text-caption-micro;
-    color: var(--color-on-surface-variant);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
+    gap: $space-lg;
+    @include text-caption-sm;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
 
-    a:hover {
-      color: var(--color-on-surface);
+    a {
+      text-underline-offset: 0.2em;
+      text-decoration-color: var(--color-outline-variant);
+      transition:
+        color 0.2s,
+        text-decoration-color 0.2s;
+      @include focus-ring;
+
+      &:hover {
+        color: var(--color-on-surface);
+        text-decoration-line: underline;
+        text-decoration-color: var(--color-on-surface);
+      }
     }
   }
 </style>

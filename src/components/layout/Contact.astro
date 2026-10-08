@@ -4,6 +4,8 @@ import ArrowButton from "../ui/ArrowButton.astro";
 ---
 
 <section id="contacto-cita" class="contact" aria-labelledby="contact-title">
+  <div class="contact__dim" data-contact-dim aria-hidden="true"></div>
+
   <div class="contact__inner">
     <div class="contact__header">
       <div class="contact__heading">
@@ -222,9 +224,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
 </section>
 
 <script>
-  // --- Modalidad: select de opción única con desplegable propio ---
-  // El marcado (select nativo + disparador + panel) ya está en el HTML.
-  // Este script solo lo oculta/mejora y cablea el comportamiento.
   (() => {
     const root = document.querySelector<HTMLElement>("[data-mode-select]");
     if (!root) return;
@@ -245,7 +244,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     );
     if (!options.length) return;
 
-    // En táctil se conserva el select nativo.
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     native.setAttribute("aria-hidden", "true");
@@ -375,7 +373,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
           close();
           break;
         default: {
-          // Type-ahead: salta a la opción que empieza por la letra escrita.
           if (key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
           const char = key.toLowerCase();
           const titles = options.map(
@@ -414,7 +411,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
       }
     });
 
-    // El select nativo manda: se sincroniza la vista.
     native.addEventListener("change", () => {
       const index = options.findIndex((o) => o.dataset.value === native.value);
       if (index === -1 || index === selectedIndex) return;
@@ -422,7 +418,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
       paint();
     });
 
-    // Tras form.reset() el desplegable vuelve a la opción por defecto.
     root.closest("form")?.addEventListener("reset", () => {
       requestAnimationFrame(() => {
         const index = options.findIndex(
@@ -473,6 +468,7 @@ import ArrowButton from "../ui/ArrowButton.astro";
   @use "../../styles/typography" as *;
 
   .contact {
+    position: relative;
     width: 100%;
     background: var(--color-surface-bone-dark);
     padding: $space-4xl $gutter-mobile;
@@ -480,6 +476,17 @@ import ArrowButton from "../ui/ArrowButton.astro";
     @media (min-width: $bp-lg) {
       padding-inline: $gutter-desktop;
     }
+  }
+
+  .contact__dim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: rgba(187, 196, 187, 0.3);
+    backdrop-filter: blur(0.8rem);
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
   }
 
   .contact__inner {
@@ -490,7 +497,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     gap: $space-2xl;
   }
 
-  // --- Cabecera: título a la izquierda, descripción a la derecha ---
   .contact__header {
     display: grid;
     grid-template-columns: 1fr;
@@ -537,7 +543,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Rejilla: formulario a la izquierda, imagen a la derecha ---
   .contact__grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -557,7 +562,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     min-width: 0;
   }
 
-  // --- Formulario (tarjeta clara, campos rellenos) ---
   .contact__form {
     display: flex;
     flex-direction: column;
@@ -651,7 +655,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     padding-bottom: $space-xs;
   }
 
-  // --- Modalidad: selector de opción única con desplegable propio ---
   $mode-check-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
 
   .contact__mode-select {
@@ -659,7 +662,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     display: flex;
     flex-direction: column;
 
-    // Sin JS: solo se ve el select nativo, con estilo de input.
     .contact__mode-trigger,
     .contact__mode-panel {
       display: none;
@@ -716,7 +718,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Disparador: mismo estilo que .contact__input ---
   .contact__mode-trigger {
     align-items: center;
     justify-content: space-between;
@@ -773,7 +774,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Panel desplegable ---
   .contact__mode-panel {
     position: absolute;
     top: calc(100% + 6px);
@@ -863,7 +863,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     color: var(--color-outline);
   }
 
-  // Indicador tipo casilla redondeada
   .contact__mode-check {
     width: 22px;
     height: 22px;
@@ -885,7 +884,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Consentimiento ---
   .contact__consent {
     display: flex;
     align-items: flex-start;
@@ -952,7 +950,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Feedback (éxito / error) ---
   .contact__feedback {
     display: flex;
     align-items: flex-start;
@@ -980,7 +977,6 @@ import ArrowButton from "../ui/ArrowButton.astro";
     }
   }
 
-  // --- Imagen (hueco para añadir manualmente) ---
   .contact__media {
     position: relative;
     border-radius: $radius-lg;

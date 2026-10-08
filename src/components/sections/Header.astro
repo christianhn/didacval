@@ -60,9 +60,7 @@ import { siteData } from "../../data/site";
   const hero = document.querySelector(".hero-video") as HTMLElement | null;
 
   if (!header) {
-    // sin header, nada que hacer
   } else {
-    // --- 1) Transparente sobre vídeo / sólido al salir (se mantiene igual) ---
     const setHeaderState = (isOverHero: boolean) => {
       header.classList.toggle("header--transparent", isOverHero);
       header.classList.toggle("header--solid", !isOverHero);
@@ -113,7 +111,6 @@ import { siteData } from "../../data/site";
       }
     }
 
-    // --- 2) Ocultar/mostrar con GSAP + ScrollTrigger (reemplaza rAF + clases) ---
     const showAnim = gsap
       .from(header, {
         yPercent: -100,
@@ -123,18 +120,55 @@ import { siteData } from "../../data/site";
       })
       .progress(1);
 
-    ScrollTrigger.create({
-      start: "top top",
-      end: "max",
-      onUpdate: (self) => {
-        // Siempre visible cerca del top (equivale al HIDE_AFTER anterior)
-        if (window.scrollY <= 80) {
-          showAnim.play();
-          return;
-        }
-        self.direction === -1 ? showAnim.play() : showAnim.reverse();
+    const contactSection = document.querySelector<HTMLElement>(".contact");
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("main section"),
+    );
+    const contactIndex = contactSection ? sections.indexOf(contactSection) : -1;
+    const previousSection =
+      contactIndex > 0 ? sections[contactIndex - 1] : null;
+    const previousContent =
+      (previousSection?.firstElementChild as HTMLElement | null) ??
+      previousSection;
+    console.log(previousContent);
+
+    let zone: ScrollTrigger | null = null;
+    let direction = 1;
+
+    const updateHeader = () => {
+      if (window.scrollY <= 80) {
+        showAnim.play();
+        return;
+      }
+      const inFinalZone = !!zone && (zone.isActive || zone.progress > 0);
+      if (inFinalZone) {
+        showAnim.reverse();
+        return;
+      }
+      direction === -1 ? showAnim.play() : showAnim.reverse();
+    };
+
+    let lastScrollY = window.scrollY;
+    window.addEventListener(
+      "scroll",
+      () => {
+        const y = window.scrollY;
+        if (y !== lastScrollY) direction = y < lastScrollY ? -1 : 1;
+        lastScrollY = y;
+        updateHeader();
       },
-    });
+      { passive: true },
+    );
+
+    if (previousSection) {
+      zone = ScrollTrigger.create({
+        trigger: previousContent,
+        start: "top bottom",
+        end: "max",
+        onToggle: updateHeader,
+      });
+      updateHeader();
+    }
   }
 </script>
 
@@ -151,10 +185,8 @@ import { siteData } from "../../data/site";
       backdrop-filter 0.3s ease,
       box-shadow 0.3s ease,
       border-color 0.3s ease;
-    // transform lo controla GSAP (yPercent), no hace falta transition
   }
 
-  // Estado sólido (cuando se hace scroll o sin hero video)
   .header--solid {
     background: color-mix(
       in srgb,
@@ -166,7 +198,6 @@ import { siteData } from "../../data/site";
       color-mix(in srgb, var(--color-primary) 4%, transparent);
   }
 
-  // Estado transparente sobre el video
   .header--transparent {
     background: transparent;
     backdrop-filter: none;
