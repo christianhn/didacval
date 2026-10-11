@@ -1,14 +1,19 @@
 ---
+import { Image } from "astro:assets";
+import handImg from "../../assets/ask/hand.jpg";
 import { faqData } from "../../data/faq";
 ---
 
 <section id="faq" class="faq" aria-labelledby="faq-title">
   <div class="faq__inner">
     <div class="faq__intro">
-      <img
-        src="src/assets/ask/hand.jpg"
+      <Image
+        src={handImg}
         alt="Ilustración de mano"
         class="faq__hero-image"
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 64rem) 40vw, 100vw"
+        loading="lazy"
       />
 
       <div class="faq__text-overlay">

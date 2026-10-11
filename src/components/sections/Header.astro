@@ -1,16 +1,19 @@
 ---
+import { Image } from "astro:assets";
 import { siteData } from "../../data/site";
 ---
 
 <header id="site-header" class="header header--transparent" data-header>
   <div class="header__inner">
     <div class="header__brand">
-      <img
-        class="header__logo"
+      <Image
         src={siteData.brand.logo}
         alt={siteData.brand.logoAlt}
-        width="32"
-        height="32"
+        widths={[32, 64]}
+        sizes="32px"
+        class="header__logo"
+        loading="eager"
+        decoding="sync"
       />
       <a class="header__brand-text" href="#inicio" data-path="inicio">
         <span class="header__brand-name">{siteData.brand.name}</span>

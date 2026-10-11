@@ -1,8 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import PlaceholderIcon from "./PlaceholderIcon.astro";
 
 interface Props {
-  image?: string;
+  image?: ImageMetadata;
   imageAlt?: string;
   title: string;
   kicker: string;
@@ -17,7 +19,13 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
   <div class="specialty-card__media">
     {
       image ? (
-        <img src={image} alt={imageAlt} loading="lazy" />
+        <Image
+          src={image}
+          alt={imageAlt ?? ""}
+          widths={[400, 640, 960]}
+          sizes="(min-width: 64rem) 340px, (min-width: 40rem) 50vw, 92vw"
+          loading="lazy"
+        />
       ) : (
         <PlaceholderIcon />
       )

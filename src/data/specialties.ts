@@ -1,3 +1,8 @@
+import ansiedadImg from "../assets/speciality/ansiedad.jpg";
+import parejaImg from "../assets/speciality/pareja.jpg";
+import adultsImg from "../assets/speciality/adults.jpg";
+import familyImg from "../assets/speciality/family.jpg";
+
 export const specialtiesData = {
   eyebrow: "ÁREAS DE INTERVENCIÓN",
   title: "Especialidades",
@@ -7,18 +12,15 @@ export const specialtiesData = {
     label: "Consultar tu caso sin compromiso",
     href: "#contacto-cita",
   },
-  // Cambia `image` por la ruta de tu imagen cuando la tengas.
-  // Ejemplos:
-  //   image: "/images/ansiedad.jpg"
-  //   image: import.meta.glob... o import ansiedaImg from "../assets/specialties/ansiedad.jpg"
-  // Si lo dejas como null / "" se muestra el placeholder gris con icono.
+  // `image` es un asset importado (ImageMetadata) para que <Image /> lo optimice.
+  // Si lo dejas como null se muestra el placeholder gris con icono.
   cards: [
     {
       kicker: "PRINCIPAL FOCO",
       title: "Ansiedad y gestión emocional",
       description:
         "Sientes tensión física, preocupación incesante, pánico o insomnio. O esa sensación de agobio que te bloquea en lo cotidiano.",
-      image: "src/assets/speciality/ansiedad.jpg",
+      image: ansiedadImg,
       imageAlt: "Persona con ansiedad",
       cta: { label: "Saber más de ansiedad", href: "#contacto-cita" },
     },
@@ -27,7 +29,7 @@ export const specialtiesData = {
       title: "Sexología y pareja",
       description:
         "Podemos trabajar la disfunción eréctil, el bajo deseo, las crisis de intimidad o la inseguridad, en un espacio neutral, libre de estigmas y confidencial.",
-      image: "src/assets/speciality/pareja.jpg",
+      image: parejaImg,
       imageAlt: "Pareja en terapia",
       cta: { label: "Saber más de sexología", href: "#contacto-cita" },
     },
@@ -36,7 +38,7 @@ export const specialtiesData = {
       title: "Terapia para adultos",
       description:
         "Te acompaño en la tristeza, el duelo, las rupturas afectivas, el estrés laboral, las oposiciones o los bloqueos. Y también si simplemente quieres conocerte mejor.",
-      image: "src/assets/speciality/adults.jpg",
+      image: adultsImg,
       imageAlt: "Terapia individual",
       cta: { label: "Saber más de terapia individual", href: "#contacto-cita" },
     },
@@ -45,9 +47,9 @@ export const specialtiesData = {
       title: "Terapia familiar",
       description:
         "Trabajamos los conflictos, el distanciamiento entre generaciones, la orientación académica en Bachillerato o Universidad y las dificultades de conducta.",
-      image: "src/assets/speciality/family.jpg",
+      image: familyImg,
       imageAlt: "Terapia familiar",
       cta: { label: "Saber más de terapia familiar", href: "#contacto-cita" },
     },
   ],
-} as const;
+};
