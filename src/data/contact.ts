@@ -34,7 +34,7 @@ export const contactData = {
         link: { label: "política de privacidad", href: "#" },
       },
     },
-    submit: "Enviar Solicitud de Cita",
+    submit: "Enviar mi solicitud",
     feedback:
       "Mensaje recibido correctamente. Didac Val se pondrá en contacto contigo en menos de 24 horas laborables.",
     error: "Revisa los campos obligatorios e inténtalo de nuevo.",

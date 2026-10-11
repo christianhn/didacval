@@ -2,7 +2,7 @@ export const specialtiesData = {
   eyebrow: "ÁREAS DE INTERVENCIÓN",
   title: "Especialidades",
   description:
-    "Abordaje clínico riguroso adaptado a la etapa vital, síntomas y necesidades de cada persona o familia.",
+    "Un abordaje riguroso, adaptado a la etapa vital y a las necesidades de cada persona o familia.",
   headerCta: {
     label: "Consultar tu caso sin compromiso",
     href: "#contacto-cita",
@@ -17,37 +17,37 @@ export const specialtiesData = {
       kicker: "PRINCIPAL FOCO",
       title: "Ansiedad y gestión emocional",
       description:
-        "Tensión física recurrente, preocupación incesante, pánico, insomnio y sensación de agobio que bloquea tus actividades rutinarias.",
+        "Sientes tensión física, preocupación incesante, pánico o insomnio. O esa sensación de agobio que te bloquea en lo cotidiano.",
       image: "src/assets/speciality/ansiedad.jpg",
       imageAlt: "Persona con ansiedad",
-      cta: { label: "Saber más sobre ansiedad", href: "#contacto-cita" },
+      cta: { label: "Saber más de ansiedad", href: "#contacto-cita" },
     },
     {
       kicker: "VÍNCULOS & INTIMIDAD",
       title: "Sexología y pareja",
       description:
-        "Disfunción eréctil, eyaculación precoz, bajo deseo, crisis de intimidad o inseguridad. Espacio neutral, libre de estigmas y confidencial.",
+        "Podemos trabajar la disfunción eréctil, el bajo deseo, las crisis de intimidad o la inseguridad, en un espacio neutral, libre de estigmas y confidencial.",
       image: "src/assets/speciality/pareja.jpg",
       imageAlt: "Pareja en terapia",
-      cta: { label: "Saber más sobre sexología", href: "#contacto-cita" },
+      cta: { label: "Saber más de sexología", href: "#contacto-cita" },
     },
     {
       kicker: "INDIVIDUAL",
       title: "Terapia para adultos",
       description:
-        "Acompañamiento ante estados de tristeza, duelo, ruptura afectiva, estrés laboral, oposiciones, bloqueos y búsqueda de autoconocimiento.",
+        "Te acompaño en la tristeza, el duelo, las rupturas afectivas, el estrés laboral, las oposiciones o los bloqueos. Y también si simplemente quieres conocerte mejor.",
       image: "src/assets/speciality/adults.jpg",
       imageAlt: "Terapia individual",
-      cta: { label: "Saber más sobre terapia adultos", href: "#contacto-cita" },
+      cta: { label: "Saber más de terapia individual", href: "#contacto-cita" },
     },
     {
       kicker: "FAMILIA & DESARROLLO",
       title: "Terapia familiar",
       description:
-        "Resolución de conflictos, distanciamiento generacional, orientación académica ante Bachillerato/Universidad y dificultades conductuales.",
+        "Trabajamos los conflictos, el distanciamiento entre generaciones, la orientación académica en Bachillerato o Universidad y las dificultades de conducta.",
       image: "src/assets/speciality/family.jpg",
       imageAlt: "Terapia familiar",
-      cta: { label: "Saber más sobre familias", href: "#contacto-cita" },
+      cta: { label: "Saber más de terapia familiar", href: "#contacto-cita" },
     },
   ],
 } as const;

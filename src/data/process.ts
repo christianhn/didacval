@@ -1,42 +1,42 @@
 export const processData = {
-  eyebrow: "El proceso, paso a paso",
-  title: "Cómo se estructura la terapia psicológica",
+  eyebrow: "El proceso",
+  title: "Cómo será tu proceso, paso a paso",
   description:
-    "Un proceso transparente sin terapias interminables. Cada etapa tiene un propósito medible, orientado a consolidar tu autonomía emocional.",
+    "Un proceso claro, sin terapias interminables. Cada etapa tiene un propósito y sirve para que ganes autonomía.",
   steps: [
     {
       number: "01",
       kicker: "Fase Inicial",
-      title: "Evaluación y Objetivos",
+      title: "Nos conocemos",
       description:
-        "Comprender el motivo de consulta, tu historia personal y mapear los detonantes de la tensión. Fijamos metas terapéuticas realistas.",
+        "Escuchamos tu motivo de consulta y tu historia, y vemos qué es lo que más te pesa. Fijamos juntos unos objetivos realistas.",
       metaIcon: "edit_note",
       metaText: "1-2 sesiones",
     },
     {
       number: "02",
       kicker: "Fase Diagnóstica",
-      title: "Devolución y Plan",
+      title: "Te lo explico",
       description:
-        "Te explico qué está ocurriendo a nivel psicológico y biológico. Trazamos conjuntamente la hoja de ruta clara de intervención.",
+        "Te explico qué está ocurriendo a nivel psicológico y biológico. Definimos la hoja de ruta de la intervención.",
       metaIcon: "schema",
       metaText: "1 sesión",
     },
     {
       number: "03",
       kicker: "Fase Terapéutica",
-      title: "Intervención Activa",
+      title: "Trabajamos juntos",
       description:
-        "Aplicamos estrategias psicológicas adaptadas a tu caso (cognitivo-conductuales, humanistas o integradoras) para trabajar pensamientos, emociones y patrones que generan malestar, incorporando recursos de regulación emocional y afrontamiento.",
+        "Trabajamos con estrategias adaptadas a ti (cognitivo-conductuales, humanistas o integradoras) sobre pensamientos, emociones y hábitos que te restan bienestar, con herramientas para regularte y afrontar lo que viene.",
       metaIcon: "psychology_alt",
       metaText: "Sesiones semanales",
     },
     {
       number: "04",
       kicker: "Fase de Autonomía",
-      title: "Revisión y cierre",
+      title: "Lo que te llevas",
       description:
-        "A lo largo del proceso, revisamos los avances y adaptamos el plan terapéutico. El alta se produce cuando sientes que has alcanzado tus objetivos y puedes aplicar lo aprendido en tu vida diaria.",
+        "A lo largo del proceso revisamos cómo vas y ajustamos el plan. Doy el alta cuando has alcanzado tus objetivos y puedes aplicar lo aprendido por tu cuenta.",
       metaIcon: "task_alt",
       metaText: "Quincenal → mensual",
     },

@@ -21,15 +21,15 @@ export const bentoData: BentoItem[] = [
     alt: "Persona gestionando estrés y ansiedad",
     kicker: "Área 01",
     title: "Ansiedad & Regulación",
-    subtitle: "Ataques de pánico, somatización, rumiación",
+    subtitle: "Pánico, tensión física, pensamientos que no paran",
   },
   {
     image:
       "https://lh3.googleusercontent.com/aida/AEtjO1XtQkt3Ien8OJq_ALvtPq9A74DFl5N9nva6Xjwo1SfwDK9AAUxWCx6Elz6AZ5AULH4QjVIch9MSKXcXZn4VtpJ4JUbuP_jSy3jwTMmvTxxy4HE7Du4Keqh5H4V4tnrWLX5OvQEsLSqtLTrUYnWmRrxouRkxCF3BISRG9_37_Li7YB-txuEo35BtTshwzbRql2h3mptE6qFCkFQBIdurqheg-bozks8rkjYMl8B5iundqsqpSSgCfHWm",
-    alt: "Terapia individual para adultos con sobrecarga mental",
+    alt: "Terapia individual para adultos",
     kicker: "Área 02",
     title: "Terapia de Adultos",
-    subtitle: "Crisis vitales, autoexigencia, burnout",
+    subtitle: "Momentos de cambio, autoexigencia, cansancio",
   },
   {
     image:
@@ -37,6 +37,6 @@ export const bentoData: BentoItem[] = [
     alt: "Terapia de pareja y sexología clínica",
     kicker: "Área 03",
     title: "Sexología & Pareja",
-    subtitle: "Deseo, disfunciones, reconexión afectiva",
+    subtitle: "Deseo, distancias, volver a conectar",
   },
 ];

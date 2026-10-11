@@ -3,7 +3,7 @@ export const introData = {
     icon: "medical_services",
     text: "Práctica Clínica Basada en la Evidencia",
   },
-  headline: "Atención para adultos que sienten que ya no pueden con todo.",
+  headline: "Atención para adultos en cualquier etapa de tu vida.",
   ctas: {
     primary: {
       label: "Primera valoración gratuita",

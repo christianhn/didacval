@@ -3,7 +3,7 @@ export const supportQuoteData = {
   // REVISAR CON DIDAC: confirmar dato real antes de publicar
   index: "Centro Habilitado",
   quote:
-    "El malestar emocional no es una debilidad de carácter, sino una señal de alarma psicofisiológica que requiere descodificación y herramientas sistemáticas.",
+    "Ir al psicólogo no es una debilidad de carácter, sino una decisión de dedicarle tiempo a lo que te preocupa.",
   author: {
     name: "Didac Val Capdevila",
     role: "Psicólogo Sanitario · Terapeuta de Adultos",

@@ -2,7 +2,7 @@ export const footerData = {
   brand: {
     name: "Didac Val",
     description:
-      "Atención psicológica clínica basada en la evidencia. Espacio de seguridad y rigor técnico en Zaragoza y modalidad telemática.",
+      "Atención psicológica basada en la evidencia. Un espacio seguro y con rigor técnico en Zaragoza, presencial y online.",
     status: "Consulta Activa · Citas Disponibles",
   },
   contact: {

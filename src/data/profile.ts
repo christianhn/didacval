@@ -1,9 +1,9 @@
 export const profileData = {
   eyebrow: "Psicólogo en Zaragoza",
   title: "Didac Val Capdevila",
-  subtitle: "Tu psicólogo dispuesto a cuidar de ti",
+  subtitle: "A tu lado, con criterio y cercanía",
   description:
-    "En nuestra consulta llevamos a cabo intervenciones personalizadas que se adaptan a cada persona. Establecemos objetivos de trabajo claros con el fin de modificar aquello que hace tu día a día más complicado.",
+    "En consulta trabajo contigo de forma personalizada y con objetivos claros, para que notes cambios en tu día a día.",
   tags: [
     "Ansiedad",
     "Depresión",

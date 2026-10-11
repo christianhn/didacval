@@ -1,7 +1,7 @@
 export const faqData = {
   title: "Resuelvo tus dudas",
   description:
-    "Iniciar terapia genera incertidumbres habituales. Consulta aquí las respuestas a los aspectos organizativos y clínicos fundamentales.",
+    "Empezar terapia suele generar dudas. Aquí tienes respuesta a las más habituales.",
   contactBox: {
     title: "¿Tienes una pregunta específica?",
     description: "Puedes escribir directamente por WhatsApp o llamar para resolverla personalmente.",
@@ -12,32 +12,32 @@ export const faqData = {
     {
       question: "¿Cuándo es el momento adecuado para acudir al psicólogo?",
       answer:
-        "No es necesario haber tocado fondo ni estar viviendo un colapso. Si notas que la rumiación constante, la tristeza o la tensión física interfieren con tu vida cotidiana, pedir apoyo a tiempo previene cronificaciones y acorta significativamente el tiempo de recuperación.",
+        "No hace falta esperar a tocar fondo. Si hay algo que no se va de tu cabeza, si aparece tristeza o tensión de forma repetida o si te está costando funcionar como antes, pedir apoyo pronto suele acelerar la recuperación.",
     },
     {
       question: "¿Con qué frecuencia se realizan las sesiones de terapia?",
       answer:
-        "Al inicio, la recomendación estándar es de una sesión semanal para instaurar el vínculo y activar los cambios conductuales sin dilaciones. Posteriormente, a medida que adquieres recursos y disminuyen los síntomas, las sesiones se espacian a quincenales y mensuales.",
+        "Al principio lo habitual es una sesión semanal, para ganar confianza y empezar a trabajar sin pausas. Después, según cómo evoluciones, las sesiones se espacian a quincenales y mensuales.",
     },
     {
       question: "¿Es totalmente confidencial lo hablado en consulta?",
       answer:
-        "Absolutamente sí. Toda la información vertida en sesión está amparada por el más estricto secreto profesional y el Código Deontológico del Colegio Oficial de Psicología de Aragón, garantizando máxima privacidad técnica y legal.",
+        "Sí, completamente. Todo lo que hablamos está protegido por el secreto profesional y por el Código Deontológico del Colegio Oficial de Psicología de Aragón.",
     },
     {
       question: "¿Cómo funciona la primera sesión informativa gratuita?",
       answer:
-        "Consiste en una videollamada o llamada de unos 20-30 minutos donde puedes exponerme brevemente qué te sucede, conocer mi forma de trabajar y comprobar si te sientes cómodo/a para iniciar el proceso, sin coste alguno y sin compromiso de continuidad.",
+        "Es una videollamada o una llamada de 20-30 minutos. En ella me cuentas brevemente qué te ocurre, conoces cómo trabajo y vemos si te encuentras a gusto para empezar. No tiene coste ni compromiso de continuidad.",
     },
     {
       question: "¿Qué diferencias hay entre consulta presencial y terapia online?",
       answer:
-        "Ambas modalidades cuentan con idéntico aval científico en cuanto a resultados clínicos. La sesión online ofrece el beneficio de evitar desplazamientos y adaptar mejor los horarios a tu ritmo de trabajo o cuidado familiar.",
+        "Las dos modalidades son igual de válidas. La online te ahorra desplazamientos y te permite encajar mejor las sesiones con tu trabajo o tus cuidados.",
     },
     {
       question: "¿Cuáles son los beneficios de ir al psicólogo?",
       answer:
-        "Acudir al psicólogo te permite comprender mejor lo que sientes, pensar con mayor claridad y actuar de forma más consciente. Entre los principales beneficios se encuentran: mejorar tu bienestar emocional, reducir el malestar psicológico (como ansiedad, estrés o tristeza), fortalecer tu autoestima, desarrollar habilidades para afrontar situaciones difíciles y mejorar tus relaciones personales. Además, la terapia te ofrece un espacio seguro y confidencial donde ser escuchado sin juicios y trabajar en tu crecimiento personal.",
+        "Acudir al psicólogo te ayuda a comprenderte mejor, pensar con más claridad y actuar de forma más consciente. Puede reducir tu malestar emocional (ansiedad, estrés o tristeza), fortalecer tu autoestima, aprender a afrontar situaciones difíciles y mejorar tus relaciones. Además, es un espacio seguro y confidencial donde ser escuchado sin juicios y conocerte más.",
     },
   ],
 } as const;
