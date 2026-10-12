@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { siteData } from "../../data/site";
+import MobileMenu from "../ui/MobileMenu.astro";
 ---
 
 <header id="site-header" class="header header--transparent" data-header>
@@ -49,9 +50,23 @@ import { siteData } from "../../data/site";
           <span class="material-symbols-outlined">north_east</span>
         </span>
       </a>
+      <button
+        class="header__menu-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        data-menu-trigger
+      >
+        <span>{siteData.menu.triggerLabel}</span>
+        <span class="header__menu-trigger-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">add</span>
+        </span>
+      </button>
     </div>
   </div>
 </header>
+
+<MobileMenu />
 
 <script>
   import gsap from "gsap";
@@ -360,21 +375,23 @@ import { siteData } from "../../data/site";
     gap: $space-sm;
   }
 
+  // Por debajo del breakpoint del nav el CTA no cabe junto a la marca y se
+  // traslada al final del menú lateral.
   .header__cta {
-    display: inline-flex;
+    display: none;
     align-items: center;
     padding: $space-2xs $space-2xs $space-2xs $space-lg;
     border-radius: $radius-full;
     @include text-label-pill;
     letter-spacing: 0.02em;
+    white-space: nowrap;
     transition:
       background 0.3s ease,
       color 0.3s ease,
       transform 0.15s;
 
-    @media (max-width: #{$bp-md - 0.0625rem}) {
-      padding-left: $space-md;
-      white-space: nowrap;
+    @media (min-width: $bp-md) {
+      display: inline-flex;
     }
 
     .header--solid & {
@@ -401,23 +418,16 @@ import { siteData } from "../../data/site";
   }
 
   .header__cta-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 1.5rem;
     height: 1.5rem;
     margin-left: $space-xs;
     border-radius: $radius-full;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transition:
       background 0.3s ease,
       transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
-
-    // Por debajo del breakpoint del nav (donde el CTA no compite con los
-    // enlaces) "Primera sesión gratuita" cabe en una sola línea si le damos
-    // un poco menos de aire: a 375px se partía en dos dentro de la píldora.
-    @media (max-width: #{$bp-md - 0.0625rem}) {
-      margin-left: $space-3xs;
-    }
 
     .header--solid & {
       background: color-mix(
@@ -451,8 +461,92 @@ import { siteData } from "../../data/site";
     transform: rotate(45deg);
   }
 
+  // Disparador del menú lateral. Solo en móvil; comparte la píldora del nav de
+  // escritorio para que el cambio de formato no mueva la marca de sitio.
+  .header__menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    padding: $space-2xs $space-md;
+    border: none;
+    border-radius: $radius-full;
+    @include text-label-pill;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition:
+      color 0.3s ease,
+      background 0.3s ease,
+      transform 0.15s;
+
+    @media (min-width: $bp-md) {
+      display: none;
+    }
+
+    .header--solid & {
+      color: var(--color-on-surface-variant);
+      background: color-mix(in srgb, var(--color-on-surface) 6%, transparent);
+
+      &:hover {
+        color: var(--color-on-surface);
+        background: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+      }
+    }
+
+    .header--transparent & {
+      color: color-mix(
+        in srgb,
+        var(--color-surface-container-lowest) 92%,
+        transparent
+      );
+      background: color-mix(
+        in srgb,
+        var(--color-surface-container-lowest) 16%,
+        transparent
+      );
+
+      &:hover {
+        background: color-mix(
+          in srgb,
+          var(--color-surface-container-lowest) 24%,
+          transparent
+        );
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  .header__menu-trigger-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    // El "+" gira 135º y se convierte en aspa: es la misma señal que da el
+    // botón de cerrar del panel.
+    transition: transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+
+    .material-symbols-outlined {
+      font-size: 0.875rem;
+    }
+  }
+
+  .header__menu-trigger[aria-expanded="true"] .header__menu-trigger-icon,
+  .header__menu-trigger:focus-visible .header__menu-trigger-icon {
+    transform: rotate(135deg);
+  }
+
+  @media (hover: hover) {
+    .header__menu-trigger:hover .header__menu-trigger-icon {
+      transform: rotate(135deg);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .header__cta-icon {
+    .header__cta-icon,
+    .header__menu-trigger-icon {
       transition: none;
     }
   }

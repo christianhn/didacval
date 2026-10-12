@@ -1,0 +1,405 @@
+---
+import { siteData } from "../../data/site";
+---
+
+<div class="menu" data-menu data-open="false">
+  <div class="menu__backdrop" data-menu-backdrop></div>
+
+  <div
+    class="menu__panel"
+    id="site-menu"
+    data-menu-panel
+    data-open="false"
+    tabindex="-1"
+    inert
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menú de navegación"
+  >
+    <button
+      class="menu__close"
+      type="button"
+      aria-label={siteData.menu.closeLabel}
+      data-menu-close
+    >
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
+    </button>
+
+    <nav class="menu__nav" aria-label="Navegación principal">
+      <span class="menu__col-title">{siteData.menu.eyebrow}</span>
+      {
+        siteData.nav.map((item, index) => (
+          <a
+            class:list={[
+              "menu__link",
+              { "menu__link--active": item.active },
+            ]}
+            style={`--menu-index: ${index};`}
+            href={item.href}
+            data-path={item.path}
+            aria-current={item.active ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="menu__foot">
+      <a
+        class="menu__cta"
+        href={siteData.cta.href}
+        data-path={siteData.cta.path}
+      >
+        <span class="menu__cta-label">{siteData.cta.label}</span>
+        <span class="menu__cta-icon" aria-hidden="true">
+          <span class="material-symbols-outlined">north_east</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menu = document.querySelector<HTMLElement>("[data-menu]");
+  const panel = document.querySelector<HTMLElement>("[data-menu-panel]");
+  const backdrop = document.querySelector<HTMLElement>("[data-menu-backdrop]");
+  const trigger = document.querySelector<HTMLButtonElement>("[data-menu-trigger]");
+  const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
+
+  if (menu && panel && backdrop && trigger && closeBtn) {
+    const desktop = window.matchMedia("(min-width: 48rem)");
+    // El botón de cerrar vive dentro del panel, así que también entra en la
+    // trampa de foco (va el primero en el orden de tabulación).
+    const focusables = Array.from(
+      panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
+    );
+    const links = focusables.filter(
+      (el): el is HTMLAnchorElement => el.tagName === "A",
+    );
+
+    let isOpen = false;
+
+    // El panel es `inert` mientras está cerrado: sus enlaces no entran en el
+    // orden de tabulación ni los lectores de pantalla lo recorren, aunque siga
+    // en el DOM.
+    const setInert = () => {
+      if (isOpen) panel.removeAttribute("inert");
+      else panel.setAttribute("inert", "");
+    };
+
+    const lockScroll = () => {
+      // Compensa el ancho de la barra para que el bloque no salte al bloquear.
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      document.documentElement.style.overflow = "hidden";
+    };
+
+    const unlockScroll = () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.paddingRight = "";
+    };
+
+    const open = () => {
+      if (isOpen) return;
+      isOpen = true;
+      setInert();
+      menu.dataset.open = "true";
+      panel.dataset.open = "true";
+      trigger.setAttribute("aria-expanded", "true");
+      lockScroll();
+      // El foco entra en el propio panel (y no en el botón de cerrar) para que
+      // los lectores de pantalla anuncien el diálogo sin que aparezca un anillo
+      // de foco en un elemento que el usuario no ha pulsado. El tabulador
+      // sigue dentro gracias a la trampa de más abajo.
+      panel.focus({ preventScroll: true });
+    };
+
+    const close = (restoreFocus = true) => {
+      if (!isOpen) return;
+      isOpen = false;
+      setInert();
+      menu.dataset.open = "false";
+      panel.dataset.open = "false";
+      trigger.setAttribute("aria-expanded", "false");
+      unlockScroll();
+      if (restoreFocus) trigger.focus({ preventScroll: true });
+    };
+
+    trigger.addEventListener("click", () => (isOpen ? close() : open()));
+    closeBtn.addEventListener("click", () => close());
+    backdrop.addEventListener("click", () => close());
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        close();
+        return;
+      }
+      if (!isOpen || event.key !== "Tab") return;
+
+      // Trampa de foco: sin ella el tabulador se escapa al contenido que hay
+      // detrás del overlay, que visualmente está tapado.
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    // El enlace se resuelve por su comportamiento nativo, así que primero
+    // hay que liberar el scroll o el hash no llega a mover la página.
+    links.forEach((link) => {
+      link.addEventListener("click", () => close(false));
+    });
+
+    // Al cruzar a escritorio el nav vuelve a estar en el header: el overlay se
+    // desmonta en vez de quedar abierto detrás de los enlaces.
+    desktop.addEventListener("change", (event) => {
+      if (event.matches) close(false);
+    });
+  }
+</script>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
+
+  // El menú se apoya en el mismo sistema visual que el footer: mismo fondo,
+  // mismos títulos de columna en verde y mayúscula, mismos enlaces en cuerpo
+  // con subrayado al pasar el ratón. Solo el CTA conserva el tratamiento de
+  // botón del header, porque es una acción y no cronometría.
+  @mixin menu-label {
+    @include text-caption-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    color: var(--color-on-secondary-container);
+  }
+
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: $z-menu;
+    pointer-events: none;
+
+    @media (min-width: $bp-md) {
+      display: none;
+    }
+  }
+
+  .menu__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-primary) 42%, transparent);
+    backdrop-filter: blur(0.375rem) saturate(115%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .menu__panel {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(20rem, 84vw);
+    display: flex;
+    flex-direction: column;
+    padding: $space-lg $gutter-mobile $gutter-mobile;
+    background: var(--color-surface-container-low);
+    box-shadow: -0.25rem 0 2rem
+      color-mix(in srgb, var(--color-primary) 8%, transparent);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    transform: translateX(100%);
+    // Al cerrar, `visibility` espera a que termine el deslizamiento para no
+    // cortar el panel a media salida.
+    transition:
+      transform 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0.45s;
+
+    // Recibe el foco al abrir para que el diálogo se anuncie. Sin anillo: no
+    // es un control que el usuario haya pulsado.
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .menu__close {
+    @include focus-ring;
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: $space-lg;
+    border: none;
+    border-radius: $radius-full;
+    background: none;
+    color: var(--color-on-surface-variant);
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background: var(--color-surface-bone);
+      color: var(--color-on-surface);
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.25rem;
+    }
+  }
+
+  .menu__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+  }
+
+  .menu__col-title {
+    @include menu-label;
+    // El título comparte separación con los enlaces, pero un poco menos para
+    // que se lea como encabezado y no como una entrada más de la lista.
+    margin-bottom: $space-xs;
+  }
+
+  .menu__link {
+    @include text-body-lg;
+    @include focus-ring;
+    color: var(--color-on-surface-variant);
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-outline-variant);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.2s,
+      text-decoration-color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-on-surface);
+    }
+
+    // Sección actual: el mismo tratamiento que `footer__link--strong`.
+    &--active {
+      color: var(--color-on-surface);
+      font-weight: 500;
+    }
+  }
+
+  .menu__foot {
+    margin-top: $space-2xl;
+  }
+
+  .menu__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-md;
+    padding: $space-2xs $space-2xs $space-2xs $space-lg;
+    border-radius: $radius-full;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    @include text-body-base;
+    @include focus-ring;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      background 0.3s ease,
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+
+    &:hover {
+      background: var(--color-accent-strong);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .menu__cta-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: $radius-full;
+    background: color-mix(in srgb, var(--color-on-primary) 16%, transparent);
+    transition: transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+
+    .material-symbols-outlined {
+      font-size: 1rem;
+      color: var(--color-on-primary);
+    }
+  }
+
+  @media (hover: hover) {
+    .menu__cta:hover .menu__cta-icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  .menu__cta:focus-visible .menu__cta-icon {
+    transform: rotate(45deg);
+  }
+
+  // ---------- Estado abierto ----------
+  .menu[data-open="true"] {
+    pointer-events: auto;
+
+    .menu__backdrop {
+      opacity: 1;
+    }
+
+    .menu__panel {
+      visibility: visible;
+      transform: translateX(0);
+      transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    // Entrada escalonada: cada enlace se asienta un poco después del anterior.
+    .menu__link {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: calc(0.1s + var(--menu-index) * 0.04s);
+    }
+
+    .menu__cta {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.32s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu__backdrop,
+    .menu__panel,
+    .menu__link,
+    .menu__cta,
+    .menu__cta-icon {
+      transition: none;
+    }
+
+    .menu__link,
+    .menu__cta {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

@@ -121,3 +121,6 @@ $bp-xl: 80rem;
 // ---------- Z-index ----------
 $z-footer: 40;
 $z-header: 50;
+// El menú lateral se dibuja por encima del header: si compartieran capa, el
+// panel quedaría recortado por el `backdrop-filter` del header sólido.
+$z-menu: 60;
