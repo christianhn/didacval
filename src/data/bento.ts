@@ -20,7 +20,7 @@ export const bentoData: BentoItem[] = [
       "https://lh3.googleusercontent.com/aida/AEtjO1XQK7PLwZczdGYI09yn1jCXBwX0sbC4gDRbSGsVmjxaCclKSAn332bIjFmBqoBsfrjuNBlbrYUULN8LPubg7xur1BohUHyVIrV6yPSpiNysyMm653NcoV4TJYfzdDr2MCGbkfZSwdYAeFllbmxAclutve0QtUmAmzqd0SKPqp-nPHwAdigwWkQR_JwvOK9x3HYhc1g-WHPAGHqN567AJi113fVe_odiedzrvv9EGtWolYyQkERKtU6a",
     alt: "Persona gestionando estrés y ansiedad",
     kicker: "Área 01",
-    title: "Ansiedad & Regulación",
+    title: "Ansiedad y estrés",
     subtitle: "Pánico, tensión física, pensamientos que no paran",
   },
   {
@@ -28,15 +28,15 @@ export const bentoData: BentoItem[] = [
       "https://lh3.googleusercontent.com/aida/AEtjO1XtQkt3Ien8OJq_ALvtPq9A74DFl5N9nva6Xjwo1SfwDK9AAUxWCx6Elz6AZ5AULH4QjVIch9MSKXcXZn4VtpJ4JUbuP_jSy3jwTMmvTxxy4HE7Du4Keqh5H4V4tnrWLX5OvQEsLSqtLTrUYnWmRrxouRkxCF3BISRG9_37_Li7YB-txuEo35BtTshwzbRql2h3mptE6qFCkFQBIdurqheg-bozks8rkjYMl8B5iundqsqpSSgCfHWm",
     alt: "Terapia individual para adultos",
     kicker: "Área 02",
-    title: "Terapia de Adultos",
+    title: "Terapia individual",
     subtitle: "Momentos de cambio, autoexigencia, cansancio",
   },
   {
     image:
       "https://lh3.googleusercontent.com/aida/AEtjO1U5URfFDTcC6H3Oi7qdwvVOyhk2GYq9rUpl-lvVaiYbwYypnPfYT2nD44V925J7z8fp9jbPbn9iPFbixHAyLIXkaMrepihk3MrsmmQa4WI-emqeYVkBqDJ9YLTCKZCO_LTSn1xQP60B86JPmejhFkv1Ab9DavNGmtzq84jHASZfaEdwDvwAXBV9mxDbHyVhC7-DqdYjF7oHQ0cp2GoWIowGDzVJ1YxOZgI0Qv3OFe1J2CVIe0aevIZv",
-    alt: "Terapia de pareja y sexología clínica",
+    alt: "Sexología e intimidad",
     kicker: "Área 03",
-    title: "Sexología & Pareja",
-    subtitle: "Deseo, distancias, volver a conectar",
+    title: "Sexología",
+    subtitle: "Deseo, confianza y timidez en la intimidad",
   },
 ];

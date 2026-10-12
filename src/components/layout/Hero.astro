@@ -1,16 +1,24 @@
 ---
 import { heroData } from "../../data/hero";
-import { profileData } from "../../data/profile";
+import { introData } from "../../data/intro";
+import { specialtiesData } from "../../data/specialties";
 import natureVideo from "../../assets/hero/nature2.mp4";
+import naturePoster from "../../assets/hero/nature2-poster.webp";
+
+// El hero sólo enseña las tres primeras especialidades; la cuarta se queda en
+// su propia sección.
+const features = specialtiesData.cards.slice(0, 3);
 ---
 
-<section class="hero-video" aria-labelledby="hero-title">
+<section id="inicio" class="hero-video" aria-labelledby="hero-title">
   <video
     class="hero-video__media"
-    autoplay
+    data-hero-video
     muted
     playsinline
+    loop
     preload="metadata"
+    poster={naturePoster.src}
     aria-hidden="true"
   >
     <source src={natureVideo} type="video/mp4" />
@@ -23,20 +31,43 @@ import natureVideo from "../../assets/hero/nature2.mp4";
   <div class="hero-video__content">
     <div class="hero-video__text">
       <h1 id="hero-title" class="hero-video__title">
-        <span class="hero-video__eyebrow">{profileData.eyebrow}</span>
-        <span class="hero-video__title-main">{heroData.title.line1}</span>
-        <span class="hero-video__title-accent">{heroData.title.line2}</span>
+        <span class="hero-video__eyebrow">{heroData.eyebrow}</span>
+        <span class="hero-video__title-main" data-hero-title
+          >{heroData.title}</span
+        >
       </h1>
     </div>
-  </div>
 
-  <!-- Indicador scroll sutil -->
-  <a class="hero-video__scroll" href="#intro" aria-label="Seguir leyendo">
-    <span>Sigue leyendo</span>
-    <span class="material-symbols-outlined" aria-hidden="true"
-      >keyboard_arrow_down</span
-    >
-  </a>
+    <div class="hero-video__bottom">
+      <ul class="hero-video__features" data-hero-features>
+        {
+          features.map((item) => (
+            <li class="hero-video__feature">
+              <span class="hero-video__feature-icon" aria-hidden="true">
+                <span class="material-symbols-outlined">{item.icon}</span>
+              </span>
+              <div class="hero-video__feature-body">
+                <h2 class="hero-video__feature-title">{item.title}</h2>
+                <p class="hero-video__feature-text">{item.short}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="hero-video__pitch" data-hero-pitch>
+        <h2 class="hero-video__pitch-headline">{introData.headline}</h2>
+        <a class="hero-video__cta" href={introData.ctas.primary.href}>
+          <span>{introData.ctas.primary.label}</span>
+          <span class="hero-video__cta-icon" aria-hidden="true">
+            <span class="material-symbols-outlined"
+              >{introData.ctas.primary.icon}</span
+            >
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style lang="scss">
@@ -46,13 +77,20 @@ import natureVideo from "../../assets/hero/nature2.mp4";
   .hero-video {
     position: relative;
     width: 100%;
-    height: 100vh;
-    min-height: 35rem;
+    // min-height en vez de height: en escritorio da exactamente 100vh, pero en
+    // móviles estrechos el bloque de texto (titular + botones + pills) puede
+    // medir más que la pantalla y con height fijo se recortaba por el
+    // overflow: hidden.
+    min-height: max(100vh, 35rem);
     overflow: hidden;
     isolation: isolate;
     display: flex;
     align-items: center;
     background: var(--color-surface-dark);
+
+    @media (max-width: 48rem) {
+      height: 110vh;
+    }
   }
 
   .hero-video__media {
@@ -76,17 +114,34 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     background:
       linear-gradient(
         90deg,
-        rgba(10, 11, 10, 0.72) 0%,
-        rgba(10, 11, 10, 0.55) 36%,
-        rgba(10, 11, 10, 0.18) 68%,
+        rgba(10, 11, 10, 0.44) 0%,
+        rgba(10, 11, 10, 0.42) 40%,
+        rgba(10, 11, 10, 0.18) 66%,
         rgba(10, 11, 10, 0.06) 100%
       ),
       linear-gradient(
         to bottom,
-        rgba(10, 11, 10, 0.38) 0%,
-        rgba(10, 11, 10, 0) 28%,
-        rgba(10, 11, 10, 0.22) 100%
+        rgba(10, 11, 10, 0.36) 0%,
+        rgba(10, 11, 10, 0.06) 35%,
+        rgba(10, 11, 10, 0.36) 100%
       );
+
+    // En móvil el titular ocupa todo el ancho: la sombra horizontal por la
+    // izquierda deja de ayudar, así que se refuerza la vertical.
+    @media (max-width: 48rem) {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(10, 11, 10, 0.44) 0%,
+          rgba(10, 11, 10, 0.42) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(10, 11, 10, 0.34) 0%,
+          rgba(10, 11, 10, 0.24) 40%,
+          rgba(10, 11, 10, 0.36) 100%
+        );
+    }
   }
 
   .hero-video__vignette {
@@ -95,8 +150,8 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     z-index: -1;
     background: radial-gradient(
       ellipse at center,
-      transparent 56%,
-      rgba(0, 0, 0, 0.22) 100%
+      transparent 62%,
+      rgba(0, 0, 0, 0.12) 100%
     );
     pointer-events: none;
   }
@@ -106,14 +161,21 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     max-width: $container-max;
     margin-inline: auto;
     padding-inline: $gutter-mobile;
-    padding-top: 5rem; // compensa header fixed
-    // centrado vertical, alineado a la izquierda
+    // Composición de tres zonas: titular arriba del todo, y la fila inferior
+    // (especialidades a la izquierda, propuesta + CTA a la derecha) pegada al
+    // borde. space-between reparte las dos sin tocar el centrado vertical.
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $space-2xl;
     min-height: 100vh;
+    padding-top: 8rem; // header fixed (5rem) + aire
+    padding-bottom: $space-2xl;
 
     @media (min-width: $bp-lg) {
       padding-inline: $gutter-desktop;
+      padding-top: 9.5rem;
+      padding-bottom: $space-2xl;
     }
   }
 
@@ -122,6 +184,10 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     display: flex;
     flex-direction: column;
     gap: $space-md;
+
+    @media (max-width: 48rem) {
+      margin-top: 5svh;
+    }
   }
 
   .hero-video__title {
@@ -130,25 +196,11 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     margin: 0;
     text-wrap: balance;
     text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.35);
-    line-height: 3.75rem;
-    letter-spacing: -0.3125rem;
-
-    @media (max-width: 48rem) {
-      font-size: 2.5rem;
-      line-height: 2.625rem;
-    }
-
-    @media (max-width: 30rem) {
-      font-size: 2rem;
-      line-height: 2.125rem;
-    }
+    line-height: 0.9375;
   }
 
   .hero-video__eyebrow {
-    @include eyebrow(
-      $color: rgba(255, 255, 255, 0.82),
-      $tracking: 0.22em
-    );
+    @include eyebrow($color: rgba(255, 255, 255, 0.82), $tracking: 0.22em);
     display: block;
     font-size: 0.6875rem;
     line-height: 1;
@@ -168,51 +220,162 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     font-weight: 500;
   }
 
-  .hero-video__title-accent {
-    display: block;
-    font-style: italic;
-    font-weight: 300;
-    color: var(--color-warm-sand);
-    margin-top: 0.12em;
-    text-shadow: 0 0.125rem 1.125rem rgba(0, 0, 0, 0.35);
+  // El módulo con GSAP llega después del primer paint: sin esto se ve el
+  // titular montado un instante antes de que empiece la animación.
+  :global(.js) .hero-video__title-main {
+    visibility: hidden;
   }
 
-  .hero-video__scroll {
-    position: absolute;
-    left: 50%;
-    bottom: $space-lg;
-    transform: translateX(-50%);
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.125rem;
-    color: rgba(255, 255, 255, 0.9);
-    @include text-caption-micro;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-    opacity: 0.9;
-    transition: opacity 0.2s ease;
+  // La máscara de cada letra recorta a la altura de la caja (line-height
+  // 0.9375), que es más baja que el signo: sin este margen las descendentes
+  // de la "p" y la "j" salían cortadas en el estado final.
+  :global(.hero-video__char-mask) {
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
 
-    &:hover {
-      opacity: 1;
+  .hero-video__bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: $space-lg;
+    align-items: end;
+    margin-bottom: 15svh;
+
+    // Las tres especialidades y la propuesta no caben en móvil: abajo del
+    // titular sólo queda la propuesta y el CTA.
+    @media (min-width: 62rem) {
+      grid-template-columns: minmax(0, 21rem) minmax(0, 38rem);
+      justify-content: space-between;
+      gap: $space-3xl;
+      margin-bottom: 0;
     }
+  }
+
+  .hero-video__features {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: $space-lg;
+
+    @media (min-width: 62rem) {
+      display: flex;
+    }
+  }
+
+  .hero-video__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+  }
+
+  .hero-video__feature-icon {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: $radius-full;
+    background: rgba(255, 255, 255, 0.14);
 
     .material-symbols-outlined {
-      font-size: 1.125rem;
-      animation: hero-bounce 1.6s ease-in-out infinite;
+      font-size: 1.25rem;
+      color: #fff;
     }
   }
 
-  @keyframes hero-bounce {
-    0%,
-    100% {
-      transform: translateY(0);
-      opacity: 1;
+  .hero-video__feature-title {
+    @include text-label-pill;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    color: #fff;
+    margin: 0 0 0.125rem;
+    text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-video__feature-text {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.72);
+    text-wrap: pretty;
+    text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-video__pitch {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-lg;
+
+    @media (min-width: 62rem) {
+      align-items: flex-end;
     }
-    50% {
-      transform: translateY(0.25rem);
-      opacity: 0.85;
+  }
+
+  .hero-video__pitch-headline {
+    margin: 0;
+    max-width: auto;
+    font-weight: 500;
+    font-size: clamp(1.75rem, 1.15rem + 2.4vw, 3.25rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: #fff;
+    text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.35);
+
+    @media (min-width: 62rem) {
+      text-wrap: balance;
+      max-width: 22ch;
+      text-align: right;
+      margin-left: auto;
+    }
+  }
+
+  .hero-video__cta {
+    display: inline-flex;
+    align-items: center;
+    border-radius: $radius-full;
+    @include text-label-pill;
+    background: #fff;
+    color: #0a0b0a;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.18);
+    transition: background 0.2s;
+
+    padding: $space-2xs $space-2xs $space-2xs $space-lg;
+  }
+
+  .hero-video__cta-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-left: $space-xs;
+    border-radius: $radius-full;
+    background: #0a0b0a;
+    transition: transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+
+    .material-symbols-outlined {
+      font-size: 0.9375rem;
+      color: #fff;
+    }
+  }
+
+  @media (hover: hover) {
+    .hero-video__cta:hover .hero-video__cta-icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  .hero-video__cta:focus-visible .hero-video__cta-icon {
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video__cta-icon {
+      transition: none;
     }
   }
 
@@ -220,44 +383,106 @@ import natureVideo from "../../assets/hero/nature2.mp4";
     .hero-video__media {
       transition: none;
     }
-    .hero-video__scroll .material-symbols-outlined {
-      animation: none;
-    }
   }
 </style>
 
 <script>
-  const video = document.querySelector<HTMLVideoElement>(".hero-video__media");
+  import gsap from "gsap";
+  import { SplitText } from "gsap/SplitText";
+
+  gsap.registerPlugin(SplitText);
+
+  const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+
   if (video) {
-    const FADE_SEC = 0.5;
-    const PLAY_SEC = 1;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-    video.muted = true;
-    video.playbackRate = PLAY_SEC;
-    video.play().catch(() => {});
+    // Con movimiento reducido el vídeo se queda en el poster: sin autoplay,
+    // sin bucle y sin los cambios de opacidad del final.
+    if (reducedMotion) {
+      video.removeAttribute("loop");
+      video.pause();
+    } else {
+      const FADE_SEC = 0.5;
+      const PLAY_SEC = 1;
 
-    video.addEventListener("timeupdate", () => {
-      if (!video.duration || Number.isNaN(video.duration)) return;
-      const timeLeft = video.duration - video.currentTime;
-      if (timeLeft <= FADE_SEC && timeLeft > 0.05) {
-        video.style.opacity = "0";
-      }
-    });
-
-    video.addEventListener("ended", () => {
-      video.currentTime = 0;
-      void video.offsetWidth;
-      video.style.opacity = "1";
+      video.muted = true;
       video.playbackRate = PLAY_SEC;
       video.play().catch(() => {});
+
+      video.addEventListener("timeupdate", () => {
+        if (!video.duration || Number.isNaN(video.duration)) return;
+        const timeLeft = video.duration - video.currentTime;
+        if (timeLeft <= FADE_SEC && timeLeft > 0.05) {
+          video.style.opacity = "0";
+        }
+      });
+
+      video.addEventListener("seeked", () => {
+        if (video.currentTime < 0.2) {
+          requestAnimationFrame(() => {
+            video.style.opacity = "1";
+          });
+        }
+      });
+    }
+  }
+
+  // El titular entra letra a letra de izquierda a derecha, ascendiendo desde
+  // su línea como una ola. "mask: chars" es lo que hace el recorte: cada
+  // letra sube desde debajo de su propia caja en vez de fundirse.
+  // "words" además de "chars" porque cada letra es un inline-block: sin el
+  // envoltorio de palabra el navegador parte palabras ("Comprenderte p / ara").
+  const titleMain = document.querySelector<HTMLElement>("[data-hero-title]");
+
+  if (
+    titleMain &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    const split = new SplitText(titleMain, {
+      type: "chars,words",
+      mask: "chars",
+      charsClass: "hero-video__char",
     });
 
-    video.addEventListener("seeked", () => {
-      if (video.currentTime < 0.2) {
-        requestAnimationFrame(() => {
-          video.style.opacity = "1";
-        });
-      }
+    // El titular se pinta oculto desde el CSS (para no ver un flash del texto
+    // ya montado antes de que el módulo cargue); aquí se desbloquea en el
+    // mismo frame en que GSAP deja los caracteres en opacity 0.
+    titleMain.style.visibility = "visible";
+
+    gsap.from(split.chars, {
+      // La máscara es algo más alta que la letra (padding-bottom para las
+      // descendentes), así que el punto de partida no es 100% sino lo que
+      // hace falta para esconderla del todo.
+      yPercent: (_i, char) => {
+        const charHeight = (char as HTMLElement).offsetHeight || 1;
+        const maskHeight =
+          (char as HTMLElement).parentElement?.offsetHeight || charHeight;
+        return (maskHeight / charHeight) * 100;
+      },
+      duration: 0.8,
+      stagger: 0.035,
+      ease: "power3.out",
     });
+
+    // La fila de abajo entra un poco después, para no competir con el titular.
+    const bottom = document.querySelectorAll<HTMLElement>(
+      "[data-hero-features] > li, [data-hero-pitch]",
+    );
+
+    if (bottom.length) {
+      gsap.from(bottom, {
+        y: 16,
+        opacity: 0,
+        duration: 0.7,
+        delay: 0.5,
+        stagger: 0.07,
+        ease: "power3.out",
+      });
+    }
+  } else {
+    titleMain?.style.removeProperty("visibility");
   }
 </script>

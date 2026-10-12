@@ -82,8 +82,11 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     isolation: isolate;
     outline: none;
 
+    // 4 columnas a partir de 64rem: con textos largos (4-5 líneas) el bloque
+    // que se revela al hacer hover necesita ~15.5rem bajo la imagen, que al
+    // ancho mínimo del breakpoint (225px de tarjeta) no cabía en 29rem.
     @media (min-width: $bp-lg) {
-      height: 29rem;
+      height: 31rem;
     }
   }
 
@@ -233,16 +236,19 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .specialty-card:hover,
-    .specialty-card:focus-within {
-      .specialty-card__media {
-        top: 0.625rem;
-        left: 0.625rem;
-        right: 0.625rem;
-        height: 55%;
-        border-radius: 0.75rem;
-        @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
-      }
+      .specialty-card:hover,
+      .specialty-card:focus-within {
+        .specialty-card__media {
+          top: 0.625rem;
+          left: 0.625rem;
+          right: 0.625rem;
+          // 46% en vez del 55% original: con textos largos (5-7 líneas en el
+          // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
+          // subía encima de la foto y el kicker dejaba de leerse.
+          height: 46%;
+          border-radius: 0.75rem;
+          @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
+        }
 
       .specialty-card__media img {
         transform: scale(1.02);

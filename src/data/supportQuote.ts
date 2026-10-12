@@ -6,7 +6,7 @@ export const supportQuoteData = {
     "Ir al psicólogo no es una debilidad de carácter, sino una decisión de dedicarle tiempo a lo que te preocupa.",
   author: {
     name: "Didac Val Capdevila",
-    role: "Psicólogo Sanitario · Terapeuta de Adultos",
+    role: "Psicólogo · Terapeuta de Adultos",
     icon: "psychology",
   },
 } as const;

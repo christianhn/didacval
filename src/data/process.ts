@@ -2,44 +2,44 @@ export const processData = {
   eyebrow: "El proceso",
   title: "Cómo será tu proceso, paso a paso",
   description:
-    "Un proceso claro, sin terapias interminables. Cada etapa tiene un propósito y sirve para que ganes autonomía.",
+    "No hay un número de sesiones cerrado: depende de cada caso y lo vamos viendo contigo. Estas son las cuatro fases, no un paquete. Cada etapa tiene un propósito y te acerca a la autonomía.",
   steps: [
     {
       number: "01",
-      kicker: "Fase Inicial",
+      kicker: "Inicio",
       title: "Nos conocemos",
       description:
-        "Escuchamos tu motivo de consulta y tu historia, y vemos qué es lo que más te pesa. Fijamos juntos unos objetivos realistas.",
+        "Me cuentas qué te trae y qué es lo que más te pesa. Definimos juntos unos objetivos realistas.",
       metaIcon: "edit_note",
-      metaText: "1-2 sesiones",
+      metaText: "Para situarnos",
     },
     {
       number: "02",
-      kicker: "Fase Diagnóstica",
+      kicker: "Comprensión",
       title: "Te lo explico",
       description:
-        "Te explico qué está ocurriendo a nivel psicológico y biológico. Definimos la hoja de ruta de la intervención.",
+        "Te explico con palabras claras qué te está pasando y cómo vamos a trabajarlo. Sales con un plan.",
       metaIcon: "schema",
-      metaText: "1 sesión",
+      metaText: "Para entenderte",
     },
     {
       number: "03",
-      kicker: "Fase Terapéutica",
+      kicker: "Trabajo",
       title: "Trabajamos juntos",
       description:
-        "Trabajamos con estrategias adaptadas a ti (cognitivo-conductuales, humanistas o integradoras) sobre pensamientos, emociones y hábitos que te restan bienestar, con herramientas para regularte y afrontar lo que viene.",
+        "Aplicamos estrategias adaptadas a ti sobre tus pensamientos, emociones y hábitos, y practicas herramientas para el día a día.",
       metaIcon: "psychology_alt",
-      metaText: "Sesiones semanales",
+      metaText: "Para practicarlo",
     },
     {
       number: "04",
-      kicker: "Fase de Autonomía",
+      kicker: "Autonomía",
       title: "Lo que te llevas",
       description:
-        "A lo largo del proceso revisamos cómo vas y ajustamos el plan. Doy el alta cuando has alcanzado tus objetivos y puedes aplicar lo aprendido por tu cuenta.",
+        "Revisamos tus avances y espaciamos las sesiones poco a poco. Termino cuando ya puedes aplicar lo aprendido por tu cuenta.",
       metaIcon: "task_alt",
-      metaText: "Quincenal → mensual",
+      metaText: "Para dejarlo en tus manos",
     },
   ],
-  note: "¡Y recuerda! La terapia no es solo para momentos de crisis: también es una vía para conocerte mejor, tomar decisiones con claridad y vivir de forma más plena.",
+  note: "La terapia no es solo para momentos de crisis. También sirve para conocerte mejor y decidir con más claridad.",
 } as const;

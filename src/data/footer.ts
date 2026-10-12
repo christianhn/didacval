@@ -1,36 +1,40 @@
 export const footerData = {
   brand: {
     name: "Didac Val",
-    description:
-      "Atención psicológica basada en la evidencia. Un espacio seguro y con rigor técnico en Zaragoza, presencial y online.",
-    status: "Consulta Activa · Citas Disponibles",
+    description: "Psicólogo en Zaragoza. Terapia presencial y online.",
+    status: "Agenda abierta",
   },
   contact: {
     title: "Ubicación & Contacto",
-    address: ["Paseo Sagasta 17, Principal", "50008 Zaragoza"],
+    // TODO con Didac: confirmar la planta exacta. La web antigua
+    // (didacvalpsicologo.es) decía "entresuelo izquierda" y aquí aparecía
+    // "Principal". Hasta que lo confirme, todas las variantes de la web usan
+    // "entresuelo izquierda".
+    address: ["Paseo de Sagasta 17, entresuelo izquierda", "50008 Zaragoza"],
     phone: { label: "+34 622 58 85 60", href: "tel:+34622588560" },
-    email: { label: "didacvalpsicologia@gmail.com", href: "mailto:didacvalpsicologia@gmail.com" },
+    email: {
+      label: "didacvalpsicologia@gmail.com",
+      href: "mailto:didacvalpsicologia@gmail.com",
+    },
   },
   links: {
     title: "Áreas de trabajo",
     items: [
-      { label: "Ansiedad & Regulación", href: "#" },
-      // REVISAR CON DIDAC: confirmar dato real antes de publicar
-      { label: "Trauma & Apego", href: "#" },
-      // REVISAR CON DIDAC: confirmar dato real antes de publicar
-      { label: "Terapia de Pareja", href: "#" },
-      { label: "Metodología Integradora", href: "#" },
+      { label: "Ansiedad y estrés", href: "#areas-clinicas" },
+      { label: "Sexología", href: "#areas-clinicas" },
+      { label: "Terapia individual", href: "#areas-clinicas" },
+      { label: "Adolescentes y familia", href: "#areas-clinicas" },
     ],
   },
   legal: {
     title: "Colegiación & Registro",
-    // REVISAR CON DIDAC: confirmar dato real antes de publicar
     collegiate: ["Col. Nº A-03214", "Colegio Oficial de Psicología de Aragón"],
-    // REVISAR CON DIDAC: confirmar dato real antes de publicar
+    // TODO con Didac: "Centro Sanitario Autorizado" ya estaba en la web, pero
+    // falta el nº de registro sanitario que lo respalda. Confirmar antes de
+    // publicar; si no, quitarlo.
     note: "Centro Sanitario Autorizado",
   },
   bottom: {
-    copyright: "© 2024 Didac Val Psicólogo. Todos los derechos reservados.",
     links: [
       { label: "Aviso Legal", href: "#" },
       { label: "Política de Privacidad", href: "#" },

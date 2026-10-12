@@ -1,6 +1,4 @@
 export const heroData = {
-  title: {
-    line1: "Comprenderte para sentirte mejor.",
-    line2: "Conocerte para decidir mejor.",
-  },
+  eyebrow: "Psicólogo en Zaragoza",
+  title: "Comprenderte para sentirte mejor.",
 } as const;

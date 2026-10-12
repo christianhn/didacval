@@ -20,7 +20,7 @@ export const editorialData = {
       { label: "Modalidad", value: "Presencial en Zaragoza & Online" },
     ],
     cta: {
-      label: "Reservar mi primera cita",
+      label: "Solicitar mi primera sesión",
       href: "#contacto-cita",
       icon: "calendar_month",
     },

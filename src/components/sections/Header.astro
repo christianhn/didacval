@@ -114,14 +114,19 @@ import { siteData } from "../../data/site";
       }
     }
 
+    // Arranca oculto arriba del todo (progress 0). Lo usa tanto la entrada inicial
+    // como el show/hide al hacer scroll.
     const showAnim = gsap
       .from(header, {
         yPercent: -100,
         paused: true,
-        duration: 0.5,
-        ease: "power2.out",
+        duration: 0.6,
+        ease: "power3.out",
+        onStart: () => {
+          header.style.visibility = "visible";
+        },
       })
-      .progress(1);
+      .progress(0);
 
     const contactSection = document.querySelector<HTMLElement>(".contact");
     const sections = Array.from(
@@ -137,8 +142,12 @@ import { siteData } from "../../data/site";
 
     let zone: ScrollTrigger | null = null;
     let direction = 1;
+    // Hasta que pasa la entrada inicial el scroll no toca el header: si no,
+    // el primer evento de scroll de Lenis lo adelantaría.
+    let settled = false;
 
     const updateHeader = () => {
+      if (!settled) return;
       if (window.scrollY <= 80) {
         showAnim.play();
         return;
@@ -170,8 +179,16 @@ import { siteData } from "../../data/site";
         end: "max",
         onToggle: updateHeader,
       });
-      updateHeader();
     }
+
+    // Entrada: el header baja desde arriba un poco después del primer paint,
+    // para que no compita con el arranque del titular del hero.
+    gsap.delayedCall(0.2, () => {
+      header.style.visibility = "visible";
+      showAnim.play();
+      settled = true;
+      updateHeader();
+    });
   }
 </script>
 
@@ -188,6 +205,12 @@ import { siteData } from "../../data/site";
       backdrop-filter 0.3s ease,
       box-shadow 0.3s ease,
       border-color 0.3s ease;
+  }
+
+  // El módulo con GSAP llega después del primer paint: sin esto el header se
+  // vería quieto un instante antes de empezar a bajar.
+  :global(.js) [data-header] {
+    visibility: hidden;
   }
 
   .header--solid {
@@ -347,6 +370,11 @@ import { siteData } from "../../data/site";
       color 0.3s ease,
       transform 0.15s;
 
+    @media (max-width: #{$bp-md - 0.0625rem}) {
+      padding-left: $space-md;
+      white-space: nowrap;
+    }
+
     .header--solid & {
       background: var(--color-primary);
       color: var(--color-on-primary);
@@ -381,6 +409,13 @@ import { siteData } from "../../data/site";
     transition:
       background 0.3s ease,
       transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+
+    // Por debajo del breakpoint del nav (donde el CTA no compite con los
+    // enlaces) "Primera sesión gratuita" cabe en una sola línea si le damos
+    // un poco menos de aire: a 375px se partía en dos dentro de la píldora.
+    @media (max-width: #{$bp-md - 0.0625rem}) {
+      margin-left: $space-3xs;
+    }
 
     .header--solid & {
       background: color-mix(

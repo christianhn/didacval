@@ -1,12 +1,8 @@
 export const introData = {
-  eyebrow: {
-    icon: "medical_services",
-    text: "Práctica Clínica Basada en la Evidencia",
-  },
-  headline: "Atención para adultos en cualquier etapa de tu vida.",
+  headline: "Un espacio para entender lo que te pasa y decidir cómo seguir.",
   ctas: {
     primary: {
-      label: "Primera valoración gratuita",
+      label: "Primera sesión informativa gratuita",
       href: "#contacto-cita",
       icon: "north_east",
     },

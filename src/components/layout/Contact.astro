@@ -30,40 +30,10 @@ import ArrowButton from "../ui/ArrowButton.astro";
                 class="contact__input"
                 type="text"
                 id="form-name"
+                name="name"
                 placeholder={contactData.form.fields.name.placeholder}
                 required
                 autocomplete="name"
-              />
-            </div>
-            <div class="contact__field">
-              <label class="contact__label" for="form-phone">
-                {contactData.form.fields.phone.label}
-                <span class="contact__required" aria-hidden="true">*</span>
-              </label>
-              <input
-                class="contact__input"
-                type="tel"
-                id="form-phone"
-                placeholder={contactData.form.fields.phone.placeholder}
-                required
-                autocomplete="tel"
-              />
-            </div>
-          </div>
-
-          <div class="contact__row">
-            <div class="contact__field">
-              <label class="contact__label" for="form-email">
-                {contactData.form.fields.email.label}
-                <span class="contact__required" aria-hidden="true">*</span>
-              </label>
-              <input
-                class="contact__input"
-                type="email"
-                id="form-email"
-                placeholder={contactData.form.fields.email.placeholder}
-                required
-                autocomplete="email"
               />
             </div>
 
@@ -152,6 +122,40 @@ import ArrowButton from "../ui/ArrowButton.astro";
             </div>
           </div>
 
+          <div class="contact__row">
+            <div class="contact__field">
+              <label class="contact__label" for="form-email">
+                {contactData.form.fields.email.label}
+                <span class="contact__required" aria-hidden="true">*</span>
+              </label>
+              <input
+                class="contact__input"
+                type="email"
+                id="form-email"
+                name="email"
+                placeholder={contactData.form.fields.email.placeholder}
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="contact__field">
+              <label class="contact__label" for="form-phone">
+                {contactData.form.fields.phone.label}
+                <span class="contact__required" aria-hidden="true">*</span>
+              </label>
+              <input
+                class="contact__input"
+                type="tel"
+                id="form-phone"
+                name="phone"
+                placeholder={contactData.form.fields.phone.placeholder}
+                required
+                autocomplete="tel"
+              />
+            </div>
+          </div>
+
           <div class="contact__field">
             <label class="contact__label" for="form-message">
               {contactData.form.fields.message.label}
@@ -159,12 +163,13 @@ import ArrowButton from "../ui/ArrowButton.astro";
             <textarea
               class="contact__input contact__textarea"
               id="form-message"
+              name="message"
               placeholder={contactData.form.fields.message.placeholder}
               rows="3"></textarea>
           </div>
 
           <label class="contact__consent" for="form-consent">
-            <input type="checkbox" id="form-consent" required />
+            <input type="checkbox" id="form-consent" name="consent" required />
             <span>
               {contactData.form.fields.consent.text}{" "}
               <a href={contactData.form.fields.consent.link.href}>

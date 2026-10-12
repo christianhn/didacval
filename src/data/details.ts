@@ -20,11 +20,11 @@ export interface DetailsSectionData {
 // (p. ej. "#contacto-cita?motivo=orientacion") y lo use para precargar el
 // motivo del mensaje, usarlo en el CTA de cabecera de la sección.
 export const detailsData: DetailsSectionData = {
-  eyebrow: "MÁS INFORMACIÓN",
-  title: "Áreas en detalle",
-  description: "Tres áreas de trabajo que te explico una a una.",
+  eyebrow: "Más información",
+  title: "Tres situaciones muy concretas",
+  description: "Las que más veo en consulta.",
   headerCta: {
-    label: "Consultar tu caso sin compromiso",
+    label: "Consultar mi caso",
     href: "#contacto-cita",
   },
   items: [
@@ -34,9 +34,9 @@ export const detailsData: DetailsSectionData = {
       title: "Orientación académica",
       subtitle: "Tu decisión, con calma",
       bullets: [
-        "Repasamos juntos todas tus opciones",
+        "Repasamos juntos tus opciones",
         "Separamos lo que quieres de lo que se espera de ti",
-        "Decides con más criterio y sin ruido",
+        "Decides con más criterio y menos ruido",
       ],
     },
     {
@@ -56,9 +56,9 @@ export const detailsData: DetailsSectionData = {
       title: "Adolescentes",
       subtitle: "Un espacio donde sí te escuchan",
       bullets: [
-        "Tu autoestima y tus decisiones",
-        "La ansiedad y el estado de ánimo",
-        "La relación con la familia y con los amigos",
+        "Autoestima y toma de decisiones",
+        "Ansiedad y estado de ánimo",
+        "Relación con la familia y los amigos",
       ],
     },
   ],
