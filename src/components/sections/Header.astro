@@ -209,8 +209,10 @@ import { siteData } from "../../data/site";
 
   // El módulo con GSAP llega después del primer paint: sin esto el header se
   // vería quieto un instante antes de empezar a bajar.
-  :global(.js) [data-header] {
-    visibility: hidden;
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    [data-header] {
+      visibility: hidden;
+    }
   }
 
   .header--solid {

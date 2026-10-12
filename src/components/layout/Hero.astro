@@ -220,10 +220,21 @@ const features = specialtiesData.cards.slice(0, 3);
     font-weight: 500;
   }
 
-  // El módulo con GSAP llega después del primer paint: sin esto se ve el
-  // titular montado un instante antes de que empiece la animación.
-  :global(.js) .hero-video__title-main {
-    visibility: hidden;
+  // El módulo con GSAP llega después del primer paint, así que todo lo que él
+  // anima se oculta por CSS desde el principio: si no, el titular y la fila de
+  // abajo se verían montados un instante antes de entrar.
+  // El gate de `scripting` evita depender de ninguna clase puesta por JS, y el
+  // de `prefers-reduced-motion` deja el contenido visible siempre que no haya
+  // animación, aunque el módulo no llegue a cargarse.
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .hero-video__title-main {
+      visibility: hidden;
+    }
+
+    [data-hero-features] > li,
+    [data-hero-pitch] {
+      visibility: hidden;
+    }
   }
 
   // La máscara de cada letra recorta a la altura de la caja (line-height
@@ -322,7 +333,7 @@ const features = specialtiesData.cards.slice(0, 3);
     font-size: clamp(1.75rem, 1.15rem + 2.4vw, 3.25rem);
     line-height: 1.06;
     letter-spacing: -0.03em;
-    color: #fff;
+    color: #ffffffd6;
     text-shadow: 0 0.125rem 1.25rem rgba(0, 0, 0, 0.35);
 
     @media (min-width: 62rem) {
@@ -437,6 +448,8 @@ const features = specialtiesData.cards.slice(0, 3);
   // envoltorio de palabra el navegador parte palabras ("Comprenderte p / ara").
   const titleMain = document.querySelector<HTMLElement>("[data-hero-title]");
 
+  // Con movimiento reducido el CSS no oculta nada, así que no hay que
+  // desmontar nada: simplemente no hay animación.
   if (
     titleMain &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -447,9 +460,6 @@ const features = specialtiesData.cards.slice(0, 3);
       charsClass: "hero-video__char",
     });
 
-    // El titular se pinta oculto desde el CSS (para no ver un flash del texto
-    // ya montado antes de que el módulo cargue); aquí se desbloquea en el
-    // mismo frame en que GSAP deja los caracteres en opacity 0.
     titleMain.style.visibility = "visible";
 
     gsap.from(split.chars, {
@@ -468,9 +478,15 @@ const features = specialtiesData.cards.slice(0, 3);
     });
 
     // La fila de abajo entra un poco después, para no competir con el titular.
+    // `from` pinta el estado inicial en el mismo tick en que se crea, así que
+    // desbloquear aquí no produce flash.
     const bottom = document.querySelectorAll<HTMLElement>(
       "[data-hero-features] > li, [data-hero-pitch]",
     );
+
+    bottom.forEach((el) => {
+      el.style.visibility = "visible";
+    });
 
     if (bottom.length) {
       gsap.from(bottom, {
@@ -482,7 +498,5 @@ const features = specialtiesData.cards.slice(0, 3);
         ease: "power3.out",
       });
     }
-  } else {
-    titleMain?.style.removeProperty("visibility");
   }
 </script>
