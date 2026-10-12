@@ -65,6 +65,12 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   line-height: 1.2;
   letter-spacing: -0.125rem;
   font-weight: 500;
+
+  @media (max-width: 64rem) {
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    letter-spacing: -0.02em;
+  }
 }
 
 @mixin text-body-lg {
