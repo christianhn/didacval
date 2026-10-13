@@ -85,6 +85,7 @@ const structured = [
 
 <style lang="scss">
   @use "../styles/variables" as *;
+  @use "../styles/scale" as *;
 
   .page-main {
     display: flex;
@@ -93,5 +94,19 @@ const structured = [
     // escritorio: si bajara, las migas de pan de las subpáginas (lo primero que
     // hay bajo el header) quedarían tapadas.
     padding-top: 5rem;
+  }
+
+  // La FAQ y el formulario son componentes globales, pensados para la landing, y
+  // llevan 104px de padding vertical también en móvil. Aquí se les aplica la
+  // escala de secciones de las subpáginas: si no, el ritmo se rompe justo en el
+  // último tramo de la página, que es donde más se nota.
+  //
+  // Un selector por id gana a los estilos con ámbito de componente de Astro
+  // (`.faq[data-astro-cid-…]`), así que no hace falta tocar ninguno de los dos.
+  // `:global()` es necesario porque esas dos `<section>` se pintan desde sus
+  // propios componentes y no heredan el ámbito de este layout.
+  .page-main :global(#faq),
+  .page-main :global(#contacto-cita) {
+    @include section-block;
   }
 </style>

@@ -14,26 +14,18 @@ export const familiarPage: PageContent = {
   hero: {
     eyebrow: "Adolescentes y familia",
     title: "Terapia familiar y adolescentes en Zaragoza",
-    subtitle: "Recuperar el diálogo en casa, sin buscar culpables.",
+    // El subtítulo absorbe lo que era la sección de introducción: si el hero
+    // no dice de qué va la terapia, la primera sección arranca con un titular
+    // que no tiene nada que sostener.
+    subtitle:
+      "Un espacio para entender qué está pasando en casa y recuperar el diálogo entre padres e hijos, sin buscar culpables.",
     image: familyImg,
-    imageAlt: "Conversación tranquila entre dos personas de la misma familia",
+    imageAlt: "Una familia con su bebé pasando tiempo junta",
     breadcrumbLabel: "Terapia familiar y adolescentes",
   },
 
   blocks: [
-    {
-      kind: "text",
-      data: {
-        id: "intro",
-        title: "La adolescencia cambia la casa entera",
-        paragraphs: [
-          "La adolescencia es una etapa de cambios intensos que puede traer conflictos, incomprensión y tensión en casa. La terapia familiar ofrece un espacio para entender qué está pasando y mejorar la comunicación entre padres e hijos.",
-        ],
-        layout: "aside",
-        tone: "bone",
-      },
-    },
-
+    // ---- 1. Contenedor beige redondeado (una sola vez por página) --------
     {
       kind: "rows",
       data: {
@@ -41,16 +33,15 @@ export const familiarPage: PageContent = {
         eyebrow: "¿Cuándo puede ayudar?",
         title: "Cuando el diálogo en casa se ha roto",
         description:
-          "No hace falta esperar a que la situación sea grave para pedir ayuda: si la incomprensión se repite, pedir ayuda pronto suele ahorrar meses.",
-        variant: "panel",
+          "No hace falta esperar a que la situación sea grave: si la incomprensión se repite, pedir ayuda pronto suele ahorrar meses.",
         items: [
           {
             icon: "forum",
-            kicker: "En casa",
-            title: "Conflictos frecuentes entre padres e hijos",
+            kicker: "Entre padres e hijos",
+            title: "Conflictos que siempre acaban igual",
             bullets: [
-              "Discusiones que acaban siempre igual",
-              "Órdenes que no se cumplen y la casa se convierte en un campo de batalla",
+              "Discusiones que terminan en la misma discusión",
+              "Órdenes que no se cumplen",
               "Distancia afectiva en lugar de diálogo",
             ],
           },
@@ -67,98 +58,96 @@ export const familiarPage: PageContent = {
             icon: "psychology",
             kicker: "También puede ayudar",
             title: "Ansiedad o bajo estado de ánimo",
-            subtitle:
-              "Si lo principal es el malestar del adolescente, esa parte tiene su propia página.",
             href: serviceRoutes.ansiedad.path,
-            ctaLabel: serviceRoutes.ansiedad.short,
+            ctaLabel: serviceRoutes.ansiedad.label,
+            bullets: [
+              "Ataques de pánico o miedo constante",
+              "Insomnio y agotamiento",
+            ],
           },
           {
             icon: "diversity_3",
             kicker: "Cambios de estructura",
             title: "Crisis o cambios familiares",
             bullets: [
-              "Separaciones y nuevas estructuras familiares",
-              "Mudanzas, losses y duelos en la familia",
+              "Separaciones y nuevas estructuras",
+              "Mudanzas, losses y duelos",
             ],
           },
         ],
       },
     },
 
+    // ---- 2. Secuencia numerada -------------------------------------------
     {
-      kind: "text",
+      kind: "steps",
       data: {
         id: "como-trabajamos",
         eyebrow: "Cómo trabajamos",
-        title: "Tres cosas, en este orden",
-        paragraphs: [
+        title: "Cómo trabajamos con tu familia",
+        description:
           "No buscamos culpables: buscamos entender cómo se han construido ciertos patrones y encontrar otras formas de convivir.",
+        tone: "base",
+        steps: [
+          {
+            number: "01",
+            kicker: "Empezar",
+            title: "Identificar el origen",
+            description:
+              "Cada conflicto repetido tiene una historia detrás. El primer paso es entender qué lo alimenta y qué lo mantiene.",
+          },
+          {
+            number: "02",
+            kicker: "En medio",
+            title: "Mejorar el diálogo",
+            description:
+              "Cambiar la forma de hablarse dentro de casa es lo que abre la puerta: los acuerdos duran cuando se sostienen entre todos.",
+          },
+          {
+            number: "03",
+            kicker: "Después",
+            title: "Fortalecer los vínculos",
+            description:
+              "Lo que se trabaja termina marcando cómo se relaciona la familia, también cuando la terapia ya ha terminado.",
+          },
         ],
-        bullets: [
-          "Identificar el origen del conflicto",
-          "Mejorar los canales de diálogo",
-          "Fortalecer los vínculos",
-        ],
-        tone: "canvas",
       },
     },
 
+    // ---- 3. Dos columnas -------------------------------------------------
+    // Sin imagen: `family.jpg` es la del hero y repetirla dentro de la misma
+    // página es justo lo que hace que una sección parezca un relleno. Con dos
+    // columnas de texto el bloque mantiene el peso que pide un H2 de la escala.
     {
       kind: "split",
       data: {
         id: "con-adolescentes",
         eyebrow: "Con adolescentes",
         title: "Trabajo individual y familiar, según el caso",
-        paragraphs: [
-          "Cuando tiene sentido, combino el trabajo individual con sesiones familiares: es la vía para que el adolescente se sienta escuchado de verdad, sin que su decisión dependa de que sus padres autoricen el tratamiento. La confidencialidad con menores es una parte más del trabajo, y se explica siempre antes de empezar.",
-        ],
-        image: familyImg,
-        imageAlt: "Adolescente y adulto hablando en la consulta",
-        tone: "soft",
-        footnote:
-          "Confidencialidad con menores: lo que cuenta el adolescente se trata con el mismo cuidado que cualquier otro contenido de consulta.",
-        // TODO confirmar con Didac: el protocolo real de confidencialidad con
-        // menores y qué se comparte con los padres. Es la respuesta a una de las
-        // preguntas de las FAQ de abajo, y no debe publicarse sin su respuesta.
-      },
-    },
-
-    {
-      kind: "rows",
-      data: {
-        id: "orientacion-academica",
-        eyebrow: "Además",
-        title: "Orientación académica",
         description:
-          "Otra de las áreas donde más se me pide ayuda: las decisiones de Bachillerato, Grados y Universidad.",
-        variant: "full",
-        items: [
-          {
-            icon: "compass",
-            kicker: "Bachillerato",
-            title: "Repasamos juntos tus opciones",
-            bullets: [
-              "Separamos lo que quieres de lo que se espera de ti",
-              "Decides con más criterio y menos ruido",
-            ],
-          },
-          {
-            icon: "school",
-            kicker: "Grados y Universidad",
-            title: "Elegir carrera sin decidir en caliente",
-            bullets: [
-              "Qué te pide cada opción de verdad",
-              "Cómo encaja con tus tiempos",
-            ],
-          },
-        ],
-        cta: {
-          label: "Ver el bloque de la web principal",
+          "Cuando tiene sentido, combino sesiones individuales con sesiones familiares. No es un protocolo cerrado: se decide en la primera sesión.",
+        link: {
+          label: "Ver también orientación académica",
           href: "/#areas-clinicas",
+        },
+        tone: "soft",
+        lead: [
+          "El adolescente necesita un espacio que no dependa de la autorización de sus padres para ser escuchado. Por eso el trabajo individual suele ir por delante: es la vía para que pueda decir lo que no dice en casa.",
+        ],
+        column: {
+          kicker: "Confidencialidad",
+          title: "Lo que cuenta se trata como cualquier otro contenido de consulta",
+          paragraphs: [
+            "Se explica siempre antes de empezar, con el adolescente delante. Los padres reciben información sobre el proceso y el objetivo, nunca el detalle de lo que se ha contado.",
+            // TODO confirmar con Didac: el protocolo real de confidencialidad
+            //   con menores y qué se comparte con los padres. Es también la
+            //   respuesta a una de las preguntas de la FAQ de abajo.
+          ],
         },
       },
     },
 
+    // ---- 4. FAQ -----------------------------------------------------------
     {
       kind: "faq",
       data: {
@@ -167,8 +156,6 @@ export const familiarPage: PageContent = {
         title: "Dudas de las familias",
         description:
           "Las preguntas que más se repiten en la primera sesión con padres y adolescentes.",
-        // TODO confirmar con Didac: la respuesta sobre qué se comparte con los
-        //   padres debe ser la real, no una formulación genérica.
         items: [
           {
             question: "¿Tiene que venir toda la familia?",
@@ -198,20 +185,14 @@ export const familiarPage: PageContent = {
         ],
       },
     },
-
-    {
-      kind: "cta",
-      data: {
-        title: "Recuperar el diálogo es posible",
-        description:
-          "Una primera sesión informativa, gratuita y sin compromiso, para entender qué está pasando y por dónde empezar.",
-      },
-    },
   ],
 
+  // La banda de CTA que cerraba la página antes ("Recuperar el diálogo es
+  // posible") ya no existe: el CTA está en el hero y en el formulario, que es lo
+  // único que debe empujar a la conversión. La sección de orientación académica
+  // también: vive en la landing y aquí queda un enlace en la cabecera de
+  // "Con adolescentes".
+
   // TODO confirmar con Didac:
-  // - Protocolo de confidencialidad con menores y qué se comparte con los
-  //   padres (afecta a la FAQ y al bloque "Con adolescentes").
-  // - Confirmar el tono del bloque de orientación académica: aquí se ha
-  //   mantenido la línea de la web antigua, sin copiar su maquetación.
+  // - Protocolo de confidencialidad con menores y qué se comparte con los padres.
 };

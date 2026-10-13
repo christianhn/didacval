@@ -1,0 +1,208 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "./Section.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+/**
+ * Bloque de dos columnas al 50 %. Con imagen, la imagen va a un lado y el texto
+ * al otro; en usos consecutivos se alterna el lado.
+ *
+ * Sin imagen (cuando no hay una segunda foto adecuada en la página y repetir la
+ * del hero no vale) las dos columnas son de texto: mismo ancho, mismo ritmo, y
+ * la sección sigue teniendo el peso que necesita un H2 de la escala.
+ */
+export interface SplitColumn {
+  kicker?: string;
+  title: string;
+  paragraphs: readonly string[];
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  link?: { label: string; href: string };
+  /** Texto de la columna principal (la de la izquierda si `direction` es text-start). */
+  lead: readonly string[];
+  /** Columna secundaria. Sólo tiene sentido sin imagen. */
+  column?: SplitColumn;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /** `text-start`: la imagen va a la derecha. `media-start`: a la izquierda. */
+  direction?: "text-start" | "media-start";
+  tone?: "base" | "soft";
+  /** Nota al pie de la columna de texto. */
+  footnote?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  link,
+  lead,
+  column,
+  image,
+  imageAlt = "",
+  direction = "text-start",
+  tone = "base",
+  footnote,
+} = Astro.props;
+
+const titleId = `${id ?? "split"}-title`;
+---
+
+<Section id={id} tone={tone} labelledBy={titleId}>
+  <SectionHeader
+    id={titleId}
+    eyebrow={eyebrow}
+    title={title}
+    description={description}
+    link={link}
+  />
+
+  <div
+    class:list={[
+      "split-image__grid",
+      `split-image__grid--${direction}`,
+      { "split-image__grid--no-media": !image },
+    ]}
+  >
+    <div class="split-image__text">
+      {lead.map((paragraph) => <p class="split-image__paragraph">{paragraph}</p>)}
+
+      {footnote && <p class="split-image__footnote">{footnote}</p>}
+    </div>
+
+    {
+      column && (
+        <div class="split-image__column">
+          {column.kicker && (
+            <span class="split-image__column-kicker">{column.kicker}</span>
+          )}
+          <h3 class="split-image__column-title">{column.title}</h3>
+          {column.paragraphs.map((paragraph) => (
+            <p class="split-image__paragraph">{paragraph}</p>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      image && (
+        <div class="split-image__media">
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 64rem) 46vw, 100vw"
+            loading="lazy"
+            class="split-image__image"
+          />
+        </div>
+      )
+    }
+  </div>
+</Section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  .split-image__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $split-gap-sm;
+    align-items: center;
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: $split-columns;
+      gap: $split-gap;
+    }
+  }
+
+  .split-image__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+    min-width: 0;
+  }
+
+  .split-image__paragraph {
+    @include type-body;
+    margin: 0;
+    max-width: 34rem;
+    color: var(--color-on-surface-variant);
+    text-wrap: pretty;
+  }
+
+  .split-image__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-2xs;
+    min-width: 0;
+  }
+
+  .split-image__column-kicker {
+    @include type-kicker;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .split-image__column-title {
+    @include type-h3;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .split-image__footnote {
+    @include type-small;
+    margin: 0;
+    max-width: 34rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  .split-image__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: $image-radius;
+    background: var(--color-surface-subtle);
+    aspect-ratio: 4 / 3;
+
+    @media (min-width: $bp-lg) {
+      aspect-ratio: 5 / 4;
+    }
+  }
+
+  .split-image__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  // Dos columnas de texto: se alinean arriba, no al centro. Centradas, la más
+  // corta queda flotando en mitad de su columna.
+  .split-image__grid--no-media {
+    @media (min-width: $bp-lg) {
+      align-items: start;
+    }
+  }
+
+  // La imagen cambia de lado, el texto no: el ojo siempre entra por la izquierda.
+  .split-image__grid--media-start {
+    @media (min-width: $bp-lg) {
+      .split-image__media {
+        order: -1;
+      }
+    }
+  }
+</style>

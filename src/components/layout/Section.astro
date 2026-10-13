@@ -1,0 +1,51 @@
+---
+/**
+ * Wrapper único de sección. Todas las secciones de las subpáginas salen de aquí:
+ * mismo `padding-block`, mismo contenedor, mismas superficies.
+ */
+interface Props {
+  id?: string;
+  /** base #f1efe9 · soft #faf9f6 · panel #dedcd5 */
+  tone?: "base" | "soft" | "panel";
+  /** `id` del H2 que titula la sección, para `aria-labelledby`. */
+  labelledBy?: string;
+  class?: string;
+}
+
+const { id, tone = "base", labelledBy, class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["section", `section--${tone}`, className]}
+  aria-labelledby={labelledBy}
+>
+  <div class="section__inner">
+    <slot />
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  .section {
+    @include section-block;
+  }
+
+  .section--base {
+    @include surface(base);
+  }
+
+  .section--soft {
+    @include surface(soft);
+  }
+
+  .section--panel {
+    @include surface(panel);
+  }
+
+  .section__inner {
+    @include section-inner;
+  }
+</style>

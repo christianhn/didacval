@@ -42,7 +42,7 @@ export const quienSoyPage: PageContent = {
     },
 
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "como-trabajo",
         eyebrow: "Cómo trabajo",
@@ -81,7 +81,7 @@ export const quienSoyPage: PageContent = {
     },
 
     {
-      kind: "split",
+      kind: "split-legacy",
       data: {
         id: "la-consulta",
         eyebrow: "La consulta",

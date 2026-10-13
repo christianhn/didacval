@@ -46,7 +46,7 @@ export const ansiedadPage: PageContent = {
 
     // ------------------------------------------------- cómo se manifiesta
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "como-se-manifiesta",
         eyebrow: "Cómo se manifiesta",
@@ -103,7 +103,7 @@ export const ansiedadPage: PageContent = {
 
     // -------------------------------------------------------- cómo trabajamos
     {
-      kind: "split",
+      kind: "split-legacy",
       data: {
         id: "como-trabajamos",
         eyebrow: "Cómo trabajamos la ansiedad",
@@ -126,7 +126,7 @@ export const ansiedadPage: PageContent = {
 
     // ----------------------------------------------------- primera sesión
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "primera-sesion",
         eyebrow: "Tu primera sesión",

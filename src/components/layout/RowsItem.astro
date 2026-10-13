@@ -1,0 +1,183 @@
+---
+import RowIcon from "../ui/RowIcon.astro";
+
+/**
+ * Una fila de `RowsContainer`. Siempre la misma estructura: icono + kicker +
+ * título a la izquierda, 2-3 viñetas a la derecha.
+ *
+ * No admite texto libre ni enlaces dentro del cuerpo: si una fila lleva a otra
+ * página, el enlace va en el título, que es la cabecera de la fila. Sin viñetas
+ * la fila pierde la segunda columna, que si no se reservaría vacía y descuadraría
+ * el bloque.
+ */
+export interface RowsItem {
+  icon?: string;
+  kicker?: string;
+  title: string;
+  /** Convierte el título en enlace (filas que son páginas). */
+  href?: string;
+  /** Etiqueta del enlace que acompaña al título cuando `href` está. */
+  ctaLabel?: string;
+  bullets: readonly string[];
+}
+
+interface Props extends RowsItem {}
+
+const { icon, kicker, title, href, ctaLabel, bullets } = Astro.props;
+---
+
+<li class="rows-item">
+  {
+    icon && (
+      <span class="rows-item__icon" aria-hidden="true">
+        <RowIcon name={icon} />
+      </span>
+    )
+  }
+
+  <div class="rows-item__main">
+    {kicker && <span class="rows-item__kicker">{kicker}</span>}
+    <h3 class="rows-item__title">
+      {
+        href ? (
+          <a class="rows-item__link" href={href}>
+            {title}
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    {
+      href && ctaLabel && (
+        <span class="rows-item__cta">
+          {ctaLabel}
+          <span class="material-symbols-outlined" aria-hidden="true">
+            north_east
+          </span>
+        </span>
+      )
+    }
+  </div>
+
+  {
+    bullets?.length > 0 && (
+      <ul class="rows-item__bullets">
+        {bullets.map((bullet) => (
+          <li>{bullet}</li>
+        ))}
+      </ul>
+    )
+  }
+</li>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  .rows-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-sm;
+    padding-block: $space-lg;
+    border-top: $hairline;
+
+    @media (min-width: $bp-md) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: $space-xl;
+      align-items: center;
+    }
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: $row-icon minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: $row-gap;
+      padding-block: $row-pad;
+    }
+  }
+
+  .rows-item__icon {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: $row-icon;
+    height: $row-icon;
+    flex-shrink: 0;
+    border: 0.0625rem solid var(--color-outline-variant);
+    border-radius: $radius-full;
+    color: var(--color-secondary);
+
+    @media (min-width: $bp-lg) {
+      display: inline-flex;
+    }
+  }
+
+  .rows-item__main {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+    min-width: 0;
+  }
+
+  .rows-item__kicker {
+    @include type-kicker;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .rows-item__title {
+    @include type-h3;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .rows-item__link {
+    color: inherit;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-outline-variant);
+    transition:
+      color 0.2s,
+      text-decoration-color 0.2s;
+
+    &:hover {
+      color: var(--color-secondary);
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-secondary);
+    }
+  }
+
+  .rows-item__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-3xs;
+    margin-top: $space-3xs;
+    @include type-small;
+    font-weight: 600;
+    color: var(--color-secondary);
+
+    .material-symbols-outlined {
+      font-size: 0.9375rem;
+    }
+  }
+
+  .rows-item__bullets {
+    margin: 0;
+    padding-left: $space-md;
+    list-style-type: disc;
+    list-style-position: outside;
+    min-width: 0;
+
+    li {
+      @include type-body;
+      color: var(--color-on-surface-variant);
+
+      & + li {
+        margin-top: $space-2xs;
+      }
+
+      &::marker {
+        color: var(--color-secondary);
+      }
+    }
+  }
+</style>

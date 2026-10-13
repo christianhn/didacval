@@ -1,0 +1,217 @@
+// ==========================================
+// Escala cerrada de las subpáginas
+// ==========================================
+//
+// Envuelve mixins que YA existen en `_typography.scss`: no introduce ningún valor
+// tipográfico nuevo. Todos proceden de la medición de la landing a 1440 px y
+// 390 px (ver DESIGN_SPEC.md §1).
+//
+// Regla de uso: en las subpáginas no se escribe ningún `font-size`, `font-weight`,
+// `line-height` ni `letter-spacing` literal. Se aplica uno de estos cinco roles.
+// Los tamaños que quedan fuera de la escala (número "01", círculo de flecha,
+// radios) son constantes de componente, no estilos de texto.
+
+@use "variables" as *;
+@use "typography" as *;
+
+// -------------------------------------------------------------
+// 1. Tipografía — cinco roles
+// -------------------------------------------------------------
+
+// Rol 1 · display. H1 de subpágina. 64 px / 44.8 px, w500.
+@mixin type-display {
+  @include text-display-hero;
+}
+
+// Rol 2 · H2. Idéntico en TODAS las secciones y en TODAS las páginas.
+// 55 px / 30 px, w500. Un H2 nunca se reduce "porque es un CTA".
+@mixin type-h2 {
+  @include text-headline-xl;
+}
+
+// Rol 3 · H3. Título de fila, de tarjeta y de pregunta.
+// 32 px en escritorio / 22 px en móvil, w500.
+@mixin type-h3 {
+  @include text-headline-sm;
+
+  @media (min-width: $bp-lg) {
+    @include text-headline-lg;
+  }
+}
+
+// Rol 4 · cuerpo. Párrafo, viñeta y descripción de cabecera.
+// 16 px / 26 px, w400, #444845. Nada de cuerpo pequeño ni de gris claro.
+@mixin type-body {
+  @include text-body-lg;
+}
+
+// Rol 5 · pequeño. Nota al pie y etiqueta de enlace. 13 px / 19 px.
+@mixin type-small {
+  @include text-body-sm;
+}
+
+// Rol 5 · kicker. Etiqueta en mayúsculas: 10 px, w600, tracking 0.1em, #44694a.
+@mixin type-kicker {
+  @include eyebrow(var(--color-eyebrow-accent));
+}
+
+// -------------------------------------------------------------
+// 2. Ritmo vertical — dos valores
+// -------------------------------------------------------------
+
+// 104 px en escritorio: el `padding-block` que repiten Perfil, FAQ y Contacto
+// en la landing.
+$section-pad: $space-4xl;
+
+// 72 px en móvil: el de la sección Perfil a 390 px.
+$section-pad-sm: $space-3xl;
+
+// Separación entre la cabecera de una sección (kicker + H2 + descripción) y su
+// contenido. 48 px / 32 px, medidos en Details, FAQ y Contact.
+$section-head-gap: 3rem;
+$section-head-gap-sm: 2rem;
+
+// `padding-block` de toda sección de subpágina.
+@mixin section-block {
+  padding-block: $section-pad-sm;
+
+  @media (min-width: $bp-lg) {
+    padding-block: $section-pad;
+  }
+}
+
+// -------------------------------------------------------------
+// 3. Wrapper y cabecera de sección
+// -------------------------------------------------------------
+
+// Un único contenedor para todas las secciones: 90 rem de ancho máximo, margen
+// lateral de 32 px en escritorio y 20 px en móvil.
+@mixin section-inner {
+  max-width: $container-max;
+  margin-inline: auto;
+  padding-inline: $gutter-mobile;
+  width: 100%;
+
+  @media (min-width: $bp-lg) {
+    padding-inline: $gutter-desktop;
+  }
+}
+
+// Una única `SectionHeader`: kicker arriba, H2 debajo, descripción corta a la
+// izquierda y enlace/acción opcional a la derecha.
+@mixin section-header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  margin-bottom: $section-head-gap-sm;
+
+  @media (min-width: $bp-lg) {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: $space-xl;
+    margin-bottom: $section-head-gap;
+  }
+}
+
+// El grupo de la izquierda: kicker + H2 + descripción.
+@mixin section-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $space-xs;
+  min-width: 0;
+  max-width: 40rem;
+}
+
+@mixin section-title {
+  @include type-h2;
+  margin: 0;
+  color: var(--color-on-surface);
+  text-wrap: balance;
+}
+
+@mixin section-description {
+  @include type-body;
+  margin: 0;
+  max-width: 34rem;
+  color: var(--color-on-surface-variant);
+  text-wrap: pretty;
+}
+
+// El enlace de la derecha: 13 px, w600, subrayado que aparece al pasar por encima.
+@mixin section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3xs;
+  flex-shrink: 0;
+  align-self: flex-start;
+  white-space: nowrap;
+  @include type-small;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  padding-bottom: 2px;
+  border-bottom: 0.0625rem solid transparent;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+
+  &:hover {
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+  }
+
+  .material-symbols-outlined {
+    font-size: 0.9375rem;
+  }
+}
+
+// -------------------------------------------------------------
+// 4. Superficies
+// -------------------------------------------------------------
+
+// Tres superficies y nada más. El panel beige redondeado se usa una sola vez por
+// página: es el RowsContainer. `Contact` pone la suya (componento global).
+$surface-base: var(--color-surface-bone); // #f1efe9
+$surface-soft: var(--color-surface); // #faf9f6
+$surface-panel: var(--color-surface-bone-dark); // #dedcd5
+
+@mixin surface($tone) {
+  @if $tone == base {
+    background: $surface-base;
+  } @else if $tone == soft {
+    background: $surface-soft;
+  } @else if $tone == panel {
+    background: $surface-panel;
+  } @else {
+    @error "Tono de sección desconocido: #{inspect($tone)}. Usa base, soft o panel.";
+  }
+}
+
+// -------------------------------------------------------------
+// 5. Constantes de componente (medidas, no escala de texto)
+// -------------------------------------------------------------
+
+// Contenedor beige redondeado ("Tres situaciones").
+$panel-inset: $space-2xl; // 3rem a los lados en escritorio
+$panel-radius: $radius-lg; // 1.5rem
+
+// Filas: línea fina punteada, como en la landing.
+$hairline: 0.0625rem dashed var(--color-outline-variant); // 1px dashed #c4c7c4
+$row-gap: $space-xl; // 2rem entre columnas de la fila
+$row-pad: $space-xl; // 2rem de padding vertical de la fila
+$row-icon: 3.5rem; // caja circular del icono
+
+// Tarjetas numeradas (patrón "01/02/03").
+$card-pad: $space-xl; // 2rem
+$card-radius: 1.25rem; // 20px
+$card-gap: $space-xl; // 2rem entre tarjetas
+$card-gap-sm: $space-lg; // 1.5rem en móvil
+$card-number-size: 2.6rem; // el "01"
+$card-number-width: 2.75rem;
+
+// Rejillas de dos columnas.
+$split-columns: minmax(0, 1fr) minmax(0, 1fr);
+$split-gap: $space-3xl; // 4.5rem
+$split-gap-sm: $space-xl; // 2rem
+$image-radius: 0.75rem; // el de las tarjetas de especialidad de la landing

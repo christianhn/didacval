@@ -6,6 +6,18 @@ import ArrowButton from "../ui/ArrowButton.astro";
 import { siteData } from "../../data/site";
 import type { Crumb } from "../../data/structuredData";
 
+/**
+ * Hero compacto de subpágina: migas, kicker, H1, subtítulo, CTA con círculo de
+ * flecha, enlace de llamada y una imagen.
+ *
+ * El subtítulo absorbe la que antes era una sección de introducción: si el hero
+ * deja de explicar lo básico, la sección siguiente empieza con un titular que ya
+ * no tiene nada que sostener.
+ *
+ * Texto e imagen se alinean por su base (`align-items: stretch` en escritorio):
+ * la imagen crece hasta la altura del bloque de texto y nunca queda un hueco de
+ * más de un padding de sección debajo de ninguno de los dos.
+ */
 interface Props {
   eyebrow: string;
   title: string;
@@ -13,7 +25,6 @@ interface Props {
   image: ImageMetadata;
   imageAlt: string;
   crumbs: readonly Crumb[];
-  /** CTA principal: apunta al formulario. */
   ctaLabel: string;
   ctaHref: string;
   /** Texto completo del CTA de teléfono (p. ej. "Llamar al 622 58 85 60"). */
@@ -35,11 +46,6 @@ const {
 } = Astro.props;
 ---
 
-<!--
-  Hero de subpágina. Sin vídeo a propósito: el de la landing pesa y no aporta
-  nada aquí. Cabecera de página, migas, titular, subtítulo, CTA principal y
-  una imagen a un lado.
--->
 <section class="page-hero" aria-labelledby="page-hero-title">
   <div class="page-hero__inner">
     <div class="page-hero__text">
@@ -58,7 +64,7 @@ const {
           variant="accent"
           class="page-hero__cta"
         />
-        <a class="page-hero__phone" href={siteData.contact.phone.href}>
+        <a class="page-hero__phone" href={phoneHref}>
           <span class="material-symbols-outlined" aria-hidden="true">call</span>
           <span>{phoneLabel}</span>
         </a>
@@ -75,7 +81,7 @@ const {
         fetchpriority="high"
         class="page-hero__image"
       />
-      <span class="page-hero__media-badge">
+      <span class="page-hero__badge">
         <span class="material-symbols-outlined" aria-hidden="true"
           >location_on</span
         >
@@ -87,37 +93,23 @@ const {
 
 <style lang="scss">
   @use "../../styles/variables" as *;
-  @use "../../styles/typography" as *;
+  @use "../../styles/scale" as *;
   @use "../../styles/mixins" as *;
 
   .page-hero {
-    width: 100%;
-    background: var(--color-surface-bone);
-    padding-top: $space-lg;
-    padding-bottom: $space-2xl;
-
-    @media (min-width: $bp-lg) {
-      padding-bottom: $space-3xl;
-    }
+    @include section-block;
+    @include surface(base);
   }
 
   .page-hero__inner {
-    max-width: $container-max;
-    margin-inline: auto;
-    padding-inline: $gutter-mobile;
+    @include section-inner;
     display: grid;
     grid-template-columns: 1fr;
     gap: $space-xl;
-    align-items: center;
 
-    // En escritorio el texto arranca a la misma altura que la imagen en vez de
-    // flotar centrado: con la imagen tan alta, centrarlo dejaba medio bloque de
-    // aire vacío encima de las migas.
     @media (min-width: $bp-lg) {
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
       gap: $space-3xl;
-      align-items: start;
-      padding-inline: $gutter-desktop;
     }
   }
 
@@ -132,6 +124,8 @@ const {
   .page-hero__heading {
     display: flex;
     flex-direction: column;
+    // Sin esto el kicker, que es una píldora, se estira a todo el ancho de la
+    // columna y parece un botón hueco en vez de una etiqueta.
     align-items: flex-start;
     gap: $space-md;
   }
@@ -142,29 +136,22 @@ const {
     padding: $space-2xs $space-sm;
     border-radius: $radius-full;
     background: var(--color-surface-container-low);
-    @include eyebrow(var(--color-eyebrow-accent));
+    @include type-kicker;
     font-weight: 500;
   }
 
   .page-hero__title {
-    @include text-headline-xl;
+    @include type-display;
     margin: 0;
     color: var(--color-on-surface);
     text-wrap: balance;
-    max-width: 22ch;
-
-    @media (min-width: $bp-lg) {
-      font-size: 3.75rem;
-      line-height: 3.375rem;
-      letter-spacing: -0.13rem;
-    }
   }
 
   .page-hero__subtitle {
-    @include text-body-lg;
+    @include type-body;
     margin: 0;
+    max-width: 34rem;
     color: var(--color-on-surface-variant);
-    max-width: 30rem;
     text-wrap: pretty;
   }
 
@@ -179,7 +166,7 @@ const {
     display: inline-flex;
     align-items: center;
     gap: $space-xs;
-    @include text-body-base;
+    @include type-body;
     font-weight: 500;
     color: var(--color-on-surface);
     white-space: nowrap;
@@ -204,15 +191,17 @@ const {
   .page-hero__media {
     position: relative;
     overflow: hidden;
-    border-radius: $radius-lg;
+    border-radius: $image-radius;
     background: var(--color-surface-subtle);
     aspect-ratio: 4 / 3;
 
-    // Sin `max-height`: en un contenedor con `aspect-ratio`, un tope de alto
-    // hace que el ancho se recalcule a partir de la altura ya fijada y la
-    // imagen deja de llenar su columna de la rejilla.
+    // Sin `aspect-ratio` en escritorio: la imagen se estira hasta la altura que
+    // imponga el bloque de texto, que es lo que hace que ambos queden a ras.
+    // `min-height` es el suelo, para que no quede una franja plana cuando el
+    // titular es corto.
     @media (min-width: $bp-lg) {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: auto;
+      min-height: 26rem;
     }
   }
 
@@ -225,7 +214,7 @@ const {
     object-position: center;
   }
 
-  .page-hero__media-badge {
+  .page-hero__badge {
     position: absolute;
     bottom: $space-md;
     left: $space-md;
@@ -237,7 +226,7 @@ const {
     border-radius: $radius-full;
     background: color-mix(in srgb, var(--color-surface-dark) 62%, transparent);
     color: var(--color-surface-container-lowest);
-    @include text-caption-sm;
+    @include type-small;
     font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;

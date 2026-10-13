@@ -36,7 +36,7 @@ export const sexologiaPage: PageContent = {
     },
 
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "que-trabajo",
         eyebrow: "Qué dificultades trabajo",
@@ -90,7 +90,7 @@ export const sexologiaPage: PageContent = {
     },
 
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "confidencialidad",
         eyebrow: "Confidencialidad",

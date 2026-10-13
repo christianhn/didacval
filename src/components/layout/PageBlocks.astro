@@ -1,15 +1,25 @@
 ---
 import type { PageBlock } from "../../data/pages/types";
+import RowsContainer from "./RowsContainer.astro";
+import NumberedSteps from "./NumberedSteps.astro";
+import SplitImage from "./SplitImage.astro";
+import Faq from "./Faq.astro";
+import RowList from "../ui/RowList.astro";
+import RelatedServices from "../ui/RelatedServices.astro";
 import TextSection from "./TextSection.astro";
 import SplitSection from "../ui/SplitSection.astro";
-import RowList from "../ui/RowList.astro";
 import FormationGroup from "../ui/FormationGroup.astro";
-import Faq from "./Faq.astro";
 import CtaBand from "./CtaBand.astro";
-import RelatedServices from "../ui/RelatedServices.astro";
 import ArrowButton from "../ui/ArrowButton.astro";
 import { primaryCta } from "../../data/pages/types";
 
+/**
+ * Pinta los bloques de una página en el orden en que están declarados.
+ *
+ * El orden de las secciones es parte del diseño: hero → panel de filas → pasos →
+ * dos columnas → FAQ → contacto. Son seis bloques como máximo, contando el hero
+ * (lo pone la página) y el formulario (lo pone `SubpageLayout`).
+ */
 interface Props {
   blocks: readonly PageBlock[];
 }
@@ -20,6 +30,65 @@ const { blocks } = Astro.props;
 {
   blocks.map((block) => {
     switch (block.kind) {
+      // ---------- Sistema de composición ----------
+      case "rows":
+        return (
+          <RowsContainer
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            link={block.data.link}
+            items={block.data.items}
+          />
+        );
+
+      case "steps":
+        return (
+          <NumberedSteps
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            steps={block.data.steps}
+            tone={block.data.tone}
+          />
+        );
+
+      case "split":
+        return (
+          <SplitImage
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            link={block.data.link}
+            lead={block.data.lead}
+            column={block.data.column}
+            image={block.data.image}
+            imageAlt={block.data.imageAlt}
+            direction={block.data.direction}
+            tone={block.data.tone}
+            footnote={block.data.footnote}
+          />
+        );
+
+      case "faq":
+        // La variante por defecto es la de la landing: imagen a la izquierda y
+        // acordeón a la derecha, al ancho del contenedor. `plain` queda
+        // únicamente para páginas que aún no se han migrado.
+        return (
+          <Faq
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            items={block.data.items}
+            variant="portrait"
+          />
+        );
+
+      // ---------- Heredados: se quitan al migrar cada página ----------
       case "text":
         return (
           <TextSection
@@ -38,42 +107,6 @@ const { blocks } = Astro.props;
           </TextSection>
         );
 
-      case "rows":
-        return (
-          <RowList
-            id={block.data.id}
-            eyebrow={block.data.eyebrow}
-            title={block.data.title}
-            description={block.data.description}
-            cta={block.data.cta}
-            items={block.data.items}
-            variant={block.data.variant}
-          >
-            {block.data.related && (
-              <RelatedServices
-                title={block.data.related.title}
-                links={block.data.related.links}
-              />
-            )}
-          </RowList>
-        );
-
-      case "split":
-        return (
-          <SplitSection
-            id={block.data.id}
-            eyebrow={block.data.eyebrow}
-            title={block.data.title}
-            paragraphs={block.data.paragraphs}
-            bullets={block.data.bullets}
-            image={block.data.image}
-            imageAlt={block.data.imageAlt}
-            direction={block.data.direction}
-            tone={block.data.tone}
-            footnote={block.data.footnote}
-          />
-        );
-
       case "formation":
         return (
           <FormationGroup
@@ -82,18 +115,6 @@ const { blocks } = Astro.props;
             title={block.data.title}
             description={block.data.description}
             groups={block.data.groups}
-          />
-        );
-
-      case "faq":
-        return (
-          <Faq
-            id={block.data.id}
-            eyebrow={block.data.eyebrow}
-            title={block.data.title}
-            description={block.data.description}
-            items={block.data.items}
-            variant="plain"
           />
         );
 
@@ -127,6 +148,42 @@ const { blocks } = Astro.props;
               </div>
             </div>
           </section>
+        );
+
+      case "rows-legacy":
+        return (
+          <RowList
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            cta={block.data.cta}
+            items={block.data.items}
+            variant={block.data.variant}
+          >
+            {block.data.related && (
+              <RelatedServices
+                title={block.data.related.title}
+                links={block.data.related.links}
+              />
+            )}
+          </RowList>
+        );
+
+      case "split-legacy":
+        return (
+          <SplitSection
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            paragraphs={block.data.paragraphs}
+            bullets={block.data.bullets}
+            image={block.data.image}
+            imageAlt={block.data.imageAlt}
+            direction={block.data.direction}
+            tone={block.data.tone}
+            footnote={block.data.footnote}
+          />
         );
 
       default:

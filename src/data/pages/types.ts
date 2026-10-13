@@ -1,9 +1,15 @@
 import type { ImageMetadata } from "astro";
+import type { RowsItem } from "../../components/layout/RowsItem.astro";
 import type { RowListItem } from "../../components/ui/RowList.astro";
 import type { RelatedLink } from "../../components/ui/RelatedServices.astro";
-import type { FormationEntry } from "../../components/ui/FormationGroup.astro";
+import type { Step } from "../../components/layout/NumberedSteps.astro";
+import type { SplitColumn } from "../../components/layout/SplitImage.astro";
 import type { FaqItem } from "../../components/layout/Faq.astro";
+import type { FormationEntry } from "../../components/ui/FormationGroup.astro";
 import type { Crumb } from "../structuredData";
+
+/** Superficies del sistema. El `panel` se usa una sola vez por página. */
+export type SectionTone = "base" | "soft";
 
 /**
  * Forma común de una página interior.
@@ -28,6 +34,72 @@ export interface PageHeroContent {
   breadcrumbLabel: string;
 }
 
+// =========================================================
+// Sistema de composición (DESIGN_SPEC.md)
+// =========================================================
+//
+// Las secciones se componen con las seis recetas de la fase 3 del brief:
+// PageHero (en la página, no aquí) + RowsContainer + NumberedSteps + SplitImage
+// + FAQ + Contact. Cada bloque lleva su superficie, y las superficies alternan.
+
+/** Contenedor beige redondeado. `variant: "full"` lo deja a sangre. */
+export interface RowsBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  /** Enlace de la cabecera de sección. */
+  link?: { label: string; href: string };
+  items: readonly RowsItem[];
+  variant?: "panel" | "full";
+}
+
+export interface StepsBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  steps: readonly Step[];
+  tone?: SectionTone;
+}
+
+export interface SplitBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  /** Enlace de la cabecera de sección (p. ej. el bloque que ya está en la landing). */
+  link?: { label: string; href: string };
+  /** Párrafos de la columna principal. */
+  lead: readonly string[];
+  /** Segunda columna de texto. Sólo tiene sentido sin imagen. */
+  column?: SplitColumn;
+  /**
+   * Sin imagen, la sección va en dos columnas de texto: repetir la foto del hero
+   * no es una opción y una sección con el H2 de la escala y dos frases debajo no
+   * se sostiene.
+   */
+  image?: ImageMetadata;
+  imageAlt?: string;
+  direction?: "text-start" | "media-start";
+  tone?: SectionTone;
+  footnote?: string;
+}
+
+export interface FaqBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  items: readonly FaqItem[];
+}
+
+// =========================================================
+// Tipos heredados, pendientes de migrar página a página
+// =========================================================
+// TODO borrar en cuanto las cinco páginas de servicio y /quien-soy/ usen el
+// sistema de arriba.
+
 export interface TextBlock {
   id: string;
   eyebrow?: string;
@@ -37,32 +109,6 @@ export interface TextBlock {
   link?: { label: string; href: string };
   layout?: "wide" | "aside";
   tone?: "bone" | "canvas" | "transparent";
-  /** Párrafo de cierre en cuerpo pequeño (nota al pie del bloque). */
-  footnote?: string;
-}
-
-export interface RowsBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  cta?: { label: string; href: string };
-  items: readonly RowListItem[];
-  variant?: "panel" | "full";
-  /** Franja con enlaces a otras áreas, al final del bloque de filas. */
-  related?: { title?: string; links: readonly RelatedLink[] };
-}
-
-export interface SplitBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  paragraphs: readonly string[];
-  bullets?: readonly string[];
-  image: ImageMetadata;
-  imageAlt: string;
-  direction?: "text-start" | "media-start";
-  tone?: "bone" | "canvas" | "soft";
   footnote?: string;
 }
 
@@ -79,32 +125,47 @@ export interface CtaBlock {
   description: string;
 }
 
-export interface FaqBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  description: string;
-  items: readonly FaqItem[];
-}
-
-/**
- * Bloques admitidos por una página, en el orden en que se pintan.
- *
- * `process` reutiliza el bloque de 4 pasos de la landing con un enlace a
- * `/#proceso` en lugar de repetir los textos: son los mismos cuatro pasos y
- * copiarlos aquí sólo abriría la puerta a que se desincronicen.
- */
 export type PageBlock =
-  | { kind: "text"; data: TextBlock }
   | { kind: "rows"; data: RowsBlock }
+  | { kind: "steps"; data: StepsBlock }
   | { kind: "split"; data: SplitBlock }
-  | { kind: "formation"; data: FormationBlock }
   | { kind: "faq"; data: FaqBlock }
+  // Heredados: se quitan al migrar cada página.
+  | { kind: "text"; data: TextBlock }
+  | { kind: "formation"; data: FormationBlock }
   | { kind: "cta"; data: CtaBlock }
+  | { kind: "rows-legacy"; data: LegacyRowsBlock }
+  | { kind: "split-legacy"; data: LegacySplitBlock }
   | {
       kind: "process-link";
       data: { title: string; description: string; href: string };
     };
+
+/** `rows` antiguo: con subtítulo libre en la fila y franja de enlaces al pie. */
+export interface LegacyRowsBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  cta?: { label: string; href: string };
+  items: readonly RowListItem[];
+  variant?: "panel" | "full";
+  related?: { title?: string; links: readonly RelatedLink[] };
+}
+
+/** `split` antiguo:tonos `bone`/`canvas`/`soft` e imagen obligatoria. */
+export interface LegacySplitBlock {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  paragraphs: readonly string[];
+  bullets?: readonly string[];
+  image: ImageMetadata;
+  imageAlt: string;
+  direction?: "text-start" | "media-start";
+  tone?: "bone" | "canvas" | "soft";
+  footnote?: string;
+}
 
 export interface PageContent {
   /** Slug de la ruta, con barras (p. ej. "/sexologo-zaragoza/"). */

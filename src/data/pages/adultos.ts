@@ -67,7 +67,7 @@ export const adultosPage: PageContent = {
 
     // --------------------------------------------------------- áreas que trabajo
     {
-      kind: "rows",
+      kind: "rows-legacy",
       data: {
         id: "areas",
         eyebrow: "Áreas que trabajo",

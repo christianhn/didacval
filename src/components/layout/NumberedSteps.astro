@@ -1,0 +1,150 @@
+---
+import Section from "./Section.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+/**
+ * Secuencia numerada: el patrón de las tarjetas "01/02/03" de "Cómo será tu
+ * proceso" de la landing, con la cabecera en la barra lateral y las tarjetas
+ * apiladas a la derecha.
+ *
+ * Sustituye al párrafo con viñetas sueltas en dos columnas: con tres elementos
+ * esa rejilla deja la última viñeta huérfana.
+ */
+export interface Step {
+  number: string;
+  kicker: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  steps: readonly Step[];
+  tone?: "base" | "soft";
+}
+
+const { id, eyebrow, title, description, steps, tone = "base" } = Astro.props;
+
+const titleId = `${id ?? "steps"}-title`;
+---
+
+<Section id={id} tone={tone} labelledBy={titleId}>
+  <div class="steps__inner">
+    <div class="steps__aside">
+      <SectionHeader
+        id={titleId}
+        layout="stacked"
+        eyebrow={eyebrow}
+        title={title}
+        description={description}
+      />
+    </div>
+
+    <ol class="steps__stack">
+      {
+        steps.map((step) => (
+          <li class="steps__card">
+            <span class="steps__number" aria-hidden="true">{step.number}</span>
+            <div class="steps__body">
+              <span class="steps__kicker">{step.kicker}</span>
+              <h3 class="steps__title">{step.title}</h3>
+              <p class="steps__desc">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/scale" as *;
+
+  .steps__inner {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3xl;
+
+    @media (min-width: $bp-lg) {
+      display: grid;
+      grid-template-columns: 23.75rem minmax(0, 1fr);
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+
+  .steps__aside {
+    @media (min-width: $bp-lg) {
+      position: sticky;
+      top: 20dvh;
+    }
+  }
+
+  .steps__stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $card-gap-sm;
+
+    @media (min-width: $bp-lg) {
+      gap: $card-gap;
+    }
+  }
+
+  .steps__card {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-lg;
+    padding: $card-pad;
+    border-radius: $card-radius;
+    background: var(--color-surface-container-lowest);
+    box-shadow:
+      0 0.625rem 1.875rem -0.3125rem rgba(0, 0, 0, 0.04),
+      0 0.125rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.02);
+  }
+
+  .steps__number {
+    flex-shrink: 0;
+    min-width: $card-number-width;
+    font-family: $font-family-base;
+    font-size: $card-number-size;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-on-secondary-container);
+  }
+
+  .steps__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xs;
+    min-width: 0;
+  }
+
+  .steps__kicker {
+    @include type-kicker;
+    font-weight: 700;
+    color: var(--color-secondary);
+  }
+
+  .steps__title {
+    @include type-h3;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .steps__desc {
+    @include type-body;
+    margin: $space-2xs 0 0;
+    max-width: 36rem;
+    color: var(--color-on-surface-variant);
+  }
+</style>
