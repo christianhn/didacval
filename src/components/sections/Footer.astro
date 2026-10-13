@@ -99,11 +99,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
 
   const canAnimate =
-    !!footer &&
-    !!contact &&
-    !!dim &&
-    !!footerInner &&
-    !prefersReducedMotion();
+    !!footer && !!contact && !!dim && !!footerInner && !prefersReducedMotion();
 
   if (footer && contact && dim && footerInner && canAnimate) {
     const applyHeight = () => {
@@ -190,6 +186,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
       );
 
     ScrollTrigger.create({
+      id: "contact",
       trigger: contact,
       start: () => `bottom bottom-=${footer.offsetHeight * PEEK_RATIO}`,
       end: () => "+=" + footer.offsetHeight,
@@ -501,6 +498,10 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
         text-decoration-color: var(--color-on-surface);
       }
     }
+  }
+
+  :global(.pin-spacer-contact) {
+    background: var(--color-surface-bone-dark);
   }
 
   @media (max-height: 34rem) {
