@@ -1,44 +1,55 @@
+import { siteData } from "./site";
+
+// El footer no repite teléfono, dirección ni correo: los toma de site.ts, que
+// es la fuente única. Aquí sólo vive lo que es propio del pie: textos y qué
+// enlaces se listan en cada columna.
 export const footerData = {
   brand: {
-    name: "Didac Val",
+    name: siteData.brand.name,
     description: "Psicólogo en Zaragoza. Terapia presencial y online.",
     status: "Agenda abierta",
   },
   contact: {
     title: "Ubicación & Contacto",
-    // TODO con Didac: confirmar la planta exacta. La web antigua
-    // (didacvalpsicologo.es) decía "entresuelo izquierda" y aquí aparecía
-    // "Principal". Hasta que lo confirme, todas las variantes de la web usan
-    // "entresuelo izquierda".
-    address: ["Paseo de Sagasta 17, entresuelo izquierda", "50008 Zaragoza"],
-    phone: { label: "+34 622 58 85 60", href: "tel:+34622588560" },
-    email: {
-      label: "didacvalpsicologia@gmail.com",
-      href: "mailto:didacvalpsicologia@gmail.com",
-    },
+    address: [siteData.contact.address.street, siteData.contact.address.city],
+    phone: siteData.contact.phone,
+    email: siteData.contact.email,
   },
   links: {
     title: "Áreas de trabajo",
+    // Cada área apunta a su propia página interior. Antes todas iban a
+    // "#areas-clinicas" en la home.
     items: [
-      { label: "Ansiedad y estrés", href: "#areas-clinicas" },
-      { label: "Sexología", href: "#areas-clinicas" },
-      { label: "Terapia individual", href: "#areas-clinicas" },
-      { label: "Adolescentes y familia", href: "#areas-clinicas" },
+      {
+        label: "Ansiedad y estrés",
+        href: "/psicologo-ansiedad-zaragoza/",
+      },
+      { label: "Sexología", href: "/sexologo-zaragoza/" },
+      {
+        label: "Terapia individual",
+        href: "/terapia-adultos-zaragoza/",
+      },
+      {
+        label: "Adolescentes y familia",
+        href: "/terapia-familiar-zaragoza/",
+      },
+      { label: "Sobre mí", href: siteData.nav[4].href },
+      { label: "Contacto", href: siteData.nav[5].href },
     ],
   },
   legal: {
     title: "Colegiación & Registro",
-    collegiate: ["Col. Nº A-03214", "Colegio Oficial de Psicología de Aragón"],
-    // TODO con Didac: "Centro Sanitario Autorizado" ya estaba en la web, pero
-    // falta el nº de registro sanitario que lo respalda. Confirmar antes de
-    // publicar; si no, quitarlo.
-    note: "Centro Sanitario Autorizado",
+    collegiate: [
+      `Col. Nº ${siteData.credentials.collegiate}`,
+      siteData.credentials.college,
+    ],
+    note: siteData.credentials.sanitaryRegistry,
   },
   bottom: {
     links: [
-      { label: "Aviso Legal", href: "#" },
-      { label: "Política de Privacidad", href: "#" },
-      { label: "Cookies", href: "#" },
+      siteData.legal.notice,
+      siteData.legal.privacy,
+      siteData.legal.cookies,
     ],
   },
 } as const;

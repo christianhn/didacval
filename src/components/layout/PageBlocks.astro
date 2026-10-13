@@ -1,0 +1,207 @@
+---
+import type { PageBlock } from "../../data/pages/types";
+import TextSection from "./TextSection.astro";
+import SplitSection from "../ui/SplitSection.astro";
+import RowList from "../ui/RowList.astro";
+import FormationGroup from "../ui/FormationGroup.astro";
+import Faq from "./Faq.astro";
+import CtaBand from "./CtaBand.astro";
+import RelatedServices from "../ui/RelatedServices.astro";
+import ArrowButton from "../ui/ArrowButton.astro";
+import { primaryCta } from "../../data/pages/types";
+
+interface Props {
+  blocks: readonly PageBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{
+  blocks.map((block) => {
+    switch (block.kind) {
+      case "text":
+        return (
+          <TextSection
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            paragraphs={block.data.paragraphs}
+            bullets={block.data.bullets}
+            link={block.data.link}
+            layout={block.data.layout}
+            tone={block.data.tone}
+          >
+            {block.data.footnote && (
+              <p class="block__footnote">{block.data.footnote}</p>
+            )}
+          </TextSection>
+        );
+
+      case "rows":
+        return (
+          <RowList
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            cta={block.data.cta}
+            items={block.data.items}
+            variant={block.data.variant}
+          >
+            {block.data.related && (
+              <RelatedServices
+                title={block.data.related.title}
+                links={block.data.related.links}
+              />
+            )}
+          </RowList>
+        );
+
+      case "split":
+        return (
+          <SplitSection
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            paragraphs={block.data.paragraphs}
+            bullets={block.data.bullets}
+            image={block.data.image}
+            imageAlt={block.data.imageAlt}
+            direction={block.data.direction}
+            tone={block.data.tone}
+            footnote={block.data.footnote}
+          />
+        );
+
+      case "formation":
+        return (
+          <FormationGroup
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            groups={block.data.groups}
+          />
+        );
+
+      case "faq":
+        return (
+          <Faq
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            items={block.data.items}
+            variant="plain"
+          />
+        );
+
+      case "cta":
+        return (
+          <CtaBand
+            title={block.data.title}
+            description={block.data.description}
+            ctaLabel={primaryCta.label}
+            ctaHref={primaryCta.href}
+          />
+        );
+
+      case "process-link":
+        return (
+          <section class="process-link" aria-labelledby="process-link-title">
+            <div class="process-link__inner">
+              <div class="process-link__text">
+                <span class="process-link__eyebrow">El proceso</span>
+                <h2 id="process-link-title" class="process-link__title">
+                  {block.data.title}
+                </h2>
+                <p class="process-link__desc">{block.data.description}</p>
+              </div>
+              <div class="process-link__actions">
+                <ArrowButton
+                  label="Ver las cuatro fases"
+                  href={block.data.href}
+                  variant="primary"
+                />
+              </div>
+            </div>
+          </section>
+        );
+
+      default:
+        return null;
+    }
+  })
+}
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
+
+  .block__footnote {
+    @include text-body-sm;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
+  }
+
+  // ---------- Enlace al bloque de proceso de la landing ----------
+  // No se repiten los cuatro pasos: son los mismos para todas las páginas y
+  // viven una sola vez en /#proceso. Aquí sólo se enlaza.
+  .process-link {
+    background: var(--color-surface);
+    padding-block: $space-3xl;
+
+    @media (min-width: $bp-lg) {
+      padding-block: $space-4xl;
+    }
+  }
+
+  .process-link__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+    align-items: flex-start;
+
+    @media (min-width: $bp-lg) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: $space-2xl;
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .process-link__text {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    min-width: 0;
+  }
+
+  .process-link__eyebrow {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .process-link__title {
+    @include text-headline-lg;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .process-link__desc {
+    @include text-body-base;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    max-width: 38rem;
+  }
+
+  .process-link__actions {
+    flex-shrink: 0;
+  }
+</style>

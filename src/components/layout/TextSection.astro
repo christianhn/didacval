@@ -1,0 +1,230 @@
+---
+import ArrowButton from "../ui/ArrowButton.astro";
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  paragraphs: readonly string[];
+  /** Lista corta bajo los párrafos. */
+  bullets?: readonly string[];
+  /** Enlace de cierre con texto descriptivo ("Ver cómo trabajamos la ansiedad"). */
+  link?: { label: string; href: string };
+  /** Columna estrecha a la izquierda en escritorio, como las cabeceras de sección. */
+  layout?: "wide" | "aside";
+  tone?: "bone" | "canvas" | "transparent";
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  paragraphs,
+  bullets,
+  link,
+  layout = "wide",
+  tone = "bone",
+  ctaLabel,
+  ctaHref,
+} = Astro.props;
+
+const titleId = `${id ?? "text"}-title`;
+---
+
+<section
+  id={id}
+  class:list={["prose", `prose--${tone}`, `prose--${layout}`]}
+  aria-labelledby={titleId}
+>
+  <div class="prose__inner">
+    <header class="prose__header">
+      {eyebrow && <span class="prose__eyebrow">{eyebrow}</span>}
+      <h2 id={titleId} class="prose__title">{title}</h2>
+    </header>
+
+    <div class="prose__body">
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+      {
+        bullets && bullets.length > 0 && (
+          <ul class="prose__bullets">
+            {bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        )
+      }
+
+      {link && (
+        <p class="prose__link">
+          <a class="prose__link-anchor" href={link.href}>
+            {link.label}
+            <span class="material-symbols-outlined" aria-hidden="true">
+              north_east
+            </span>
+          </a>
+        </p>
+      )}
+
+      {ctaLabel && ctaHref && (
+        <div class="prose__actions">
+          <ArrowButton label={ctaLabel} href={ctaHref} variant="accent" />
+        </div>
+      )}
+
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
+
+  .prose {
+    // Sin `width: 100%`: dentro de `main` (flex column) un ancho explícito se
+    // suma a los márgenes y desborda. El stretch del contenedor ya lo ajusta.
+    padding-block: $space-3xl;
+
+    @media (min-width: $bp-lg) {
+      padding-block: $space-4xl;
+    }
+  }
+
+  .prose--bone {
+    background: var(--color-surface-bone);
+  }
+
+  .prose--canvas {
+    background: var(--color-surface);
+  }
+
+  .prose--transparent {
+    background: transparent;
+  }
+
+  .prose__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $space-md;
+
+    @media (min-width: $bp-lg) {
+      gap: $space-3xl;
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  // `aside`: el encabezado se queda en una columna estrecha y el cuerpo ocupa
+  // el resto. Da la entrada editorial de las páginas largas sin Feelagear de
+  // tarjetas.
+  .prose--aside .prose__inner {
+    @media (min-width: $bp-lg) {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+    }
+  }
+
+  .prose__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-xs;
+    min-width: 0;
+  }
+
+  .prose__eyebrow {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .prose__title {
+    @include text-headline-xl;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .prose__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    min-width: 0;
+    max-width: 44rem;
+
+    p {
+      @include text-body-lg;
+      margin: 0;
+      color: var(--color-on-surface-variant);
+      text-wrap: pretty;
+    }
+  }
+
+  .prose__bullets {
+    list-style: none;
+    margin: $space-2xs 0 0;
+    padding: 0;
+    display: grid;
+    gap: $space-sm;
+
+    @media (min-width: $bp-md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: $space-xl;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $space-sm;
+      @include text-body-base;
+      color: var(--color-on-surface);
+
+      &::before {
+        content: "";
+        flex: 0 0 auto;
+        width: 0.375rem;
+        height: 0.375rem;
+        margin-top: 0.55em;
+        border-radius: $radius-full;
+        background: var(--color-secondary);
+      }
+    }
+  }
+
+  .prose__link {
+    margin: $space-2xs 0 0;
+  }
+
+  .prose__link-anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-3xs;
+    @include text-body-base;
+    font-weight: 600;
+    color: var(--color-secondary);
+    white-space: nowrap;
+    border-bottom: 0.0625rem solid var(--color-outline-variant);
+    padding-bottom: 2px;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+    @include focus-ring;
+
+    .material-symbols-outlined {
+      font-size: 0.9375rem;
+    }
+
+    &:hover {
+      color: var(--color-on-surface);
+      border-color: var(--color-on-surface);
+    }
+  }
+
+  .prose__actions {
+    margin-top: $space-sm;
+  }
+</style>

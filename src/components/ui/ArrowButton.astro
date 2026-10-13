@@ -1,6 +1,8 @@
 ---
 interface Props {
   label: string;
+  /** Con href se renderiza como enlace; sin él, como botón. */
+  href?: string;
   type?: "submit" | "button" | "reset";
   disabled?: boolean;
   class?: string;
@@ -10,19 +12,23 @@ interface Props {
 
 const {
   label,
-  type = "submit",
+  href,
+  type = "button",
   disabled = false,
   class: className = "",
   "aria-label": ariaLabel,
   variant = "primary",
   ...attrs
 } = Astro.props;
+
+const Tag = href ? "a" : "button";
 ---
 
-<button
+<Tag
   class={`cta cta--${variant} ${className}`}
-  type={type}
-  disabled={disabled}
+  href={href}
+  type={href ? undefined : type}
+  disabled={href ? undefined : disabled}
   aria-label={ariaLabel}
   data-cta
   {...attrs}
@@ -38,7 +44,7 @@ const {
   <span class="cta__icon" aria-hidden="true">
     <span class="material-symbols-outlined">north_east</span>
   </span>
-</button>
+</Tag>
 
 <style lang="scss">
   @use "../../styles/variables" as *;
@@ -53,6 +59,7 @@ const {
     background: none;
     border: none;
     cursor: pointer;
+    text-decoration: none;
     transition: transform 0.15s;
 
     &.cta--primary {

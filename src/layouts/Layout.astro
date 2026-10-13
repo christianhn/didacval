@@ -1,15 +1,38 @@
 ---
 import "../styles/global.scss";
+import { siteData } from "../data/site";
+
+type JsonLdEntry = Record<string, unknown> | Record<string, unknown>[];
 
 interface Props {
   title?: string;
   description?: string;
+  /** Ruta con barra final (p. ej. "/sexologo-zaragoza/"). Por defecto, la actual. */
+  canonicalPath?: string;
+  /** Imagen social. Puede ser un asset de src/assets o una ruta de /public. */
+  ogImage?: { src: string; width?: number; height?: number };
+  /** Entradas JSON-LD a volcar en <head>. */
+  jsonLd?: JsonLdEntry[];
+  noindex?: boolean;
 }
 
 const {
   title = "Didac Val — Psicólogo en Zaragoza",
   description = "Psicólogo en Zaragoza: ansiedad y estrés, sexología, terapia individual y adolescentes. Consulta en Paseo de Sagasta 17 y sesiones online. Primera sesión informativa gratuita.",
+  canonicalPath,
+  ogImage,
+  jsonLd = [],
+  noindex = false,
 } = Astro.props;
+
+// Canonical absoluta. `Astro.site` viene de `site` en astro.config.mjs; el
+// fallback mantiene las metas correctas si alguien levanta el build sin config.
+const siteOrigin = Astro.site?.origin ?? siteData.url;
+const path = canonicalPath ?? Astro.url.pathname;
+const canonical = new URL(path, siteOrigin).href;
+const ogImageUrl = ogImage
+  ? new URL(ogImage.src, siteOrigin).href
+  : new URL("/favicon.png", siteOrigin).href;
 ---
 
 <!doctype html>
@@ -23,6 +46,26 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
 
+    {
+      noindex && (
+        <meta name="robots" content="noindex, nofollow" />
+      )
+    }
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Didac Val" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,6 +76,16 @@ const {
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
       rel="stylesheet"
     />
+
+    {
+      jsonLd.map((entry) => (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(entry)}
+          is:inline
+        />
+      ))
+    }
   </head>
   <body>
     <slot />
@@ -50,8 +103,8 @@ const {
     // resize real: solo cambia el alto. ScrollTrigger lo tomaba como señal para
     // refrescar, y `refresh()` re-mide todos los triggers, rehace los pin-spacers
     // y fuerza reflows síncronos... en pleno scroll. Eso es lo que clavaba la
-    // página en cuanto aparecía la barra. Con esto solo se refresca si cambia
-    // el ancho (rotación, resize real de la ventana).
+    // página en cuanto aparecía la barra. Con esto solo se refresca si cambia el
+    // ancho (rotación, resize real de la ventana).
     ScrollTrigger.config({ ignoreMobileResize: true });
 
     // Smooth scroll solo en PC (puntero fino + hover), no en táctiles

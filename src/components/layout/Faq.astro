@@ -1,31 +1,88 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import handImg from "../../assets/ask/hand.jpg";
 import { faqData } from "../../data/faq";
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  /** Reemplaza el array de la landing. Si se omite, usa `faqData.items`. */
+  items?: readonly FaqItem[];
+  title?: string;
+  description?: string;
+  eyebrow?: string;
+  id?: string;
+  /**
+   * `portrait` (por defecto) es el bloque de la landing: columna de imagen con
+   * el titular superpuesto + lista de acordeones. `plain` quita la imagen y
+   * deja sólo la lista, para las subpáginas, donde la imagen ya está en el hero
+   * y repetirse restaría.
+   */
+  variant?: "portrait" | "plain";
+  /** Imagen de la columna lateral. Por defecto, la mano de la landing. */
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const {
+  items = faqData.items,
+  title = faqData.title,
+  description = faqData.description,
+  eyebrow,
+  id = "faq",
+  variant = "portrait",
+  image = handImg,
+  imageAlt = "Ilustración de mano",
+} = Astro.props;
+
+const titleId = `${id}-title`;
 ---
 
-<section id="faq" class="faq" aria-labelledby="faq-title">
+<section
+  id={id}
+  class:list={["faq", `faq--${variant}`]}
+  aria-labelledby={titleId}
+>
   <div class="faq__inner">
-    <div class="faq__intro">
-      <Image
-        src={handImg}
-        alt="Ilustración de mano"
-        class="faq__hero-image"
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 64rem) 40vw, 100vw"
-        loading="lazy"
-      />
+    {
+      variant === "portrait" && (
+        <div class="faq__intro">
+          <Image
+            src={image}
+            alt={imageAlt}
+            class="faq__hero-image"
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 64rem) 40vw, 100vw"
+            loading="lazy"
+          />
 
-      <div class="faq__text-overlay">
-        <h2 id="faq-title" class="faq__title">{faqData.title}</h2>
-        <p class="faq__desc">{faqData.description}</p>
-      </div>
-    </div>
+          <div class="faq__text-overlay">
+            {eyebrow && <span class="faq__eyebrow">{eyebrow}</span>}
+            <h2 id={titleId} class="faq__title">{title}</h2>
+            <p class="faq__desc">{description}</p>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      variant === "plain" && (
+        <header class="faq__header">
+          {eyebrow && <span class="faq__eyebrow">{eyebrow}</span>}
+          <h2 id={titleId} class="faq__title">{title}</h2>
+          <p class="faq__desc">{description}</p>
+        </header>
+      )
+    }
 
     <div class="faq__list" role="list">
       {
-        faqData.items.map((item, idx) => (
-          <details class="faq__item" name="faq-group">
+        items.map((item) => (
+          <details class="faq__item" name={`${id}-group`}>
             <summary class="faq__question">
               <h3>{item.question}</h3>
               <span
@@ -63,6 +120,10 @@ import { faqData } from "../../data/faq";
       max-width: $container-max;
       margin-inline: auto;
       margin-bottom: $space-2xl;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $space-xs;
     }
 
     // --- Layout ---
@@ -76,6 +137,18 @@ import { faqData } from "../../data/faq";
       @media (min-width: $bp-lg) {
         grid-template-columns: 4fr 8fr;
       }
+    }
+
+    // En variante `plain` no hay columna de imagen: la lista ocupa el ancho de
+    // lectura y no se queda pegada a una mitad vacía.
+    &--plain &__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: $space-2xl;
+      max-width: 52rem;
+    }
+
+    &--plain &__list {
+      position: static;
     }
 
     // --- Intro (imagen + overlay de texto) ---
@@ -98,7 +171,7 @@ import { faqData } from "../../data/faq";
           to bottom,
           transparent 0%,
           transparent 50%,
-          rgba(0, 0, 0, 0.5) 100%
+          color-mix(in srgb, var(--color-primary) 50%, transparent) 100%
         );
         pointer-events: none;
       }
@@ -124,18 +197,38 @@ import { faqData } from "../../data/faq";
       gap: $space-sm;
     }
 
+    &__eyebrow {
+      @include eyebrow(
+        var(--color-eyebrow-accent),
+        0.1em
+      );
+    }
+
     &__title {
       @include text-headline-xl;
-      color: #ffffff;
+      color: var(--color-on-surface);
       margin: 0;
       margin-left: -3px;
+      text-wrap: balance;
+
+      .faq--portrait & {
+        color: var(--color-surface-container-lowest);
+      }
     }
 
     &__desc {
       @include text-body-sm;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.9);
       margin: 0;
+      max-width: 30rem;
+      color: var(--color-on-surface-variant);
+
+      .faq--portrait & {
+        color: color-mix(
+          in srgb,
+          var(--color-surface-container-lowest) 90%,
+          transparent
+        );
+      }
     }
 
     // --- Lista de preguntas ---
@@ -151,6 +244,13 @@ import { faqData } from "../../data/faq";
       }
     }
 
+    &--plain &__list {
+      @media (min-width: $bp-lg) {
+        position: static;
+        align-self: stretch;
+      }
+    }
+
     &__item {
       background: var(--color-surface-container-lowest);
       padding: $space-lg;
@@ -159,7 +259,8 @@ import { faqData } from "../../data/faq";
       transition: background 0.2s;
 
       &:hover {
-        box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0.0625rem 0.375rem
+          color-mix(in srgb, var(--color-primary) 8%, transparent);
       }
     }
 
@@ -219,6 +320,7 @@ import { faqData } from "../../data/faq";
   const intro = document.querySelector<HTMLElement>(".faq__intro");
   const heroImage = document.querySelector<HTMLElement>(".faq__hero-image");
 
+  // Sólo hay paralaje si la variante trae imagen (la subpágina usa `plain`).
   if (
     intro &&
     heroImage &&
@@ -239,23 +341,21 @@ import { faqData } from "../../data/faq";
     });
   }
 
-  const list = document.querySelector<HTMLElement>(".faq__list");
+  document.querySelectorAll<HTMLElement>(".faq__list").forEach((list) => {
+    const updateStickyTop = () => {
+      if (!list) return;
 
-  const updateStickyTop = () => {
-    if (!list) return;
+      if (!window.matchMedia("(min-width: 64rem)").matches) {
+        list.style.removeProperty("--faq-sticky-top");
+        return;
+      }
 
-    if (!window.matchMedia("(min-width: 64rem)").matches) {
-      list.style.removeProperty("--faq-sticky-top");
-      return;
-    }
+      list.style.setProperty(
+        "--faq-sticky-top",
+        `${Math.max(16, window.innerHeight / 2 - list.offsetHeight / 2)}px`,
+      );
+    };
 
-    list.style.setProperty(
-      "--faq-sticky-top",
-      `${Math.max(16, window.innerHeight / 2 - list.offsetHeight / 2)}px`,
-    );
-  };
-
-  if (list) {
     updateStickyTop();
     // Igual que en el resto: el pliegue de la barra en móvil cambia el alto,
     // no el ancho, y no debe reescribir la variable.
@@ -269,7 +369,7 @@ import { faqData } from "../../data/faq";
     if ("ResizeObserver" in window) {
       new ResizeObserver(updateStickyTop).observe(list);
     }
-  }
+  });
 
   const closeItem = (item: HTMLElement, onComplete?: () => void) => {
     const answer = item.querySelector<HTMLElement>(".faq__answer");
@@ -343,8 +443,12 @@ import { faqData } from "../../data/faq";
       if (item.open) {
         closeItem(item);
       } else {
+        // Un acordeón por grupo: abrir uno cierra el resto del mismo grupo
+        // (`name` los agrupa), no los de la página.
         const openItems = Array.from(
-          document.querySelectorAll<HTMLElement>(".faq__item[open]"),
+          item.parentElement?.querySelectorAll<HTMLElement>(
+            ".faq__item[open]",
+          ) ?? [],
         ).filter((el) => el !== item);
 
         if (openItems.length > 0) {

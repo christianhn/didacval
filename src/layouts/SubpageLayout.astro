@@ -1,0 +1,90 @@
+---
+import Layout from "./Layout.astro";
+import Header from "../components/sections/Header.astro";
+import Footer from "../components/sections/Footer.astro";
+import Contact from "../components/layout/Contact.astro";
+import NoticeBar from "../components/layout/NoticeBar.astro";
+import { siteData } from "../data/site";
+import {
+  breadcrumbList,
+  localBusiness,
+  type Crumb,
+} from "../data/structuredData";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Ruta con barra final. Se usa para canonical, OG y el JSON-LD de migas. */
+  path: string;
+  /** Migas de pan. Si se omite, se genera "Inicio > <título corto>". */
+  breadcrumb?: Crumb[];
+  /** Etiqueta corta para las migas cuando no se pasan completas. */
+  breadcrumbLabel?: string;
+  ogImage?: { src: string; width?: number; height?: number };
+  /** JSON-LD adicional (FAQPage, Person...) que se añade al bloque común. */
+  jsonLd?: Record<string, unknown>[];
+  /** Slug de la página: se manda como campo oculto `origen` en el formulario. */
+  origen: string;
+  /** Franja superior fina con el availability de la consulta. */
+  showNoticeBar?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  breadcrumb,
+  breadcrumbLabel,
+  ogImage,
+  jsonLd = [],
+  origen,
+  showNoticeBar = false,
+} = Astro.props;
+
+const origin = Astro.site?.origin ?? siteData.url;
+
+// Las migas vienen del propio layout para que el breadcrumb visible y el
+// BreadcrumbList del JSON-LD nunca puedan contradecirse.
+const crumbs: Crumb[] = breadcrumb ?? [
+  { label: "Inicio", href: "/" },
+  {
+    label: breadcrumbLabel ?? title,
+    href: path,
+  },
+];
+
+const structured = [
+  localBusiness(origin),
+  breadcrumbList(crumbs),
+  ...jsonLd,
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={path}
+  ogImage={ogImage}
+  jsonLd={structured}
+>
+  <Header />
+  <main class="page-main">
+    <slot />
+    {showNoticeBar && <NoticeBar />}
+    <Contact origen={origen} />
+  </main>
+  <Footer />
+</Layout>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+
+  .page-main {
+    display: flex;
+    flex-direction: column;
+    // El header es fijo y mide 5rem en todo el ancho. Este aire no se reduce en
+    // escritorio: si bajara, las migas de pan de las subpáginas (lo primero que
+    // hay bajo el header) quedarían tapadas.
+    padding-top: 5rem;
+  }
+</style>

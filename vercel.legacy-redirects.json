@@ -1,0 +1,50 @@
+{
+  "_meta": {
+    "para_que_sirve": "Redirecciones 301 del dominio antiguo didacvalpsicologo.es (plantilla IONOS) al dominio nuevo. NO están activas en vercel.json: solo hacen falta el día del cambio de DNS, cuando el dominio antiguo apunte a este proyecto. Ese día, copiar el array 'redirects' de este fichero dentro del 'redirects' de vercel.json (fusionando con las dos entradas de /contact que ya existen ahí).",
+    "nota_urls": "Las cuatro páginas de servicio conservan su ruta exacta en el proyecto actual (psicologo-ansiedad-zaragoza, sexologo-zaragoza, terapia-adultos-zaragoza, terapia-familiar-zaragoza), así que para esas URLs no hace falta regla: la ruta antigua y la nueva son la misma. Solo se redirigen las entradas huérfanas.",
+    "blog": "La web antigua tenía un bloque /blog- con entradas sueltas. La entrada sobre cuándo acudir al psicólogo se resuelve con las FAQ de la landing, que cubren ese contenido.",
+    "dominio": "didacvalpsicologo.es"
+  },
+  "redirects": [
+    {
+      "source": "/contact/",
+      "destination": "/contacto/",
+      "permanent": true
+    },
+    {
+      "source": "/quienes-somos/",
+      "destination": "/quien-soy/",
+      "permanent": true
+    },
+    {
+      "source": "/quienes-somos",
+      "destination": "/quien-soy/",
+      "permanent": true
+    },
+    {
+      "source": "/blog-/momento-para-acudir-al-psicologo/",
+      "destination": "/#faq",
+      "permanent": true
+    },
+    {
+      "source": "/blog-/momento-para-acudir-al-psicologo",
+      "destination": "/#faq",
+      "permanent": true
+    },
+    {
+      "source": "/psicologos-en-zaragoza/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/psicologos-en-zaragoza",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}

@@ -3,6 +3,17 @@ import { Image } from "astro:assets";
 import consultaImg from "../../assets/contact/consulta.jpeg";
 import { contactData } from "../../data/contact";
 import ArrowButton from "../ui/ArrowButton.astro";
+
+interface Props {
+  /**
+   * Slug de la página desde la que se envía el formulario ("ansiedad",
+   * "sexologia"...). Se manda como campo oculto `origen` para saber de dónde
+   * viene cada consulta. En la landing se manda "inicio".
+   */
+  origen?: string;
+}
+
+const { origen = "inicio" } = Astro.props;
 ---
 
 <section id="contacto-cita" class="contact" aria-labelledby="contact-title">
@@ -20,6 +31,12 @@ import ArrowButton from "../ui/ArrowButton.astro";
     <div class="contact__grid">
       <div class="contact__panel">
         <form id="contact-psychology-form" class="contact__form" novalidate>
+          <!--
+            Página de origen de la consulta. No se ve ni se edita: sólo viaja
+            con el envío para poder saber qué página trajo a cada persona.
+          -->
+          <input type="hidden" name="origen" value={origen} />
+
           <div class="contact__row">
             <div class="contact__field">
               <label class="contact__label" for="form-name">

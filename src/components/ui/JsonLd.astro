@@ -1,0 +1,26 @@
+---
+/**
+ * Vuelca datos estructurados en el documento.
+ *
+ * El marcado se inyecta desde `SubpageLayout`, que ya compone el bloque común
+ * (LocalBusiness + BreadcrumbList) con lo que le pasa cada página. Este
+ * componente existe para el caso raro de una página que necesite emitir JSON-LD
+ * desde el cuerpo en lugar de la cabecera.
+ */
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { data } = Astro.props;
+const payload = Array.isArray(data) ? data : [data];
+---
+
+{
+  payload.map((node) => (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(node)}
+      is:inline
+    />
+  ))
+}
