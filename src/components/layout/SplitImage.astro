@@ -3,38 +3,39 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import Section from "./Section.astro";
 import SectionHeader from "./SectionHeader.astro";
+import NoteCard, { type Note } from "../ui/NoteCard.astro";
 
 /**
- * Bloque de dos columnas al 50 %. Con imagen, la imagen va a un lado y el texto
- * al otro; en usos consecutivos se alterna el lado.
+ * Bloque de dos columnas al 50 %.
  *
- * Sin imagen (cuando no hay una segunda foto adecuada en la página y repetir la
- * del hero no vale) las dos columnas son de texto: mismo ancho, mismo ritmo, y
- * la sección sigue teniendo el peso que necesita un H2 de la escala.
+ * Con imagen, la imagen va a un lado y el texto al otro; en usos consecutivos se
+ * alterna el lado con `reverse`.
+ *
+ * Sin imagen —cuando no hay una segunda foto adecuada en la página y repetir la
+ * del hero no vale— las dos columnas son de texto. En ese caso la segunda
+ * columna la ocupa el `note`: sin imagen no queda un hueco vacío, y el apunte
+ * recibe el peso visual que antes tenía un H3 que competía con el de la
+ * sección.
  */
-export interface SplitColumn {
-  kicker?: string;
-  title: string;
-  paragraphs: readonly string[];
-}
-
 interface Props {
   id?: string;
   eyebrow?: string;
   title: string;
   description?: string;
-  link?: { label: string; href: string };
-  /** Texto de la columna principal (la de la izquierda si `direction` es text-start). */
-  lead: readonly string[];
-  /** Columna secundaria. Sólo tiene sentido sin imagen. */
-  column?: SplitColumn;
+  /** Párrafos de la columna de texto. */
+  paragraphs: readonly string[];
+  /** Enlace dentro del texto (p. ej. el bloque que ya vive en la portada). */
+  paragraphLink?: { label: string; href: string };
+  /**
+   * "Un apunte" de apoyo: confidencialidad, una advertencia, una condición.
+   * Con imagen va debajo de los párrafos; sin imagen, en la segunda columna.
+   */
+  note?: Note;
   image?: ImageMetadata;
   imageAlt?: string;
-  /** `text-start`: la imagen va a la derecha. `media-start`: a la izquierda. */
-  direction?: "text-start" | "media-start";
+  /** Pone la imagen a la izquierda en vez de a la derecha. */
+  reverse?: boolean;
   tone?: "base" | "soft";
-  /** Nota al pie de la columna de texto. */
-  footnote?: string;
 }
 
 const {
@@ -42,14 +43,13 @@ const {
   eyebrow,
   title,
   description,
-  link,
-  lead,
-  column,
+  paragraphs,
+  paragraphLink,
+  note,
   image,
   imageAlt = "",
-  direction = "text-start",
+  reverse = false,
   tone = "base",
-  footnote,
 } = Astro.props;
 
 const titleId = `${id ?? "split"}-title`;
@@ -61,33 +61,48 @@ const titleId = `${id ?? "split"}-title`;
     eyebrow={eyebrow}
     title={title}
     description={description}
-    link={link}
   />
 
-  <div
-    class:list={[
-      "split-image__grid",
-      `split-image__grid--${direction}`,
-      { "split-image__grid--no-media": !image },
-    ]}
-  >
+  <div class:list={["split-image__grid", { "split-image__grid--reverse": reverse }]}>
     <div class="split-image__text">
-      {lead.map((paragraph) => <p class="split-image__paragraph">{paragraph}</p>)}
+      {
+        paragraphs.map((paragraph, index) => (
+          <p class="split-image__paragraph">
+            {paragraph}
+            {index === paragraphs.length - 1 && paragraphLink && (
+              <>
+                {" "}
+                <a
+                  class="split-image__paragraph-link"
+                  href={paragraphLink.href}
+                >
+                  {paragraphLink.label}
+                  <span class="material-symbols-outlined" aria-hidden="true">
+                    north_east
+                  </span>
+                </a>
+              </>
+            )}
+          </p>
+        ))
+      }
 
-      {footnote && <p class="split-image__footnote">{footnote}</p>}
+      {
+        note && image && (
+          <slot name="note">
+            <NoteCard text={note.text} label={note.label} />
+          </slot>
+        )
+      }
+
+      <slot />
     </div>
 
     {
-      column && (
-        <div class="split-image__column">
-          {column.kicker && (
-            <span class="split-image__column-kicker">{column.kicker}</span>
-          )}
-          <h3 class="split-image__column-title">{column.title}</h3>
-          {column.paragraphs.map((paragraph) => (
-            <p class="split-image__paragraph">{paragraph}</p>
-          ))}
-        </div>
+      !image && note && (
+        <slot name="note">
+          <NoteCard text={note.text} label={note.label} />
+        </slot>
       )
     }
 
@@ -124,6 +139,14 @@ const titleId = `${id ?? "split"}-title`;
     }
   }
 
+  // Sin imagen son dos columnas de texto: se alinean arriba. Centradas, la más
+  // corta quedaría flotando en mitad de su columna.
+  .split-image__grid:not(:has(.split-image__media)) {
+    @media (min-width: $bp-lg) {
+      align-items: start;
+    }
+  }
+
   .split-image__text {
     display: flex;
     flex-direction: column;
@@ -140,32 +163,29 @@ const titleId = `${id ?? "split"}-title`;
     text-wrap: pretty;
   }
 
-  .split-image__column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $space-2xs;
-    min-width: 0;
-  }
-
-  .split-image__column-kicker {
-    @include type-kicker;
-    font-weight: 700;
-    color: var(--color-secondary);
-  }
-
-  .split-image__column-title {
-    @include type-h3;
-    margin: 0;
+  // El enlace va dentro del párrafo, no suelto en una esquina: es una
+  // referencia a otro bloque, no una llamada a la acción.
+  .split-image__paragraph-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-3xs;
+    white-space: nowrap;
+    font-weight: 600;
     color: var(--color-on-surface);
-    text-wrap: balance;
-  }
+    border-bottom: 0.0625rem solid var(--color-outline-variant);
+    padding-bottom: 1px;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
 
-  .split-image__footnote {
-    @include type-small;
-    margin: 0;
-    max-width: 34rem;
-    color: var(--color-on-surface-variant);
+    .material-symbols-outlined {
+      font-size: 0.9375rem;
+    }
+
+    &:hover {
+      color: var(--color-secondary);
+      border-color: var(--color-secondary);
+    }
   }
 
   .split-image__media {
@@ -189,20 +209,10 @@ const titleId = `${id ?? "split"}-title`;
     object-position: center;
   }
 
-  // Dos columnas de texto: se alinean arriba, no al centro. Centradas, la más
-  // corta queda flotando en mitad de su columna.
-  .split-image__grid--no-media {
-    @media (min-width: $bp-lg) {
-      align-items: start;
-    }
-  }
-
   // La imagen cambia de lado, el texto no: el ojo siempre entra por la izquierda.
-  .split-image__grid--media-start {
+  .split-image__grid--reverse .split-image__media {
     @media (min-width: $bp-lg) {
-      .split-image__media {
-        order: -1;
-      }
+      order: -1;
     }
   }
 </style>

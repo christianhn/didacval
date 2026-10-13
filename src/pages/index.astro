@@ -14,6 +14,7 @@ import Contact from "../components/layout/Contact.astro";
 import Footer from "../components/sections/Footer.astro";
 import Specialties from "../components/layout/Specialties.astro";
 import Details from "../components/layout/Details.astro";
+import handImg from "../assets/ask/hand.jpg";
 ---
 
 <Layout>
@@ -31,7 +32,10 @@ import Details from "../components/layout/Details.astro";
     <SupportQuote /> -->
 
     <!-- <EditorialPortal /> -->
-    <Faq />
+    <!-- La foto de la mano es de la portada: se pasa aquí porque `Faq.astro` ya
+         no la da por defecto, para que una subpágina sin imagen propia no la
+         herede. -->
+    <Faq image={handImg} />
     <Contact />
   </main>
   <Footer />

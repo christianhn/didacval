@@ -88,6 +88,13 @@ export const familiarPage: PageContent = {
         description:
           "No buscamos culpables: buscamos entender cómo se han construido ciertos patrones y encontrar otras formas de convivir.",
         tone: "base",
+        aside: {
+          text: "Cada familia es distinta: el orden y el ritmo se ajustan a cada caso.",
+        },
+        footerLink: {
+          label: "Ver el proceso completo",
+          href: "/#proceso",
+        },
         steps: [
           {
             number: "01",
@@ -115,35 +122,32 @@ export const familiarPage: PageContent = {
     },
 
     // ---- 3. Dos columnas -------------------------------------------------
-    // Sin imagen: `family.jpg` es la del hero y repetirla dentro de la misma
-    // página es justo lo que hace que una sección parezca un relleno. Con dos
-    // columnas de texto el bloque mantiene el peso que pide un H2 de la escala.
+    // Sin imagen. La única foto que encajaría aquí es `family.jpg`, que ya es la
+    // del hero, y repetirla dentro de la misma página es justo lo que hace que
+    // una sección parezca un relleno. Sin imagen, la segunda columna la ocupa el
+    // apunte de confidencialidad, que antes era un H3 del tamaño del titular y
+    // le competía.
     {
       kind: "split",
       data: {
         id: "con-adolescentes",
         eyebrow: "Con adolescentes",
         title: "Trabajo individual y familiar, según el caso",
-        description:
-          "Cuando tiene sentido, combino sesiones individuales con sesiones familiares. No es un protocolo cerrado: se decide en la primera sesión.",
-        link: {
-          label: "Ver también orientación académica",
+        paragraphs: [
+          "Se puede trabajar de forma individual con el adolescente y combinarlo con sesiones familiares cuando tenga sentido. No es un protocolo cerrado: se decide en la primera sesión.",
+        ],
+        paragraphLink: {
+          label: "orientación académica",
           href: "/#areas-clinicas",
         },
-        tone: "soft",
-        lead: [
-          "El adolescente necesita un espacio que no dependa de la autorización de sus padres para ser escuchado. Por eso el trabajo individual suele ir por delante: es la vía para que pueda decir lo que no dice en casa.",
-        ],
-        column: {
-          kicker: "Confidencialidad",
-          title: "Lo que cuenta se trata como cualquier otro contenido de consulta",
-          paragraphs: [
-            "Se explica siempre antes de empezar, con el adolescente delante. Los padres reciben información sobre el proceso y el objetivo, nunca el detalle de lo que se ha contado.",
-            // TODO confirmar con Didac: el protocolo real de confidencialidad
-            //   con menores y qué se comparte con los padres. Es también la
-            //   respuesta a una de las preguntas de la FAQ de abajo.
-          ],
+        note: {
+          label: "Confidencialidad",
+          // TODO confirmar con Didac: el protocolo real de confidencialidad
+          //   con menores y qué se comparte con los padres. Es también la
+          //   respuesta a una de las preguntas de la FAQ de abajo.
+          text: "Lo que cuenta el adolescente se trata como cualquier otro contenido de consulta. Los padres reciben información sobre el proceso y el objetivo, nunca el detalle de lo que se ha contado.",
         },
+        tone: "soft",
       },
     },
 

@@ -24,9 +24,23 @@ interface Props {
   description?: string;
   steps: readonly Step[];
   tone?: "base" | "soft";
+  /**
+   * Enlace discreto bajo la última tarjeta, para el bloque que ya vive en la
+   * portada (aquí, el proceso completo de cuatro fases). Sin él, estas tres
+   * fases se confunden con aquel.
+   */
+  footerLink?: { label: string; href: string };
 }
 
-const { id, eyebrow, title, description, steps, tone = "base" } = Astro.props;
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  steps,
+  tone = "base",
+  footerLink,
+} = Astro.props;
 
 const titleId = `${id ?? "steps"}-title`;
 ---
@@ -41,22 +55,39 @@ const titleId = `${id ?? "steps"}-title`;
         title={title}
         description={description}
       />
+
+      <slot name="aside" />
     </div>
 
-    <ol class="steps__stack">
+    <div class="steps__stack">
+      <ol class="steps__stack-list">
+        {
+          steps.map((step) => (
+            <li class="steps__card">
+              <span class="steps__number" aria-hidden="true">
+                {step.number}
+              </span>
+              <div class="steps__body">
+                <span class="steps__kicker">{step.kicker}</span>
+                <h3 class="steps__title">{step.title}</h3>
+                <p class="steps__desc">{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
       {
-        steps.map((step) => (
-          <li class="steps__card">
-            <span class="steps__number" aria-hidden="true">{step.number}</span>
-            <div class="steps__body">
-              <span class="steps__kicker">{step.kicker}</span>
-              <h3 class="steps__title">{step.title}</h3>
-              <p class="steps__desc">{step.description}</p>
-            </div>
-          </li>
-        ))
+        footerLink && (
+          <a class="steps__footer-link" href={footerLink.href}>
+            <span>{footerLink.label}</span>
+            <span class="material-symbols-outlined" aria-hidden="true">
+              north_east
+            </span>
+          </a>
+        )
       }
-    </ol>
+    </div>
   </div>
 </Section>
 
@@ -79,6 +110,11 @@ const titleId = `${id ?? "steps"}-title`;
   }
 
   .steps__aside {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xl;
+    min-width: 0;
+
     @media (min-width: $bp-lg) {
       position: sticky;
       top: 20dvh;
@@ -86,6 +122,16 @@ const titleId = `${id ?? "steps"}-title`;
   }
 
   .steps__stack {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+
+    @media (min-width: $bp-lg) {
+      gap: $space-xl;
+    }
+  }
+
+  .steps__stack-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -146,5 +192,12 @@ const titleId = `${id ?? "steps"}-title`;
     margin: $space-2xs 0 0;
     max-width: 36rem;
     color: var(--color-on-surface-variant);
+  }
+
+  // Alineado con el texto de las tarjetas, no con su borde: el enlace se lee
+  // como parte de la secuencia, no como una llamada a la acción aparte.
+  .steps__footer-link {
+    @include section-link;
+    margin-left: calc(#{$card-number-width} + #{$space-lg});
   }
 </style>

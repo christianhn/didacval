@@ -107,6 +107,7 @@ async function inspect(page) {
       iconNames,
       imgs,
       repeatedImgs: imgs.filter((src, i) => imgs.indexOf(src) !== i),
+      handPhoto: imgs.some((s) => /ask(?:%2F|\/)hand/.test(s)),
       orphanBullets,
       scrollW: document.documentElement.scrollWidth,
       clientW: document.documentElement.clientWidth,
@@ -168,6 +169,18 @@ async function main() {
       const page = await context.newPage();
       await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(BASE + pathname, { waitUntil: "networkidle" });
+      // Las secciones de abajo van con `loading="lazy"`. Sin recorrer la página,
+      // la captura sale con huecos donde deberían estar las fotos y parece un
+      // fallo de maquetación lo que sólo es una foto sin pedir.
+      await page.evaluate(async () => {
+        const step = Math.round(window.innerHeight / 2);
+        for (let y = 0; y < document.body.scrollHeight; y += step) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 60));
+        }
+        window.scrollTo(0, 0);
+      });
+      await page.waitForLoadState("networkidle");
       await page.waitForTimeout(250);
       const d = await inspect(page);
 
@@ -236,6 +249,11 @@ async function main() {
                   `repetida: ${decodeURIComponent(s).match(/assets%2F(.+?)%3ForigWidth/) ? decodeURIComponent(s).match(/assets%2F(.+?)%3ForigWidth/)[1] : s.slice(-40)}`,
               ),
           "cada sección con imagen necesita su propia foto",
+        ),
+        check(
+          "la foto de la mano sólo en la landing",
+          d.handPhoto && pathname !== "/" ? ["aparece en una subpágina"] : [],
+          "assets/ask/hand.jpg es de la portada (ver DESIGN_SPEC.md §3)",
         ),
         check(
           `máximo ${MAX_BLOCKS} bloques`,

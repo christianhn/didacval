@@ -3,7 +3,7 @@ import type { RowsItem } from "../../components/layout/RowsItem.astro";
 import type { RowListItem } from "../../components/ui/RowList.astro";
 import type { RelatedLink } from "../../components/ui/RelatedServices.astro";
 import type { Step } from "../../components/layout/NumberedSteps.astro";
-import type { SplitColumn } from "../../components/layout/SplitImage.astro";
+import type { Note } from "../../components/ui/NoteCard.astro";
 import type { FaqItem } from "../../components/layout/Faq.astro";
 import type { FormationEntry } from "../../components/ui/FormationGroup.astro";
 import type { Crumb } from "../structuredData";
@@ -61,6 +61,10 @@ export interface StepsBlock {
   description?: string;
   steps: readonly Step[];
   tone?: SectionTone;
+  /** "Un apunte" bajo la cabecera, en la columna izquierda. */
+  aside?: Note;
+  /** Enlace discreto bajo la última tarjeta, al bloque equivalente de la landing. */
+  footerLink?: { label: string; href: string };
 }
 
 export interface SplitBlock {
@@ -68,22 +72,21 @@ export interface SplitBlock {
   eyebrow?: string;
   title: string;
   description?: string;
-  /** Enlace de la cabecera de sección (p. ej. el bloque que ya está en la landing). */
-  link?: { label: string; href: string };
-  /** Párrafos de la columna principal. */
-  lead: readonly string[];
-  /** Segunda columna de texto. Sólo tiene sentido sin imagen. */
-  column?: SplitColumn;
+  /** Párrafos de la columna de texto. */
+  paragraphs: readonly string[];
+  /** Enlace dentro del último párrafo (p. ej. el bloque que ya está en la landing). */
+  paragraphLink?: { label: string; href: string };
+  /** "Un apunte": confidencialidad, advertencia o condición. */
+  note?: Note;
   /**
    * Sin imagen, la sección va en dos columnas de texto: repetir la foto del hero
-   * no es una opción y una sección con el H2 de la escala y dos frases debajo no
-   * se sostiene.
+   * no es una opción, y la segunda columna la ocupa el `note`.
    */
   image?: ImageMetadata;
   imageAlt?: string;
-  direction?: "text-start" | "media-start";
+  /** Pone la imagen a la izquierda en vez de a la derecha. */
+  reverse?: boolean;
   tone?: SectionTone;
-  footnote?: string;
 }
 
 export interface FaqBlock {

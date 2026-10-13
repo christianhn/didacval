@@ -3,6 +3,7 @@ import type { PageBlock } from "../../data/pages/types";
 import RowsContainer from "./RowsContainer.astro";
 import NumberedSteps from "./NumberedSteps.astro";
 import SplitImage from "./SplitImage.astro";
+import NoteCard from "../ui/NoteCard.astro";
 import Faq from "./Faq.astro";
 import RowList from "../ui/RowList.astro";
 import RelatedServices from "../ui/RelatedServices.astro";
@@ -52,7 +53,18 @@ const { blocks } = Astro.props;
             description={block.data.description}
             steps={block.data.steps}
             tone={block.data.tone}
-          />
+            footerLink={block.data.footerLink}
+          >
+            {
+              block.data.aside && (
+                <NoteCard
+                  slot="aside"
+                  text={block.data.aside.text}
+                  label={block.data.aside.label}
+                />
+              )
+            }
+          </NumberedSteps>
         );
 
       case "split":
@@ -62,21 +74,20 @@ const { blocks } = Astro.props;
             eyebrow={block.data.eyebrow}
             title={block.data.title}
             description={block.data.description}
-            link={block.data.link}
-            lead={block.data.lead}
-            column={block.data.column}
+            paragraphs={block.data.paragraphs}
+            paragraphLink={block.data.paragraphLink}
+            note={block.data.note}
             image={block.data.image}
             imageAlt={block.data.imageAlt}
-            direction={block.data.direction}
+            reverse={block.data.reverse}
             tone={block.data.tone}
-            footnote={block.data.footnote}
           />
         );
 
       case "faq":
-        // La variante por defecto es la de la landing: imagen a la izquierda y
-        // acordeón a la derecha, al ancho del contenedor. `plain` queda
-        // únicamente para páginas que aún no se han migrado.
+        // Sin imagen: la cabecera va a la izquierda y el acordeón a la derecha,
+        // con el mismo ancho que en la portada. La foto de la mano es de la
+        // landing y no se repite en las subpáginas.
         return (
           <Faq
             id={block.data.id}
@@ -84,7 +95,6 @@ const { blocks } = Astro.props;
             title={block.data.title}
             description={block.data.description}
             items={block.data.items}
-            variant="portrait"
           />
         );
 

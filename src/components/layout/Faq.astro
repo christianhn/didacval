@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import handImg from "../../assets/ask/hand.jpg";
 import { faqData } from "../../data/faq";
 
 export interface FaqItem {
@@ -17,13 +16,12 @@ interface Props {
   eyebrow?: string;
   id?: string;
   /**
-   * `portrait` (por defecto) es el bloque de la landing: columna de imagen con
-   * el titular superpuesto + lista de acordeones. `plain` quita la imagen y
-   * deja sólo la lista, para las subpáginas, donde la imagen ya está en el hero
-   * y repetirse restaría.
+   * Con imagen: columna de foto con el titular superpuesto, el bloque de la
+   * landing. Sin imagen: cabecera de sección a la izquierda y acordeón a la
+   * derecha, con el mismo ancho de acordeón. La imagen es opcional a propósito:
+   * la foto de la mano es de la portada y repetirla en cada subpágina la
+   * convertía en wallpaper.
    */
-  variant?: "portrait" | "plain";
-  /** Imagen de la columna lateral. Por defecto, la mano de la landing. */
   image?: ImageMetadata;
   imageAlt?: string;
 }
@@ -34,22 +32,22 @@ const {
   description = faqData.description,
   eyebrow,
   id = "faq",
-  variant = "portrait",
-  image = handImg,
+  image,
   imageAlt = "Ilustración de mano",
 } = Astro.props;
 
 const titleId = `${id}-title`;
+const withImage = !!image;
 ---
 
 <section
   id={id}
-  class:list={["faq", `faq--${variant}`]}
+  class:list={["faq", withImage ? "faq--portrait" : "faq--side"]}
   aria-labelledby={titleId}
 >
   <div class="faq__inner">
     {
-      variant === "portrait" && (
+      withImage && (
         <div class="faq__intro">
           <Image
             src={image}
@@ -70,7 +68,7 @@ const titleId = `${id}-title`;
     }
 
     {
-      variant === "plain" && (
+      !withImage && (
         <header class="faq__header">
           {eyebrow && <span class="faq__eyebrow">{eyebrow}</span>}
           <h2 id={titleId} class="faq__title">{title}</h2>
@@ -107,6 +105,7 @@ const titleId = `${id}-title`;
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
+  @use "../../styles/scale" as *;
 
   .faq {
     width: 100%;
@@ -128,7 +127,23 @@ const titleId = `${id}-title`;
       gap: $space-xs;
     }
 
+    // Sin imagen la cabecera es la columna de la izquierda: la de
+    // "Tres situaciones". El título ya viene en el rol H2 de la escala, y la
+    // descripción sube al rol de cuerpo (16px) en vez de quedarse en 13px.
+    &--side &__header {
+      max-width: 40rem;
+      margin-bottom: 0;
+    }
+
+    &--side &__desc {
+      @include type-body;
+      max-width: 34rem;
+      line-height: 1.6;
+    }
+
     // --- Layout ---
+    // Las dos variantes comparten la misma rejilla 4fr/8fr: la foto y la
+    // cabecera ocupan el mismo ancho, y el acordeón es idéntico en una y otra.
     &__inner {
       max-width: $container-max;
       margin-inline: auto;
@@ -139,18 +154,6 @@ const titleId = `${id}-title`;
       @media (min-width: $bp-lg) {
         grid-template-columns: 4fr 8fr;
       }
-    }
-
-    // En variante `plain` no hay columna de imagen: la lista ocupa el ancho de
-    // lectura y no se queda pegada a una mitad vacía.
-    &--plain &__inner {
-      grid-template-columns: minmax(0, 1fr);
-      gap: $space-2xl;
-      max-width: 52rem;
-    }
-
-    &--plain &__list {
-      position: static;
     }
 
     // --- Intro (imagen + overlay de texto) ---
@@ -246,12 +249,7 @@ const titleId = `${id}-title`;
       }
     }
 
-    &--plain &__list {
-      @media (min-width: $bp-lg) {
-        position: static;
-        align-self: stretch;
-      }
-    }
+PLACEHOLDER_REMOVE
 
     &__item {
       background: var(--color-surface-container-lowest);
@@ -322,7 +320,7 @@ const titleId = `${id}-title`;
   const intro = document.querySelector<HTMLElement>(".faq__intro");
   const heroImage = document.querySelector<HTMLElement>(".faq__hero-image");
 
-  // Sólo hay paralaje si la variante trae imagen (la subpágina usa `plain`).
+  // Sólo hay paralaje si el bloque trae imagen; las subpáginas van sin ella.
   if (
     intro &&
     heroImage &&
