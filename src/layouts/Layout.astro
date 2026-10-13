@@ -42,15 +42,20 @@ const {
     import Lenis from "lenis";
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { supportsScrollChoreography } from "../scripts/motion";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // En iOS, plegar la barra de direcciones dispara un `resize` que no es un
+    // resize real: solo cambia el alto. ScrollTrigger lo tomaba como señal para
+    // refrescar, y `refresh()` re-mide todos los triggers, rehace los pin-spacers
+    // y fuerza reflows síncronos... en pleno scroll. Eso es lo que clavaba la
+    // página en cuanto aparecía la barra. Con esto solo se refresca si cambia
+    // el ancho (rotación, resize real de la ventana).
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     // Smooth scroll solo en PC (puntero fino + hover), no en táctiles
-    const isDesktop = window.matchMedia(
-      "(pointer: fine) and (hover: hover)",
-    ).matches;
-
-    if (isDesktop) {
-      gsap.registerPlugin(ScrollTrigger);
-
+    if (supportsScrollChoreography()) {
       const lenis = new Lenis({
         anchors: true,
         syncTouch: false,

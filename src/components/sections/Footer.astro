@@ -83,6 +83,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
 <script>
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { prefersReducedMotion } from "../../scripts/motion";
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -98,12 +99,16 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   const dim = document.querySelector<HTMLElement>("[data-contact-dim]");
   const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
 
-  const canAnimate =
-    !!footer &&
-    !!contact &&
-    !!dim &&
-    !!footerInner &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // El pin y el footer `position: fixed` funcionan en iOS siempre que nadie refresque
+// los triggers durante el scroll (ver ScrollTrigger.config en Layout y el
+// comentario de `load` más abajo). El scrub va sin Lenis en táctil, pero eso solo
+// afecta a la suavidad del interpolado, no al coste por frame.
+const canAnimate =
+  !!footer &&
+  !!contact &&
+  !!dim &&
+  !!footerInner &&
+  !prefersReducedMotion();
 
   if (footer && contact && dim && footerInner && canAnimate) {
     const applyHeight = () => {
@@ -236,18 +241,23 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
       refreshTimer = window.setTimeout(refresh, 200);
     };
 
-    window.addEventListener("resize", scheduleRefresh);
+    // Solo refrescamos si cambia el ANCHO. En móvil, plegar la barra de Safari
+    // cambia el alto del viewport pero no el ancho: entrar ahí en `refresh()`
+    // es exactamente lo que hacía clavar el scroll a media inercia.
+    let lastWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      scheduleRefresh();
+    });
     document.fonts?.ready.then(scheduleRefresh);
 
-    if ("ResizeObserver" in window) {
-      let lastHeight = document.documentElement.offsetHeight;
-      new ResizeObserver(() => {
-        const height = document.documentElement.offsetHeight;
-        if (height === lastHeight) return;
-        lastHeight = height;
-        scheduleRefresh();
-      }).observe(document.documentElement);
-    }
+    // Antes había un ResizeObserver sobre documentElement que llamaba a esto
+    // con cualquier cambio de alto del documento, así que cada pliegue de la
+    // barra provocaba un `ScrollTrigger.refresh()` en pleno scroll. `load`
+    // cubre lo único que de verdad cambia el layout después del primer paint
+    // (imágenes y fuentes tardías).
+    window.addEventListener("load", refresh, { once: true });
   }
 </script>
 
@@ -276,8 +286,10 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   .footer--fixed {
     position: fixed;
     inset: auto 0 0 0;
-    height: 66.6667dvh;
-    max-height: 100dvh;
+    // `svh` y no `dvh`: las unidades dinámicas se recalculan cuando Safari
+    // pliega la barra, y aquí eso cambiaría el alto del footer bajo el scrub.
+    height: 66.6667svh;
+    max-height: 100svh;
     overflow: hidden;
     will-change: transform;
   }
@@ -286,7 +298,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
     padding-block-start: $space-xl;
 
     @media (min-width: $bp-md) {
-      padding-block-start: clamp($space-xl, 8dvh, $space-2xl);
+      padding-block-start: clamp($space-xl, 8svh, $space-2xl);
     }
   }
 
@@ -305,7 +317,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
     transform-origin: top center;
 
     @media (min-width: $bp-md) {
-      padding-block: clamp($space-xl, 8dvh, $space-3xl);
+      padding-block: clamp($space-xl, 8svh, $space-3xl);
     }
 
     @media (min-width: $bp-lg) {

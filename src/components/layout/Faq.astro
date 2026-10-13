@@ -257,7 +257,14 @@ import { faqData } from "../../data/faq";
 
   if (list) {
     updateStickyTop();
-    window.addEventListener("resize", updateStickyTop);
+    // Igual que en el resto: el pliegue de la barra en móvil cambia el alto,
+    // no el ancho, y no debe reescribir la variable.
+    let lastWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      updateStickyTop();
+    });
 
     if ("ResizeObserver" in window) {
       new ResizeObserver(updateStickyTop).observe(list);

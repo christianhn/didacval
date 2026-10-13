@@ -45,6 +45,9 @@ body {
 
 html {
   scroll-behavior: smooth;
+  // Sin esto los saltos por anclas (menú móvil, CTA) caen debajo del header
+  // fijo de 5rem. En escritorio lo absorbe Lenis con scroll-behavior: auto.
+  scroll-padding-top: 5rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
 

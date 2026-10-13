@@ -155,15 +155,13 @@ import DetailRow from "../ui/DetailRow.astro";
 <script>
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { prefersReducedMotion } from "../../scripts/motion";
 
   gsap.registerPlugin(ScrollTrigger);
 
   const section = document.querySelector<HTMLElement>(".details");
 
-  if (
-    section &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  ) {
+  if (section && !prefersReducedMotion()) {
     gsap.to(section, {
       marginLeft: 0,
       marginRight: 0,

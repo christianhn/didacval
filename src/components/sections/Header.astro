@@ -113,7 +113,13 @@ import MobileMenu from "../ui/MobileMenu.astro";
         createObserver();
 
         let resizeTimer: number;
+        let lastWidth = window.innerWidth;
         window.addEventListener("resize", () => {
+          // Plegar la barra en móvil cambia el alto, no el ancho. Reconstruir el
+          // observer por eso solo añade trabajo en plena inercia.
+          if (window.innerWidth === lastWidth) return;
+          lastWidth = window.innerWidth;
+
           clearTimeout(resizeTimer);
           resizeTimer = window.setTimeout(() => {
             createObserver();
@@ -153,26 +159,33 @@ import MobileMenu from "../ui/MobileMenu.astro";
     const previousContent =
       (previousSection?.firstElementChild as HTMLElement | null) ??
       previousSection;
-    console.log(previousContent);
 
     let zone: ScrollTrigger | null = null;
     let direction = 1;
     // Hasta que pasa la entrada inicial el scroll no toca el header: si no,
     // el primer evento de scroll de Lenis lo adelantaría.
     let settled = false;
+    // Estado visual en el que ya estamos. Sin esto, cada evento de scroll
+    // reiniciaba el tween de 0.6s y el header no arrive a asentar nunca
+    // durante la inercia (peor en iOS, donde el scroll dispara muy seguido).
+    let shown = true;
 
     const updateHeader = () => {
       if (!settled) return;
+
+      let next: boolean;
       if (window.scrollY <= 80) {
-        showAnim.play();
-        return;
+        next = true;
+      } else if (zone && (zone.isActive || zone.progress > 0)) {
+        next = false;
+      } else {
+        next = direction === -1;
       }
-      const inFinalZone = !!zone && (zone.isActive || zone.progress > 0);
-      if (inFinalZone) {
-        showAnim.reverse();
-        return;
-      }
-      direction === -1 ? showAnim.play() : showAnim.reverse();
+
+      if (next === shown) return;
+      shown = next;
+
+      next ? showAnim.play() : showAnim.reverse();
     };
 
     let lastScrollY = window.scrollY;
@@ -215,11 +228,26 @@ import MobileMenu from "../ui/MobileMenu.astro";
     position: fixed;
     inset: 0 0 auto 0;
     z-index: $z-header;
+    // El header se transforma en cada frame de scroll. Sin capa propia, Safari
+    // lo repinta (y vuelve a difuminar lo que tiene detrás) cada vez.
+    will-change: transform;
     transition:
       background 0.3s ease,
-      backdrop-filter 0.3s ease,
       box-shadow 0.3s ease,
       border-color 0.3s ease;
+  }
+
+  // `backdrop-filter` sobre un elemento fijo y en movimiento obliga a recomponer
+  // el desenfoque en cada frame. En iOS eso hunde el scroll, así que solo se
+  // aplica donde hay puntero fino; en táctil el fondo va más opaco para compensar.
+  @media (hover: hover) and (pointer: fine) {
+    .header {
+      transition:
+        background 0.3s ease,
+        backdrop-filter 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    }
   }
 
   // El módulo con GSAP llega después del primer paint: sin esto el header se
@@ -233,10 +261,19 @@ import MobileMenu from "../ui/MobileMenu.astro";
   .header--solid {
     background: color-mix(
       in srgb,
-      var(--color-surface-bright) 85%,
+      var(--color-surface-bright) 92%,
       transparent
     );
-    backdrop-filter: blur(0.75rem);
+
+    @media (hover: hover) and (pointer: fine) {
+      background: color-mix(
+        in srgb,
+        var(--color-surface-bright) 85%,
+        transparent
+      );
+      backdrop-filter: blur(0.75rem);
+    }
+
     box-shadow: 0 0.0625rem 0.5rem
       color-mix(in srgb, var(--color-primary) 4%, transparent);
   }
