@@ -92,6 +92,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   const PEEK_END = PEEK_RATIO / (1 + PEEK_RATIO);
   const END = 1 / (1 + PEEK_RATIO);
   const LIFT = END - PEEK_END;
+  const LEAD_RATIO = 0.3;
 
   const footer = document.querySelector<HTMLElement>("[data-footer]");
   const contact = document.querySelector<HTMLElement>(".contact");
@@ -122,7 +123,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
 
       footer.style.height = `${target}px`;
 
-      contact.style.paddingBottom = `${footer.offsetHeight}px`;
+      contact.style.paddingBottom = `${footer.offsetHeight * (1 + LEAD_RATIO)}px`;
     };
 
     const revealTargets = footer.querySelectorAll(
@@ -137,14 +138,11 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: contactInner,
-        start: "bottom bottom",
+        start: () => `bottom bottom-=${footer.offsetHeight * LEAD_RATIO}`,
         end: () => "+=" + footer.offsetHeight,
         scrub: true,
       },
     });
-
-    const marker = {};
-    tl.set(marker, { ready: true }, 1);
 
     tl.fromTo(
       footer,
