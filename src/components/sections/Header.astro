@@ -467,6 +467,7 @@ const specialties = nav.find((item) => item.children);
   .header__brand-name {
     @include text-headline-sm;
     letter-spacing: -0.015em;
+    white-space: nowrap;
     transition: color 0.3s ease;
 
     .header--solid & {
@@ -503,8 +504,37 @@ const specialties = nav.find((item) => item.children);
     align-items: center;
     gap: $space-xs;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-nav) {
       display: flex;
+      gap: $space-3xs;
+    }
+
+    @media (min-width: $bp-xl) {
+      gap: $space-xs;
+    }
+  }
+
+  // Tamaño compacto del nav entre 1024 y 1280 px, donde seis entradas más el
+  // CTA no entran con la medida de escritorio. A partir de $bp-xl se recupera.
+  @media (min-width: $bp-nav) and (max-width: #{$bp-xl - 0.0625rem}) {
+    .header__nav-link {
+      padding: $space-2xs $space-xs;
+      @include text-caption-sm;
+    }
+
+    .header__cta {
+      padding-left: $space-md;
+      @include text-caption-sm;
+    }
+
+    .header__cta-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .header__brand-name {
+      font-size: 1.125rem;
+      line-height: 1.25rem;
     }
   }
 
@@ -658,8 +688,8 @@ const specialties = nav.find((item) => item.children);
     gap: $space-sm;
   }
 
-  // Por debajo del breakpoint del nav el CTA no cabe junto a la marca y se
-  // traslada al final del menú lateral.
+  // Por debajo de $bp-nav el CTA no cabe junto a la marca y se traslada al
+  // final del menú lateral.
   .header__cta {
     display: none;
     align-items: center;
@@ -673,7 +703,7 @@ const specialties = nav.find((item) => item.children);
       color 0.3s ease,
       transform 0.15s;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-nav) {
       display: inline-flex;
     }
 
@@ -761,7 +791,7 @@ const specialties = nav.find((item) => item.children);
       background 0.3s ease,
       transform 0.15s;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-nav) {
       display: none;
     }
 

@@ -121,6 +121,13 @@ $bp-md: 48rem;
 $bp-lg: 64rem;
 $bp-xl: 80rem;
 
+// ---------- Breakpoint de la navegación ----------
+// El nav de escritorio aparece a partir de aquí, no de $bp-md (48rem). Con seis
+// entradas más el desplegable de especialidades, a 768px el header se apretaba
+// hasta partir las etiquetas en dos líneas y el CTA se salía de la pantalla.
+// Entre 768 y 1024 se usa, por tanto, el menú lateral.
+$bp-nav: 64rem; // = $bp-lg
+
 // ---------- Z-index ----------
 $z-footer: 40;
 $z-header: 50;

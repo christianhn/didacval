@@ -14,9 +14,19 @@
 //    visita a un tercero. Autoalojando, no sale nadie del dominio.
 //
 // Los ficheros son los mismos que sirve Google (Hanken Grotesk es variable: un
-// solo archivo cubre todos los pesos). Los subconjuntos que se descargan son
-// `latin` y `latin-ext`, que es donde están la eñe y las tildes; el resto de
-// subconjuntos no se usa en la web.
+// solo archivo cubre los pesos 300 a 600). Sólo se descargan los subconjuntos
+// `latin` y `latin-ext`, que es donde están la eñe y las tildes.
+//
+// EL RANGO `U+0000-00FF` NO SE PUEDE ESCRIBIR AQUÍ
+//
+// El minificador de CSS que usa Astro convierte cualquier `unicode-range` que
+// empiece por el punto de código 0 en `U+??`, que es un rango inválido. El
+// navegador descarta la regla @font-face entera y la tipografía no llega a
+// cargar nunca (los textos salen con la tipografía de sistema). Por eso los dos
+// subconjuntos `latin` van SIN `unicode-range`: al no declarar rango, la fuente
+// se aplica a todo el texto y los caracteres que no contenga (no hay ninguno en
+// esta web) recurren al siguiente tipo de la lista. `latin-ext` sí conserva el
+// suyo, y va declarado antes para que sus caracteres sigan cogiendo su fichero.
 
 @font-face {
   font-family: "Hanken Grotesk";
@@ -24,9 +34,7 @@
   font-weight: 300 600;
   font-display: swap;
   src: url("/fonts/hanken-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
-    U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: #{'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF'};
 }
 
 @font-face {
@@ -35,9 +43,6 @@
   font-weight: 300 600;
   font-display: swap;
   src: url("/fonts/hanken-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -46,9 +51,7 @@
   font-weight: 400;
   font-display: swap;
   src: url("/fonts/hanken-italic-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
-    U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: #{'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF'};
 }
 
 @font-face {
@@ -57,16 +60,21 @@
   font-weight: 400;
   font-display: swap;
   src: url("/fonts/hanken-italic-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 // Material Symbols es una fuente variable con los ejes opsz, wght, FILL y GRAD.
-// Se reproduce aquí el bloque que entrega Google, con `font-display: block`
-// (no `swap`): la fuente sólo trae pictogramas y, mientras carga, un `swap`
+// Se reproduce aquí el bloque que entrega Google, con `font-display: block` en
+// lugar de `swap`: la fuente sólo trae pictogramas y, mientras carga, un `swap`
 // dibujaría la palabra con la tipografía de texto en su lugar, un salto visible
 // en cada icono.
+//
+// OJO: ESTE FICHERO ESTÁ RECORTADO A LOS 37 ICONOS QUE USA LA WEB (315 KiB ->
+// 5 KiB). Google entrega los ~4.000 pictogramas del set, y ese peso competía con
+// la imagen del hero por el ancho de banda y retrasaba el LCP.
+//
+// Si añades un icono nuevo, hay que volver a generar el fichero con
+// `python3 scripts/subset-icons.py` (ver el script para las instrucciones);
+// mientras no se haga, ese icono se dibujará como texto.
 @font-face {
   font-family: "Material Symbols Outlined";
   font-style: normal;

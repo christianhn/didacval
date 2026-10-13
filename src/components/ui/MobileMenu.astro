@@ -112,7 +112,9 @@ let index = -1;
   const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
 
   if (menu && panel && backdrop && trigger && closeBtn) {
-    const desktop = window.matchMedia("(min-width: 48rem)");
+    // Mismo umbral que el nav del header ($bp-nav): por debajo de él manda
+    // el panel lateral, por encima el nav de escritorio.
+    const desktop = window.matchMedia("(min-width: 64rem)");
     // El botón de cerrar vive dentro del panel, así que también entra en la
     // trampa de foco (va el primero en el orden de tabulación).
     const focusables = Array.from(
@@ -240,7 +242,7 @@ let index = -1;
     z-index: $z-menu;
     pointer-events: none;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-nav) {
       display: none;
     }
   }
