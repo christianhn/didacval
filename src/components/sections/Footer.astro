@@ -95,13 +95,19 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
 
   const footer = document.querySelector<HTMLElement>("[data-footer]");
   const contact = document.querySelector<HTMLElement>(".contact");
+  const contactInner = contact?.querySelector<HTMLElement>(".contact__inner");
   const dim = document.querySelector<HTMLElement>("[data-contact-dim]");
   const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
 
   const canAnimate =
-    !!footer && !!contact && !!dim && !!footerInner && !prefersReducedMotion();
+    !!footer &&
+    !!contact &&
+    !!contactInner &&
+    !!dim &&
+    !!footerInner &&
+    !prefersReducedMotion();
 
-  if (footer && contact && dim && footerInner && canAnimate) {
+  if (footer && contact && contactInner && dim && footerInner && canAnimate) {
     const applyHeight = () => {
       const viewport = window.innerHeight;
 
@@ -115,6 +121,8 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
       );
 
       footer.style.height = `${target}px`;
+
+      contact.style.paddingBottom = `${footer.offsetHeight}px`;
     };
 
     const revealTargets = footer.querySelectorAll(
@@ -128,9 +136,9 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: contact,
+        trigger: contactInner,
         start: "bottom bottom",
-        end: () => "+=" + footer.offsetHeight * (1 + PEEK_RATIO),
+        end: () => "+=" + footer.offsetHeight,
         scrub: true,
       },
     });
@@ -184,15 +192,6 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
         },
         PEEK_END,
       );
-
-    ScrollTrigger.create({
-      id: "contact",
-      trigger: contact,
-      start: () => `bottom bottom-=${footer.offsetHeight * PEEK_RATIO}`,
-      end: () => "+=" + footer.offsetHeight,
-      pin: contact,
-      anticipatePin: 1,
-    });
 
     const refresh = () => {
       applyHeight();
@@ -498,10 +497,6 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
         text-decoration-color: var(--color-on-surface);
       }
     }
-  }
-
-  :global(.pin-spacer-contact) {
-    background: var(--color-surface-bone-dark);
   }
 
   @media (max-height: 34rem) {
