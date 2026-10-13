@@ -1,0 +1,11 @@
+# robots.txt — didacval.vercel.app
+User-agent: *
+Allow: /
+
+# Textos legales: visibles y enlazados desde el pie, pero con noindex hasta que
+# estén revisados por un asesor jurídico.
+Disallow: /aviso-legal/
+Disallow: /politica-privacidad/
+Disallow: /cookies/
+
+Sitemap: https://didacval.vercel.app/sitemap.xml

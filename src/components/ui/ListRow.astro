@@ -47,6 +47,18 @@ const isCompact = !hasBullets;
       }
     </h3>
     {subtitle && <p class="list-row__subtitle">{subtitle}</p>}
+
+    {
+      // En fila compacta (sin viñetas) la flecha va debajo del título, pegada a
+      // él. En su propia columna quedaba al fondo de una rejilla con la mitad
+      // vacía y se leía como algo que no tenía que ver con la fila.
+      isCompact && href && ctaLabel && (
+        <span class="list-row__cta" aria-hidden="true">
+          {ctaLabel}
+          <span class="material-symbols-outlined">north_east</span>
+        </span>
+      )
+    }
   </div>
 
   {
@@ -60,7 +72,7 @@ const isCompact = !hasBullets;
   }
 
   {
-    href && ctaLabel && (
+    !isCompact && href && ctaLabel && (
       <span class="list-row__cta" aria-hidden="true">
         {ctaLabel}
         <span class="material-symbols-outlined">north_east</span>
@@ -187,10 +199,10 @@ const isCompact = !hasBullets;
   }
 
   .list-row__cta {
-    display: none;
+    display: inline-flex;
     align-items: center;
     gap: $space-3xs;
-    white-space: nowrap;
+    margin-top: $space-3xs;
     @include text-body-sm;
     font-weight: 600;
     color: var(--color-secondary);
@@ -199,9 +211,16 @@ const isCompact = !hasBullets;
       font-size: 0.9375rem;
     }
 
-    @media (min-width: $bp-lg) {
-      display: inline-flex;
-      justify-self: end;
+    // Sólo en las filas con viñetas hay una tercera columna donde colocar la
+    // flecha; en las compactas va dentro del bloque de texto (más arriba).
+    .list-row:not(.list-row--compact) & {
+      display: none;
+      margin-top: 0;
+
+      @media (min-width: $bp-lg) {
+        display: inline-flex;
+        justify-self: end;
+      }
     }
   }
 </style>

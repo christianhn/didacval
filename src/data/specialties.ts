@@ -12,10 +12,13 @@ export const specialtiesData = {
     label: "Consultar mi caso",
     href: "#contacto-cita",
   },
-// `image` es un asset importado (ImageMetadata) para que <Image /> lo optimice.
+  // `image` es un asset importado (ImageMetadata) para que <Image /> lo optimice.
   // Si lo dejas como null se muestra el placeholder gris con icono.
   // `icon` y `short` los usa además el hero, que sólo enseña las tres primeras
   // y necesita una línea corta: `description` es larga para ese hueco.
+  // `href` es la página interior de la especialidad: la tarjeta entera lleva
+  // allí. `cta` es el enlace secundario de la tarjeta y sigue apuntando al
+  // formulario, porque es una acción ("consultar mi caso"), no navegación.
   cards: [
     {
       kicker: "Principal foco",
@@ -26,17 +29,19 @@ export const specialtiesData = {
       short: "Tensión, insomnio o la sensación de ir siempre al límite.",
       image: ansiedadImg,
       imageAlt: "Ansiedad: tensión y preocupación",
+      href: "/psicologo-ansiedad-zaragoza/",
       cta: { label: "Consultar mi caso", href: "#contacto-cita" },
     },
     {
       kicker: "Intimidad",
       title: "Sexología",
       description:
-        "Disfunción eréctil, eyacitación precoz, bajo deseo o inseguridad en la intimidad. Un espacio confidencial y sin juicios para hablar de lo que cuesta nombrar.",
+        "Disfunción eréctil, eyaculación precoz, bajo deseo o inseguridad en la intimidad. Un espacio confidencial y sin juicios para hablar de lo que cuesta nombrar.",
       icon: "favorite",
       short: "Un espacio confidencial para hablar de lo que cuesta nombrar.",
       image: parejaImg,
       imageAlt: "Sexología e intimidad",
+      href: "/sexologo-zaragoza/",
       cta: { label: "Consultar mi caso", href: "#contacto-cita" },
     },
     {
@@ -48,6 +53,7 @@ export const specialtiesData = {
       short: "Tristeza, duelo, rupturas, estrés o bloqueos.",
       image: adultsImg,
       imageAlt: "Terapia individual para adultos",
+      href: "/terapia-adultos-zaragoza/",
       cta: { label: "Consultar mi caso", href: "#contacto-cita" },
     },
     {
@@ -59,6 +65,7 @@ export const specialtiesData = {
       short: "Conflictos, bajo estado de ánimo y orientación académica.",
       image: familyImg,
       imageAlt: "Adolescentes y familia",
+      href: "/terapia-familiar-zaragoza/",
       cta: { label: "Consultar mi caso", href: "#contacto-cita" },
     },
   ],

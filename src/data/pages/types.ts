@@ -140,22 +140,24 @@ export const serviceRoutes = {
   ansiedad: {
     path: "/psicologo-ansiedad-zaragoza/",
     label: "Ansiedad y estrés",
-    short: "Terapia para la ansiedad y el estrés",
+    // `short` es la línea de apoyo que acompaña al enlace: describe lo que se
+    // encuentra, no repite el título.
+    short: "Tensión, insomnio y la sensación de ir siempre al límite.",
   },
   sexologia: {
     path: "/sexologo-zaragoza/",
     label: "Sexología",
-    short: "Dificultades sexuales de origen psicológico",
+    short: "Disfunción eréctil, eyaculación precoz y bajo deseo.",
   },
   adultos: {
     path: "/terapia-adultos-zaragoza/",
     label: "Terapia para adultos",
-    short: "Terapia psicológica para adultos",
+    short: "Tristeza, duelo, estrés laboral y autoestima.",
   },
   familiar: {
     path: "/terapia-familiar-zaragoza/",
     label: "Terapia familiar y adolescentes",
-    short: "Terapia familiar y con adolescentes",
+    short: "Conflictos, comunicación y orientación académica.",
   },
 } as const;
 

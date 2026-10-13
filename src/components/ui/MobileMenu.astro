@@ -227,7 +227,11 @@ let index = -1;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: 500;
-    color: var(--color-on-secondary-container);
+    // `--color-eyebrow-accent` y no `--color-on-secondary-container`: el
+    // segundo daba 3.1:1 sobre el fondo claro del pie, por debajo del 4.5:1
+    // que pide AA para texto pequeño. Es el mismo verde que ya usan los
+    // eyebrows de las secciones.
+    color: var(--color-eyebrow-accent);
   }
 
   .menu {

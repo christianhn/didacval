@@ -25,8 +25,14 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   /** Slug de la página: se manda como campo oculto `origen` en el formulario. */
   origen: string;
-  /** Franja superior fina con el availability de la consulta. */
+  /** Franja superior fina con los datos de disponibilidad de la consulta. */
   showNoticeBar?: boolean;
+  /**
+   * Por defecto el layout ya añade el formulario al final. /contacto/ lo pone
+   * False porque allí el formulario ES el contenido de la página, con su propio
+   * encabezado y sus datos de contacto debajo.
+   */
+  withContact?: boolean;
 }
 
 const {
@@ -39,6 +45,7 @@ const {
   jsonLd = [],
   origen,
   showNoticeBar = false,
+  withContact = true,
 } = Astro.props;
 
 const origin = Astro.site?.origin ?? siteData.url;
@@ -71,7 +78,7 @@ const structured = [
   <main class="page-main">
     <slot />
     {showNoticeBar && <NoticeBar />}
-    <Contact origen={origen} />
+    {withContact && <Contact origen={origen} />}
   </main>
   <Footer />
 </Layout>

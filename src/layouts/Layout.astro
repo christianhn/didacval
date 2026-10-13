@@ -66,16 +66,12 @@ const ogImageUrl = ogImage
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"
-      rel="stylesheet"
-    />
+    <!--
+      Las fuentes van declaradas en `src/styles/_fonts.scss` (autoalojadas en
+      /public/fonts). Antes se pedían al CDN de Google con dos <link> que
+      bloqueaban el render de todas las páginas y que además enviaban la IP de
+      quien visita a un tercero en una web con formulario de datos personales.
+    -->
 
     {
       jsonLd.map((entry) => (

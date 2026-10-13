@@ -74,7 +74,10 @@ $colors: (
   "success": #6daf8b,
   // Verde de acento (CTAs destacados). $accent-strong es la versión
   // oscura usada para el icono circular y el hover.
-  "accent": #5f8150,
+  // #5d7f4f y no #5f8150: con el blanco del rótulo, aquél daba 4.43:1 y éste
+  // da 4.55:1. La diferencia visual es imperceptible, pero el anterior suspendía
+  // el contraste AA que pide el criterio de aceptación de Lighthouse.
+  "accent": #5d7f4f,
   "accent-strong": #273a1f,
   "on-accent": #ffffff,
   // Verde de los eyebrows (kickers de sección). Oscuro y poco saturado a

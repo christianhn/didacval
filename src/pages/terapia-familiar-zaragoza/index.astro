@@ -1,0 +1,40 @@
+---
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import PageBlocks from "../../components/layout/PageBlocks.astro";
+import { familiarPage } from "../../data/pages/familiar";
+import { blocksJsonLd } from "../../data/pages/helpers";
+import { phoneCta } from "../../data/pages/types";
+
+const page = familiarPage;
+
+const crumbs = [
+  { label: "Inicio", href: "/" },
+  { label: page.hero.breadcrumbLabel, href: page.path },
+];
+---
+
+<SubpageLayout
+  title={page.seo.title}
+  description={page.seo.description}
+  path={page.path}
+  breadcrumb={crumbs}
+  ogImage={page.hero.image}
+  jsonLd={blocksJsonLd(page.blocks)}
+  origen={page.slug}
+>
+  <PageHero
+    eyebrow={page.hero.eyebrow}
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    image={page.hero.image}
+    imageAlt={page.hero.imageAlt}
+    crumbs={crumbs}
+    ctaLabel="Primera sesión informativa gratuita"
+    ctaHref="#contacto-cita"
+    phoneLabel={phoneCta.label}
+    phoneHref={phoneCta.href}
+  />
+
+  <PageBlocks blocks={page.blocks} />
+</SubpageLayout>

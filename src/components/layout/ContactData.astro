@@ -1,0 +1,361 @@
+---
+import { siteData } from "../../data/site";
+
+export interface ContactDataItem {
+  id: string;
+  icon: string;
+  label: string;
+  value: string;
+  detail?: string;
+  href?: string;
+  hrefLabel?: string;
+  external?: boolean;
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  items: readonly ContactDataItem[];
+  /** Enlace secundario (WhatsApp). TODO confirmar con Didac. */
+  secondary?: { label: string; href: string };
+  /** Línea final de enlaces a las áreas. */
+  areas?: readonly { label: string; href: string }[];
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  items,
+  secondary,
+  areas,
+} = Astro.props;
+
+const titleId = `${id ?? "contact-data"}-title`;
+---
+
+<section id={id} class="contact-data" aria-labelledby={titleId}>
+  <div class="contact-data__inner">
+    <header class="contact-data__header">
+      {eyebrow && <span class="contact-data__eyebrow">{eyebrow}</span>}
+      <h2 id={titleId} class="contact-data__title">{title}</h2>
+      {description && <p class="contact-data__desc">{description}</p>}
+    </header>
+
+    <ul class="contact-data__list">
+      {
+        items.map((item) => (
+          <li class="contact-data__item">
+            <span class="contact-data__icon" aria-hidden="true">
+              <span class="material-symbols-outlined">{item.icon}</span>
+            </span>
+
+            <div class="contact-data__body">
+              <span class="contact-data__label">{item.label}</span>
+              {item.href ? (
+                <a
+                  class="contact-data__value contact-data__value--link"
+                  href={item.href}
+                  {...item.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {}}
+                >
+                  {item.value}
+                </a>
+              ) : (
+                <span class="contact-data__value">{item.value}</span>
+              )}
+              {item.hrefLabel && (
+                <a
+                  class="contact-data__value-note"
+                  href={item.href}
+                  {...item.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {}}
+                >
+                  {item.hrefLabel}
+                </a>
+              )}
+              {item.detail && (
+                <span class="contact-data__detail">{item.detail}</span>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      secondary && (
+        <p class="contact-data__secondary">
+          <a
+            class="contact-data__secondary-link"
+            href={secondary.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="material-symbols-outlined" aria-hidden="true">
+              chat
+            </span>
+            <span>{secondary.label}</span>
+          </a>
+        </p>
+      )
+    }
+
+    {
+      areas && areas.length > 0 && (
+        <nav class="contact-data__areas" aria-label="Áreas de trabajo">
+          <span class="contact-data__areas-label">Áreas de trabajo</span>
+          <ul class="contact-data__areas-list">
+            {areas.map((area) => (
+              <li>
+                <a href={area.href}>{area.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <p class="contact-data__legal">
+      Tus datos se tratan según la{" "}
+      <a href={siteData.legal.privacy.href}>política de privacidad</a>.
+    </p>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
+
+  .contact-data {
+    background: var(--color-surface-bone);
+    padding-block: $space-3xl $space-4xl;
+
+    @media (min-width: $bp-lg) {
+      padding-block: $space-4xl $space-5xl;
+    }
+  }
+
+  .contact-data__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+    display: flex;
+    flex-direction: column;
+    gap: $space-2xl;
+
+    @media (min-width: $bp-lg) {
+      gap: $space-3xl;
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .contact-data__header {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    max-width: 38rem;
+  }
+
+  .contact-data__eyebrow {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .contact-data__title {
+    @include text-headline-xl;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .contact-data__desc {
+    @include text-body-base;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+  }
+
+  .contact-data__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    grid-template-columns: 1fr;
+
+    @media (min-width: $bp-sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: $space-xl;
+    }
+
+    @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .contact-data__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    padding-block: $space-lg;
+    border-top: 0.0625rem solid var(--color-outline-variant-transparent);
+    min-width: 0;
+  }
+
+  .contact-data__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0.0625rem solid var(--color-outline-variant);
+    border-radius: $radius-full;
+    color: var(--color-secondary);
+
+    .material-symbols-outlined {
+      font-size: 1.125rem;
+    }
+  }
+
+  .contact-data__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3xs;
+    min-width: 0;
+  }
+
+  .contact-data__label {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .contact-data__value {
+    @include text-body-lg;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-data__value--link {
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-outline-variant);
+    transition:
+      color 0.2s,
+      text-decoration-color 0.2s;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-secondary);
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-secondary);
+    }
+  }
+
+  .contact-data__value-note {
+    align-self: flex-start;
+    @include text-caption-sm;
+    font-weight: 500;
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: color 0.2s;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+  }
+
+  .contact-data__detail {
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+  }
+
+  .contact-data__secondary {
+    margin: 0;
+  }
+
+  .contact-data__secondary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    @include text-body-base;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    padding-bottom: 2px;
+    border-bottom: 0.0625rem solid var(--color-outline-variant);
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+    @include focus-ring;
+
+    .material-symbols-outlined {
+      font-size: 1.0625rem;
+      color: var(--color-secondary);
+    }
+
+    &:hover {
+      color: var(--color-secondary);
+      border-color: var(--color-secondary);
+    }
+  }
+
+  .contact-data__areas {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    padding-top: $space-lg;
+    border-top: 0.0625rem solid var(--color-outline-variant-transparent);
+  }
+
+  .contact-data__areas-label {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .contact-data__areas-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-xs $space-xl;
+
+    a {
+      @include text-body-base;
+      color: var(--color-on-surface);
+      text-underline-offset: 0.2em;
+      text-decoration-color: var(--color-outline-variant);
+      transition:
+        color 0.2s,
+        text-decoration-color 0.2s;
+      @include focus-ring;
+
+      &:hover {
+        color: var(--color-secondary);
+        text-decoration-line: underline;
+        text-decoration-color: var(--color-secondary);
+      }
+    }
+  }
+
+  .contact-data__legal {
+    @include text-caption-sm;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
+
+    a {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      @include focus-ring;
+
+      &:hover {
+        color: var(--color-on-surface);
+      }
+    }
+  }
+</style>

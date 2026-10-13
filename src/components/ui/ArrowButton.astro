@@ -33,7 +33,13 @@ const Tag = href ? "a" : "button";
   data-cta
   {...attrs}
 >
-  <span class="cta__label" aria-hidden="true">
+  {/*
+    La etiqueta no va en `aria-hidden`: es el nombre accesible del botón o del
+    enlace, y sin ella el CTA no tenía nombre para el lector de pantalla
+    (`button-name` / `link-name` en Lighthouse). Sólo se oculta la copia que
+    se muestra durante el efecto de rodadura, que es puro adorno.
+  */}
+  <span class="cta__label">
     <span class="cta__clip">
       <span class="cta__stack" data-stack>
         <span class="cta__line">{label}</span>

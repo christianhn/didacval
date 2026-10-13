@@ -79,7 +79,9 @@ const titleId = `${id}-title`;
       )
     }
 
-    <div class="faq__list" role="list">
+    {/* Sin `role="list"`: sus hijos son <details>, no <li>, y el rol
+        declarado sin los hijos que exige es un error de accesibilidad. */}
+    <div class="faq__list">
       {
         items.map((item) => (
           <details class="faq__item" name={`${id}-group`}>
@@ -289,7 +291,7 @@ const titleId = `${id}-title`;
     }
 
     &__icon {
-      color: var(--color-on-secondary-container);
+      color: var(--color-secondary);
       transition: transform 0.3s ease;
       flex-shrink: 0;
     }

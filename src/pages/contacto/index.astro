@@ -1,0 +1,111 @@
+---
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import Contact from "../../components/layout/Contact.astro";
+import ContactData from "../../components/layout/ContactData.astro";
+import { contactoPage } from "../../data/pages/contacto";
+
+const page = contactoPage;
+
+const crumbs = [
+  { label: "Inicio", href: "/" },
+  { label: "Contacto", href: page.path },
+];
+
+// En /contacto/ el bloque de contacto ES el contenido de la página: por eso el
+// layout no lo añade al final (withContact={false}) y aquí se pinta con su
+// propio encabezado, el formulario a la izquierda y la imagen de la consulta a
+// la derecha. Debajo van los datos de contacto, todos desde siteData.
+---
+
+<SubpageLayout
+  title={page.seo.title}
+  description={page.seo.description}
+  path={page.path}
+  breadcrumb={crumbs}
+  ogImage={page.hero.image}
+  origen={page.slug}
+  withContact={false}
+>
+  <section class="contact-page" aria-labelledby="contact-page-title">
+    <div class="contact-page__inner">
+      <Breadcrumbs items={crumbs} />
+
+      <div class="contact-page__heading">
+        <span class="contact-page__eyebrow">{page.hero.eyebrow}</span>
+        <h1 id="contact-page-title" class="contact-page__title">
+          {page.hero.title}
+        </h1>
+        <p class="contact-page__subtitle">{page.hero.subtitle}</p>
+      </div>
+    </div>
+  </section>
+
+  <Contact
+    origen={page.slug}
+    eyebrow="Primera sesión gratuita"
+    title="Cuéntame qué te trae"
+    description="Primera sesión informativa gratuita y sin compromiso. Elige presencial u online, y si prefieres escribir por teléfono o por correo."
+  />
+
+  <ContactData
+    id="datos"
+    eyebrow="Ubicación y contacto"
+    title="Cómo llegar y cómo llamarme"
+    description="Puedes escribir, llamar o pasar por la consulta. Las citas se confirman por teléfono o por correo antes de la primera sesión."
+    items={page.contactItems}
+    secondary={page.whatsapp}
+    areas={page.areas}
+  />
+</SubpageLayout>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+
+  .contact-page {
+    background: var(--color-surface-bone);
+    padding-top: $space-lg;
+    padding-bottom: $space-2xl;
+  }
+
+  .contact-page__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .contact-page__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+  }
+
+  .contact-page__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: $space-2xs $space-sm;
+    border-radius: $radius-full;
+    background: var(--color-surface-container-low);
+    @include eyebrow(var(--color-eyebrow-accent));
+    font-weight: 500;
+  }
+
+  .contact-page__title {
+    @include text-headline-xl;
+    margin: 0;
+    color: var(--color-on-surface);
+  }
+
+  .contact-page__subtitle {
+    @include text-body-lg;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    max-width: 32rem;
+  }
+</style>
