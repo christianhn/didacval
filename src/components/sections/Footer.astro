@@ -92,65 +92,32 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   const PEEK_END = PEEK_RATIO / (1 + PEEK_RATIO);
   const END = 1 / (1 + PEEK_RATIO);
   const LIFT = END - PEEK_END;
-  const FIT_MIN = 0.6;
 
   const footer = document.querySelector<HTMLElement>("[data-footer]");
   const contact = document.querySelector<HTMLElement>(".contact");
   const dim = document.querySelector<HTMLElement>("[data-contact-dim]");
   const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
 
-  // El pin y el footer `position: fixed` funcionan en iOS siempre que nadie refresque
-// los triggers durante el scroll (ver ScrollTrigger.config en Layout y el
-// comentario de `load` más abajo). El scrub va sin Lenis en táctil, pero eso solo
-// afecta a la suavidad del interpolado, no al coste por frame.
-const canAnimate =
-  !!footer &&
-  !!contact &&
-  !!dim &&
-  !!footerInner &&
-  !prefersReducedMotion();
+  const canAnimate =
+    !!footer &&
+    !!contact &&
+    !!dim &&
+    !!footerInner &&
+    !prefersReducedMotion();
 
   if (footer && contact && dim && footerInner && canAnimate) {
     const applyHeight = () => {
       const viewport = window.innerHeight;
 
-      const unwrap = () => {
-        footer.style.height = "auto";
-        footerInner.style.height = "auto";
-      };
-
-      unwrap();
-      footerInner.style.height = "";
-      footerInner.style.setProperty("--footer-fit", "1");
+      footer.style.height = "auto";
+      footerInner.style.height = "auto";
 
       const content = footerInner.getBoundingClientRect().height;
-
       const target = Math.min(
         viewport,
         Math.max(viewport * FOOTER_VIEWPORT_RATIO, content),
       );
 
-      if (content <= target) {
-        footer.style.height = `${target}px`;
-        return;
-      }
-
-      let fit = Math.max(FIT_MIN, target / content);
-
-      for (let i = 0; i < 5; i++) {
-        footerInner.style.setProperty("--footer-fit", fit.toFixed(4));
-        unwrap();
-
-        const natural = footerInner.getBoundingClientRect().height / fit;
-        const next = Math.min(1, Math.max(FIT_MIN, target / natural));
-
-        const converged = Math.abs(next - fit) < 0.005;
-        fit = next;
-        if (converged) break;
-      }
-
-      footerInner.style.setProperty("--footer-fit", fit.toFixed(4));
-      unwrap();
       footer.style.height = `${target}px`;
     };
 
@@ -241,9 +208,6 @@ const canAnimate =
       refreshTimer = window.setTimeout(refresh, 200);
     };
 
-    // Solo refrescamos si cambia el ANCHO. En móvil, plegar la barra de Safari
-    // cambia el alto del viewport pero no el ancho: entrar ahí en `refresh()`
-    // es exactamente lo que hacía clavar el scroll a media inercia.
     let lastWidth = window.innerWidth;
     window.addEventListener("resize", () => {
       if (window.innerWidth === lastWidth) return;
@@ -252,11 +216,6 @@ const canAnimate =
     });
     document.fonts?.ready.then(scheduleRefresh);
 
-    // Antes había un ResizeObserver sobre documentElement que llamaba a esto
-    // con cualquier cambio de alto del documento, así que cada pliegue de la
-    // barra provocaba un `ScrollTrigger.refresh()` en pleno scroll. `load`
-    // cubre lo único que de verdad cambia el layout después del primer paint
-    // (imágenes y fuentes tardías).
     window.addEventListener("load", refresh, { once: true });
   }
 </script>
@@ -286,8 +245,6 @@ const canAnimate =
   .footer--fixed {
     position: fixed;
     inset: auto 0 0 0;
-    // `svh` y no `dvh`: las unidades dinámicas se recalculan cuando Safari
-    // pliega la barra, y aquí eso cambiaría el alto del footer bajo el scrub.
     height: 66.6667svh;
     max-height: 100svh;
     overflow: hidden;
@@ -303,18 +260,14 @@ const canAnimate =
   }
 
   .footer__inner {
-    --footer-fit: 1;
-
     display: flex;
     flex-direction: column;
     max-width: $container-max;
-    width: calc(100% / var(--footer-fit));
+    width: 100%;
     height: 100%;
     margin-inline: auto;
     padding: $space-lg $gutter-mobile;
     overflow: hidden;
-    transform: scale(var(--footer-fit));
-    transform-origin: top center;
 
     @media (min-width: $bp-md) {
       padding-block: clamp($space-xl, 8svh, $space-3xl);
@@ -545,9 +498,32 @@ const canAnimate =
 
       &:hover {
         color: var(--color-on-surface);
-        text-decoration-line: underline;
         text-decoration-color: var(--color-on-surface);
       }
+    }
+  }
+
+  @media (max-height: 34rem) {
+    .footer--fixed .footer__inner {
+      padding-block: $space-md;
+    }
+
+    .footer__grid {
+      gap: $space-md;
+      margin-bottom: 0;
+    }
+
+    .footer__brand {
+      margin-top: $space-xs;
+      padding-block-start: $space-xs;
+    }
+
+    .footer__brand-name {
+      font-size: min(12cqi, 22svh);
+    }
+
+    .footer__bottom {
+      padding-top: $space-sm;
     }
   }
 </style>
