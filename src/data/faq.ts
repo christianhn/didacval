@@ -51,6 +51,17 @@ export const faqData = {
   //   instrumentos.
   // - Relación con médico/psiquiatra: si coordina con ellos y en qué casos
   //   deriva, y si deriva cuando detecta riesgo.
-  // - Pregunta "y si no me siento cómodo contigo, ¿qué hago?": publicar el
-  //   procedimiento real (cambio de profesional, segunda opinión...).
+  //
+  // DIFERIDO A PROPOSITO (14-oct-2026), no por falta de dato sino por
+  // decisión de Christian. §13 pedía añadir aquí dos preguntas a la portada y
+  // NO se han añadido:
+  //
+  // - "¿Cuánto cuesta?": de momento no se publica precio, y no se dirá que
+  //   "se acuerda luego" — eso ya es una respuesta. Lo único que queda dicho en
+  //   el sitio es que la primera sesión informativa es gratuita, que es
+  //   información y no una promesa de tarifa.
+  // - "¿Y si no me siento cómodo contigo?": no se escribe. El objetivo de esa
+  //   sección es que la gente llegue con tranquilidad, y una pregunta sobre
+  //   encaje coloca en la cabeza de quien la lee una posibilidad que llegó
+  //   desde la web. Lo que no se pregunta, no se instala.
 } as const;

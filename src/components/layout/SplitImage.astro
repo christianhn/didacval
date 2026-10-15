@@ -63,7 +63,13 @@ const titleId = `${id ?? "split"}-title`;
     description={description}
   />
 
-  <div class:list={["split-image__grid", { "split-image__grid--reverse": reverse }]}>
+  <div
+    class:list={[
+      "split-image__grid",
+      { "split-image__grid--reverse": reverse },
+    ]}
+    data-reveal-item
+  >
     <div class="split-image__text">
       {
         paragraphs.map((paragraph, index) => (
@@ -126,6 +132,7 @@ const titleId = `${id ?? "split"}-title`;
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/scale" as *;
+  @use "../../styles/motion" as *;
 
   .split-image__grid {
     display: grid;
@@ -172,19 +179,15 @@ const titleId = `${id ?? "split"}-title`;
     white-space: nowrap;
     font-weight: 600;
     color: var(--color-on-surface);
-    border-bottom: 0.0625rem solid var(--color-outline-variant);
     padding-bottom: 1px;
-    transition:
-      color 0.2s,
-      border-color 0.2s;
+    @include underline-sweep;
 
     .material-symbols-outlined {
       font-size: 0.9375rem;
     }
 
-    &:hover {
+    @include on-hover {
       color: var(--color-secondary);
-      border-color: var(--color-secondary);
     }
   }
 

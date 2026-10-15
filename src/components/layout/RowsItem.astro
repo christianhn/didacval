@@ -26,7 +26,7 @@ interface Props extends RowsItem {}
 const { icon, kicker, title, href, ctaLabel, bullets } = Astro.props;
 ---
 
-<li class="rows-item">
+<li class="rows-item" data-reveal-item>
   {
     icon && (
       <span class="rows-item__icon" aria-hidden="true">
@@ -74,6 +74,7 @@ const { icon, kicker, title, href, ctaLabel, bullets } = Astro.props;
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/scale" as *;
+  @use "../../styles/motion" as *;
 
   .rows-item {
     display: grid;
@@ -131,18 +132,15 @@ const { icon, kicker, title, href, ctaLabel, bullets } = Astro.props;
     text-wrap: balance;
   }
 
+  // Título de fila que es además un enlace a otra página. El subrayado se dibuja
+  // de izquierda a derecha: con dos píxeles, encenderlo de golpe parpadea.
   .rows-item__link {
     color: inherit;
     text-underline-offset: 0.2em;
-    text-decoration-color: var(--color-outline-variant);
-    transition:
-      color 0.2s,
-      text-decoration-color 0.2s;
+    @include underline-sweep;
 
-    &:hover {
+    @include on-hover {
       color: var(--color-secondary);
-      text-decoration-line: underline;
-      text-decoration-color: var(--color-secondary);
     }
   }
 

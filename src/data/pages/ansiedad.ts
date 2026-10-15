@@ -1,12 +1,5 @@
 import ansiedadImg from "../../assets/speciality/ansiedad.jpg";
-import {
-  formHref,
-  phoneCta,
-  primaryCta,
-  processLink,
-  serviceRoutes,
-  type PageContent,
-} from "./types";
+import { serviceRoutes, type PageContent } from "./types";
 
 export const ansiedadPage: PageContent = {
   path: "/psicologo-ansiedad-zaragoza/",
@@ -19,9 +12,12 @@ export const ansiedadPage: PageContent = {
   },
 
   hero: {
-    eyebrow: "Ansiedad y estrés",
     title: "Psicólogo para la ansiedad en Zaragoza",
-    subtitle: "Entender qué te pasa es el primer paso para recuperar la calma.",
+    // El subtítulo absorbe lo que era la sección de introducción: si el hero no
+    // dice de qué va, la primera sección arranca con un titular que no tiene
+    // nada que sostener.
+    subtitle:
+      "La ansiedad se nota en el cuerpo antes que en los pensamientos. Entender qué está pasando es el primer paso para recuperar la calma.",
     image: ansiedadImg,
     imageAlt:
       "Luz suave en una habitación tranquila: la ansiedad se nota en el cuerpo antes que en los pensamientos",
@@ -29,31 +25,21 @@ export const ansiedadPage: PageContent = {
   },
 
   blocks: [
-    // ------------------------------------------------------------- intro
+    // ---- 1. Contenedor beige redondeado (una sola vez por página) --------
+    //
+    // Antes eran dos secciones ("Cómo se manifiesta" y "¿Cuándo pedir ayuda?"):
+    // ocho filas en total, repartidas en dos bloques que se leían casi igual.
+    // Ahora son tres filas y un solo panel, que es lo que el bloque da: la
+    // cuarta fila —los ataques de pánico— se ha fundido con la de "cuándo pedir
+    // ayuda", que es donde la persona las reconoce.
     {
-      kind: "text",
-      data: {
-        id: "intro",
-        title: "Cuando la preocupación ya no se va de tu cabeza",
-        paragraphs: [
-          "La ansiedad puede sentirse como inquietud constante, insomnio, pensamientos que no se detienen, presión en el pecho o miedo a que algo malo ocurra. Si estás leyendo esto, probablemente notes que ya no puedes manejarlo como antes.",
-          "Atiendo en Paseo de Sagasta 17 (Zaragoza) y también online.",
-        ],
-        layout: "aside",
-        tone: "bone",
-      },
-    },
-
-    // ------------------------------------------------- cómo se manifiesta
-    {
-      kind: "rows-legacy",
+      kind: "rows",
       data: {
         id: "como-se-manifiesta",
         eyebrow: "Cómo se manifiesta",
         title: "No siempre es fácil de distinguir",
         description:
           "Suele aparecer en dos sitios a la vez, y reconocerlos es el primer paso para poder trabajar sobre ellos.",
-        variant: "panel",
         items: [
           {
             icon: "self_improvement",
@@ -77,98 +63,110 @@ export const ansiedadPage: PageContent = {
               "Sensación de estar siempre en alerta",
             ],
           },
+          {
+            icon: "hourglass_empty",
+            kicker: "Cuándo pedir ayuda",
+            title: "Señales de que merece la pena mirarla",
+            bullets: [
+              "Ataques de pánico o miedo intenso a perder el control",
+              "La preocupación ocupa gran parte de tu día",
+              "Afecta a tu descanso, a tu trabajo o a tus relaciones",
+              "Cosas pequeñas te generan una angustia desproporcionada",
+            ],
+          },
         ],
       },
     },
 
-    // ----------------------------------------------------- cuándo pedir ayuda
+    // ---- 2. Dos columnas -------------------------------------------------
+    // Sin imagen: `ansiedad.jpg` es la del hero y repetirla dentro de la misma
+    // página la convierte en papel pintado. La segunda columna la ocupa el apunte
+    // de la medicación, que antes era una pregunta suelta de la FAQ y se leía
+    // como una advertencia en lugar de una aclaración de alcance.
+    //
+    // TODO confirmar con Didac: la web antigua hablaba de un "enfoque profundo"
+    // e "integradora" (buscar el origen del malestar). Aquí se usa la
+    // formulación de la landing (cognitivo-conductual y humanista). Hay que
+    // unificar el criterio en todo el sitio antes de publicar.
     {
-      kind: "text",
-      data: {
-        id: "cuando-pedir-ayuda",
-        eyebrow: "¿Cuándo pedir ayuda?",
-        title: "No hace falta tocar fondo",
-        paragraphs: [
-          "La ansiedad pide ayuda cuando se queda, no cuando aparece. Estas son tres señales de que merece la pena mirarla:",
-        ],
-        bullets: [
-          "La preocupación ocupa gran parte de tu día.",
-          "Afecta a tu descanso, a tu trabajo o a tus relaciones.",
-          "Cosas pequeñas te generan una angustia desproporcionada.",
-        ],
-        footnote: "No hace falta tocar fondo para pedir ayuda.",
-        tone: "canvas",
-      },
-    },
-
-    // -------------------------------------------------------- cómo trabajamos
-    {
-      kind: "split-legacy",
+      kind: "split",
       data: {
         id: "como-trabajamos",
-        eyebrow: "Cómo trabajamos la ansiedad",
+        eyebrow: "Cómo trabajamos",
         title: "Primero entender, después herramientas",
         paragraphs: [
-          // TODO confirmar con Didac: la web antigua hablaba de un "enfoque
-          // profundo" e "integradora" (buscar el origen del malestar). Aquí se
-          // usa la formulación de la landing (cognitivo-conductual y humanista).
-          // Hay que unificar el criterio en todo el sitio antes de publicar.
-          "Te explico con palabras claras qué ocurre en tu cuerpo y en tu mente cuando aparece la ansiedad. No hace falta saber nada de psicología para seguirme: lo importante es que lo entiendas.",
-          "Después entendemos qué función cumple esa ansiedad en tu vida, trabajamos sobre pensamientos, emociones y hábitos, y practicas herramientas concretas para el día a día.",
+          "Te explico con palabras claras qué ocurre en tu cuerpo y en tu mente cuando aparece la ansiedad, de dónde viene esa reacción y qué la está manteniendo ahora mismo. Sin ese paso, las herramientas se aplican a ciegas.",
+          "La ansiedad suele aparecer por algo. Ver para qué sirve en tu caso es lo que permite dejar de luchar contra ella a ciegas; después trabajamos sobre pensamientos, emociones y hábitos, y practicas hasta que dejan de exigirte un esfuerzo deliberado.",
+          "No hace falta esperar a una crisis para pedir cita. Y si lo que además pesa es el estrés del trabajo, el duelo o la autoestima, hay una página pensada para eso:",
         ],
-        image: ansiedadImg,
-        imageAlt: "Ambiente tranquilo y luminoso de la consulta",
-        tone: "soft",
-        footnote:
-          "El proceso completo, paso a paso, está explicado en cuatro fases en la página principal.",
+        paragraphLink: {
+          label: "terapia para adultos",
+          href: serviceRoutes.adultos.path,
+        },
+        note: {
+          label: "Medicación",
+          text: "No hace falta dejar la medicación para empezar la terapia. Si ya tomas alguna, lo comentamos en la primera sesión y te oriento si hace falta una valoración médica.",
+        },
+        tone: "base",
       },
     },
 
-    // ----------------------------------------------------- primera sesión
+    // ---- 3. Secuencia numerada -------------------------------------------
+    // Lo que esta página cuenta como secuencia propia es la primera sesión: tres
+    // pasos concretos y verificables. El proceso general de cuatro fases ya
+    // vive en la landing, de ahí el enlace de pie que separa las dos cosas.
     {
-      kind: "rows-legacy",
+      kind: "steps",
       data: {
         id: "primera-sesion",
-        eyebrow: "Tu primera sesión",
-        title: "Gratuita, informativa y sin compromiso",
+          title: "Tu primera sesión",
         description:
-          "No es una evaluación ni un examen: es una conversación para que ambos sepamos si tiene sentido seguir.",
-        variant: "full",
-        items: [
+          "Es gratuita, informativa y sin compromiso. No hace falta saber nada de psicología para seguirla: lo importante es que lo entiendas.",
+        tone: "soft",
+        aside: {
+          text: "No hace falta llegar con nada preparado. Se cuenta lo que salga y ya se trabaja sobre eso: nadie va a pedirte que lo expliques bien.",
+        },
+        footerLink: {
+          label: "Ver el proceso completo",
+          href: "/#proceso",
+        },
+        steps: [
           {
-            title: "Me cuentas qué te pasa y cómo te afecta",
-            subtitle: "Sin orden ni guion: con tus palabras.",
+            number: "01",
+            kicker: "Me cuentas",
+            title: "Qué te pasa y desde cuándo",
+            description:
+              "Con lo que salga, sin orden ni guion. Con eso ya hay material suficiente para empezar a entender de qué se trata.",
           },
           {
-            title: "Conoces cómo trabajo",
-            subtitle: "Enfoque, ritmo y qué se puede esperar de cada sesión.",
+            number: "02",
+            kicker: "Conoces",
+            title: "Cómo trabajo y qué espero",
+            description:
+              "Te explico el enfoque y cómo se lleva una sesión, con ejemplos. Si no te encaja, también eso se dice en la primera.",
           },
           {
-            title: "Salimos con una primera idea de plan",
-            subtitle: "Qué vamos a trabajar y cómo revisaremos los avances.",
+            number: "03",
+            kicker: "Sales",
+            title: "Con una idea de plan",
+            description:
+              "Te doy una idea clara de por dónde empezaríamos y en cuántas sesiones. Si decides seguir, ya sabes cómo sería.",
           },
         ],
       },
     },
 
-    // -------------------------------------------------------------- proceso
-    {
-      kind: "process-link",
-      data: {
-        title: "El proceso, en cuatro fases",
-        description:
-          "Nos conocemos · Te lo explico · Trabajamos juntos · Lo que te llevas. Son las mismas cuatro fases para toda la web, escritas una sola vez.",
-        href: processLink.href,
-      },
-    },
-
-    // ------------------------------------------------------------------ FAQ
+    // ---- 4. FAQ -----------------------------------------------------------
+    //
+    // Preguntas propias de esta página. Las de la portada ("¿Cuándo es el
+    // momento de acudir?", "¿Cuántas sesiones necesitaré?", "¿Presencial u
+    // online?", la primera sesión) ya están allí y no se repiten: aquí va lo que
+    // la gente con ansiedad pregunta de verdad y no encuentra en la portada.
     {
       kind: "faq",
       data: {
         id: "faq",
-        eyebrow: "Preguntas frecuentes",
-        title: "Dudas habituales sobre la ansiedad",
+          title: "Dudas habituales sobre la ansiedad",
         description:
           "Lo que más me preguntan las personas que llegan por aquí. Si tu caso no encaja del todo, lo vemos en la primera sesión.",
         items: [
@@ -180,39 +178,24 @@ export const ansiedadPage: PageContent = {
           {
             question: "¿Se pueden trabajar los ataques de pánico?",
             answer:
-              "Sí, forman parte de lo que trabajamos: entender qué ocurre en el cuerpo y practicar herramientas para afrontarlos.",
-          },
-          {
-            question: "¿Cuánto dura el proceso?",
-            answer:
-              "Depende de cada caso. Al principio lo habitual es una sesión semanal y después se espacian. Lo revisamos juntos.",
+              "Sí, forman parte de lo que trabajamos. Lo primero es entender qué está ocurriendo en el cuerpo cuando llega; después se practica una forma de afrontarlo que no acabe en salir corriendo de la situación.",
           },
           {
             question: "¿Necesito medicación?",
             answer:
-              "Como psicólogo no receto medicación. Si hace falta una valoración médica, te lo comento y te oriento.",
+              "Como psicólogo no receto medicación. Si hace falta una valoración médica, te lo comento y te oriento. Y si ya estás tomando algo, la terapia se combine perfectamente con ella.",
           },
           {
-            question: "¿Funciona la terapia online para la ansiedad?",
+            question: "¿Puedo hacer algo por mi cuenta mientras espero la cita?",
             answer:
-              "Sí, es igual de válida y te ahorra desplazamientos.",
+              "Ayuda, y no poco: el ejercicio regular, algo de sueño y limitar el alcohol suelen notar algo. Lo que no conviene es quedarse solo con eso cuando ya te está afectando a tus días. Los hábitos y la terapia pueden ir a la vez, no se estorban.",
           },
           {
-            question: "¿Cómo es la primera sesión?",
+            question: "¿Trabajas con casos graves o con crisis?",
             answer:
-              "Me cuentas qué te pasa y cómo te afecta, conoces cómo trabajo y sales con una primera idea de plan. Es gratuita, informativa y sin compromiso.",
+              "Trabajo con lo que llega a consulta de forma programada. Si detecto que hay riesgo para tu integridad o la de alguien más, te lo diré y te ayudaré a buscar la atención que necesitas en ese momento.",
           },
         ],
-      },
-    },
-
-    // ------------------------------------------------------------- CTA medio
-    {
-      kind: "cta",
-      data: {
-        title: "Si llevas tiempo con esto a cuestas, no hace falta esperar más",
-        description:
-          "Una primera conversación informativa, gratuita y sin compromiso, puede Bastar para entender por dónde empezar.",
       },
     },
   ],

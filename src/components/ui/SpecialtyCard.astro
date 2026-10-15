@@ -17,16 +17,8 @@ interface Props {
   cta: { href: string; label: string };
 }
 
-const {
-  image,
-  imageAlt,
-  title,
-  kicker,
-  description,
-  short,
-  href,
-  cta,
-} = Astro.props;
+const { image, imageAlt, title, kicker, description, short, href, cta } =
+  Astro.props;
 
 // El enlace principal es la imagen y su título: es la superficie grande y la
 // que la gente elige. El CTA de abajo es una acción distinta ("consultar mi
@@ -69,10 +61,6 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
         <p class="specialty-card__desc">{description}</p>
       </div>
       <span class="specialty-card__actions">
-        <a class="specialty-card__link" href={cta.href}>
-          <span>{cta.label}</span>
-          <span aria-hidden="true">→</span>
-        </a>
         <a class="specialty-card__more" href={href}>
           <span>Ver {title.toLowerCase()}</span>
           <span aria-hidden="true">↗</span>
@@ -227,7 +215,7 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
   .specialty-card__title {
     margin: 0.15rem 0 0;
     font-family: $font-family-base;
-    font-size: 1.05rem;
+    font-size: 1.5rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
     font-weight: 700;
@@ -254,7 +242,6 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
     padding: 0 1rem 1.05rem;
   }
 
-  .specialty-card__link,
   .specialty-card__more {
     display: inline-flex;
     align-items: center;
@@ -294,19 +281,19 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
   }
 
   @media (hover: hover) and (pointer: fine) {
-      .specialty-card:hover,
-      .specialty-card:focus-within {
-        .specialty-card__media {
-          top: 0.625rem;
-          left: 0.625rem;
-          right: 0.625rem;
-          // 46% en vez del 55% original: con textos largos (5-7 líneas en el
-          // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
-          // subía encima de la foto y el kicker dejaba de leerse.
-          height: 46%;
-          border-radius: 0.75rem;
-          @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
-        }
+    .specialty-card:hover,
+    .specialty-card:focus-within {
+      .specialty-card__media {
+        top: 0.625rem;
+        left: 0.625rem;
+        right: 0.625rem;
+        // 46% en vez del 55% original: con textos largos (5-7 líneas en el
+        // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
+        // subía encima de la foto y el kicker dejaba de leerse.
+        height: 46%;
+        border-radius: 0.75rem;
+        @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
+      }
 
       .specialty-card__media img {
         transform: scale(1.02);

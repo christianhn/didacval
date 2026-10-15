@@ -90,6 +90,20 @@ $colors: (
   // tirando a blanco. --color-surface-container-high (#f1f2ee) queda
   // demasiado cerca del base y el hover no se aprecia.
   "input-hover": #fafafa,
+  // --- lo que le faltaba a la paleta para que la regla 12 de DESIGN_SPEC.md §8
+  // se cumpla: ninguno de estos colores vivía en un token y se escribía
+  // hexadecimal en los componentes. ---
+  //
+  // Fondo de los campos del formulario. Gris muy claro, deliberadamente neutro:
+  // el beige del fondo daría un campo que no se distingue de la sección.
+  "input-base": #f2f2f2,
+  // Texto del placeholder de esos campos. Más claro que el valor introducido
+  // (#191c1a) para que se lea lo que escribe el usuario y no la maqueta.
+  "input-placeholder": #5a5e5b,
+  // Texto claro sobre foto o vídeo oscuro: el hero y las etiquetas que flotan
+  // sobre imagen (#fff). Es blanco puro porque sobre una foto cualquier otro
+  // tono se apaga.
+  "on-dark": #ffffff,
 );
 
 // ---------- Spacing ----------
@@ -115,6 +129,29 @@ $radius-lg: 1.5rem;
 $radius-xl: 2rem;
 $radius-full: 624.9375rem;
 
+// ---------- Motion ----------
+//
+// Curvas y duraciones. Las curvas de CSS (`ease`, `ease-in-out`) son demasiado
+// débiles para que una transición se note como intencionada, y `ease-in` en
+// cualquier elemento de interfaz hace que la respuesta parezca más lenta de lo
+// que es: retrasa justo el primer movimiento, que es lo que el ojo está
+// vigilando.
+//
+// - `$ease-out-ui`  entra / sale de la vista → arranca rápido, respuesta inmediata.
+// - `$ease-in-out`  movimiento dentro de la pantalla (acordeones, pin, scrub).
+// - `$ease-drawer`  paneles que entran desde un borde (menú lateral móvil).
+$ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+$ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+$ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+// La interfaz va por debajo de 300 ms: una transición de 180 ms se percibe más
+// ágil que una de 400 ms con el mismo easing, porque el movimiento ya ha
+// empezado antes de que el usuario decida si le está contestando.
+$dur-press: 150ms; // Confirmación de pulsación
+$dur-ui: 200ms; // Hover, foco, cambios de color
+$dur-panel: 280ms; // Paneles, acordeones
+$dur-reveal: 600ms; // Entradas por scroll (ocasional, puede ser más larga)
+
 // ---------- Breakpoints ----------
 $bp-sm: 40rem;
 $bp-md: 48rem;
@@ -131,6 +168,10 @@ $bp-nav: 64rem; // = $bp-lg
 // ---------- Z-index ----------
 $z-footer: 40;
 $z-header: 50;
+// La barra inferior de móvil va por encima del pie y por debajo del header y
+// del menú lateral: si compartiera capa con el header, el `backdrop-filter`
+// del header sólido la recortaría.
+$z-action-bar: 45;
 // El menú lateral se dibuja por encima del header: si compartieran capa, el
 // panel quedaría recortado por el `backdrop-filter` del header sólido.
 $z-menu: 60;

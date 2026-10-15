@@ -19,7 +19,7 @@ import type { Crumb } from "../../data/structuredData";
  * más de un padding de sección debajo de ninguno de los dos.
  */
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle: string;
   image: ImageMetadata;
@@ -52,7 +52,7 @@ const {
       <Breadcrumbs items={crumbs} />
 
       <div class="page-hero__heading">
-        <span class="page-hero__eyebrow">{eyebrow}</span>
+        {eyebrow && <span class="page-hero__eyebrow">{eyebrow}</span>}
         <h1 id="page-hero-title" class="page-hero__title">{title}</h1>
         <p class="page-hero__subtitle">{subtitle}</p>
       </div>
@@ -95,6 +95,7 @@ const {
   @use "../../styles/variables" as *;
   @use "../../styles/scale" as *;
   @use "../../styles/mixins" as *;
+  @use "../../styles/motion" as *;
 
   .page-hero {
     @include section-block;
@@ -171,10 +172,7 @@ const {
     color: var(--color-on-surface);
     white-space: nowrap;
     padding-bottom: 2px;
-    border-bottom: 0.0625rem solid var(--color-outline-variant);
-    transition:
-      color 0.2s,
-      border-color 0.2s;
+    @include underline-sweep;
     @include focus-ring;
 
     .material-symbols-outlined {
@@ -182,9 +180,8 @@ const {
       color: var(--color-secondary);
     }
 
-    &:hover {
+    @include on-hover {
       color: var(--color-secondary);
-      border-color: var(--color-secondary);
     }
   }
 

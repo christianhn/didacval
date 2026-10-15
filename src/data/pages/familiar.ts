@@ -12,7 +12,6 @@ export const familiarPage: PageContent = {
   },
 
   hero: {
-    eyebrow: "Adolescentes y familia",
     title: "Terapia familiar y adolescentes en Zaragoza",
     // El subtítulo absorbe lo que era la sección de introducción: si el hero
     // no dice de qué va la terapia, la primera sección arranca con un titular
@@ -156,8 +155,7 @@ export const familiarPage: PageContent = {
       kind: "faq",
       data: {
         id: "faq",
-        eyebrow: "Preguntas frecuentes",
-        title: "Dudas de las familias",
+          title: "Dudas de las familias",
         description:
           "Las preguntas que más se repiten en la primera sesión con padres y adolescentes.",
         items: [

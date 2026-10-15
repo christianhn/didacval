@@ -29,8 +29,7 @@ export const specialtiesData = {
       short: "Tensión, insomnio o la sensación de ir siempre al límite.",
       image: ansiedadImg,
       imageAlt: "Ansiedad: tensión y preocupación",
-      href: "/psicologo-ansiedad-zaragoza/",
-      cta: { label: "Consultar mi caso", href: "#contacto-cita" },
+      href: "/psicologo-ansiedad-zaragoza/"
     },
     {
       kicker: "Intimidad",
@@ -41,8 +40,7 @@ export const specialtiesData = {
       short: "Un espacio confidencial para hablar de lo que cuesta nombrar.",
       image: parejaImg,
       imageAlt: "Sexología e intimidad",
-      href: "/sexologo-zaragoza/",
-      cta: { label: "Consultar mi caso", href: "#contacto-cita" },
+      href: "/sexologo-zaragoza/"
     },
     {
       kicker: "Individual",
@@ -53,8 +51,7 @@ export const specialtiesData = {
       short: "Tristeza, duelo, rupturas, estrés o bloqueos.",
       image: adultsImg,
       imageAlt: "Terapia individual para adultos",
-      href: "/terapia-adultos-zaragoza/",
-      cta: { label: "Consultar mi caso", href: "#contacto-cita" },
+      href: "/terapia-adultos-zaragoza/"
     },
     {
       kicker: "Familia y desarrollo",
@@ -65,8 +62,7 @@ export const specialtiesData = {
       short: "Conflictos, bajo estado de ánimo y orientación académica.",
       image: familyImg,
       imageAlt: "Adolescentes y familia",
-      href: "/terapia-familiar-zaragoza/",
-      cta: { label: "Consultar mi caso", href: "#contacto-cita" },
+      href: "/terapia-familiar-zaragoza/"
     },
   ],
 };

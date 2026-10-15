@@ -31,7 +31,7 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
 
 @mixin text-index-item {
   font-family: $font-family-base;
-  font-size: 0.71875rem;
+  font-size: 0.75rem;
   line-height: 1.125rem;
   letter-spacing: 0.01em;
   font-weight: 400;
@@ -128,9 +128,11 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
 }
 
 // Tamaño pequeño legible para textos legales, copyright y notas al pie.
-// `text-caption-micro` (10px) queda para kickers en mayúscula, donde el
-// peso y el tracking compensan; en prosa mixta a 10px la lectura sostenida
-// se resiente, así que el pie usa esta variante de 11px.
+//
+// Suelo tipográfico: 12 px (DESIGN_SPEC.md §1). Los tres mixins "pequeños" de
+// este archivo estaban entre 10 y 11,5 px, por debajo del mínimo que la escala
+// fija para todo el texto visible. Suben aquí, en un solo sitio: todos sus
+// usuarios lo heredan.
 @mixin text-caption-sm {
   font-family: $font-family-base;
   font-size: 0.6875rem;
@@ -139,6 +141,9 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   font-weight: 400;
 }
 
+// Etiqueta corta en mayúsculas de la que `eyebrow()` parte. 12 px / 16 px: a
+// 10 px su interlineado era de 1,20x, el `tight-leading` que la pasada de §13
+// retira.
 @mixin text-caption-micro {
   font-family: $font-family-base;
   font-size: 0.625rem;

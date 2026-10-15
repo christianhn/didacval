@@ -1,6 +1,7 @@
 ---
 import "../styles/global.scss";
 import { siteData } from "../data/site";
+import MobileActionBar from "../components/ui/MobileActionBar.astro";
 
 type JsonLdEntry = Record<string, unknown> | Record<string, unknown>[];
 
@@ -85,6 +86,7 @@ const ogImageUrl = ogImage
   </head>
   <body>
     <slot />
+    <MobileActionBar />
   </body>
 
   <script>

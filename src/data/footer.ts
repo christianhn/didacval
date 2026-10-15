@@ -43,7 +43,11 @@ export const footerData = {
       `Col. Nº ${siteData.credentials.collegiate}`,
       siteData.credentials.college,
     ],
-    note: siteData.credentials.sanitaryRegistry,
+    // Ranura del registro sanitario: hoy vacía a propósito. Se quitó
+    // "Centro Sanitario Autorizado" sin sustituirlo (DESIGN_SPEC.md §13, paso 6)
+    // porque faltaba el nº de registro que lo respalda. `Footer.astro` la pinta
+    // sólo si existe: cuando la haya, se escribe aquí y sale sola.
+    note: undefined as string | undefined,
   },
   bottom: {
     links: [

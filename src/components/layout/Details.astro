@@ -7,7 +7,6 @@ import DetailRow from "../ui/DetailRow.astro";
   <div class="details__inner">
     <header class="details__header">
       <div class="details__heading">
-        <span class="details__eyebrow">{detailsData.eyebrow}</span>
         <h2 id="details-title" class="details__title">{detailsData.title}</h2>
         <p class="details__desc">{detailsData.description}</p>
       </div>
@@ -88,10 +87,6 @@ import DetailRow from "../ui/DetailRow.astro";
     flex-direction: column;
     gap: $space-xs;
     max-width: 40rem;
-  }
-
-  .details__eyebrow {
-    @include eyebrow(var(--color-eyebrow-accent));
   }
 
   .details__title {

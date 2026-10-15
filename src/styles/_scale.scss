@@ -13,6 +13,7 @@
 
 @use "variables" as *;
 @use "typography" as *;
+@use "motion" as *;
 
 // -------------------------------------------------------------
 // 1. Tipografía — cinco roles
@@ -140,6 +141,12 @@ $section-head-gap-sm: 2rem;
 }
 
 // El enlace de la derecha: 13 px, w600, subrayado que aparece al pasar por encima.
+//
+// Antes el subrayado se encendía de golpe (`border-bottom: transparent` →
+// `border-color`). Con dos píxeles de alto, un cambio de color instantáneo se
+// lee como un parpadeo; aquí el subrayado se dibuja de izquierda a derecha, que
+// es lo que hace que parezca intencionado. Se ve cientos de veces al día, así
+// que no hay ningún movimiento más allá de eso.
 @mixin section-link {
   display: inline-flex;
   align-items: center;
@@ -151,18 +158,25 @@ $section-head-gap-sm: 2rem;
   font-weight: 600;
   color: var(--color-on-surface);
   padding-bottom: 2px;
-  border-bottom: 0.0625rem solid transparent;
-  transition:
-    color 0.2s,
-    border-color 0.2s;
+  @include underline-sweep;
 
-  &:hover {
+  @include on-hover {
     color: var(--color-secondary);
-    border-color: var(--color-secondary);
   }
 
   .material-symbols-outlined {
     font-size: 0.9375rem;
+    // La flecha acompaña al subrayado: se inclina al mismo tiempo que él.
+    @include on-hover {
+      transform: translateX(0.125rem);
+    }
+    transition: transform var(--dur-ui) var(--ease-out-ui);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .material-symbols-outlined {
+      transform: none !important;
+    }
   }
 }
 
@@ -202,13 +216,16 @@ $row-gap: $space-xl; // 2rem entre columnas de la fila
 $row-pad: $space-xl; // 2rem de padding vertical de la fila
 $row-icon: 3.5rem; // caja circular del icono
 
-// Tarjetas numeradas (patrón "01/02/03").
-$card-pad: $space-xl; // 2rem
-$card-radius: 1.25rem; // 20px
-$card-gap: $space-xl; // 2rem entre tarjetas
-$card-gap-sm: $space-lg; // 1.5rem en móvil
-$card-number-size: 2.6rem; // el "01"
-$card-number-width: 2.75rem;
+// Secuencia numerada de las subpáginas: línea de tiempo vertical con el número
+// dentro de un círculo. El círculo es el punto de anclaje de la línea, así que su
+// diámetro ($steps-marker) es también la columna que dejan los pasos.
+$steps-marker: 2.75rem; // el círculo, 44 px
+$steps-number-size: 0.875rem; // el "01" dentro del círculo
+
+// Las medidas de las tarjetas numeradas de la portada ("Cómo será tu proceso")
+// ya no viven aquí: las subpáginas ya no las usan —su bloque de pasos es una
+// línea de tiempo— y `Process.astro` se mide con sus propias constantes, que son
+// las de la portada y no forman parte del sistema de subpáginas.
 
 // Rejillas de dos columnas.
 $split-columns: minmax(0, 1fr) minmax(0, 1fr);

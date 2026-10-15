@@ -24,7 +24,7 @@ const publicPages: readonly string[] = [
 ];
 
 // Las páginas legales van con `noindex` mientras el texto sea provisional, así
-// que no debenmogarse al sitemap mientras dure esa situation.
+// que no deben entrar al sitemap mientras dure esa situación.
 const noindexPaths: readonly string[] = [
   avisoLegal.path,
   politicaPrivacidad.path,

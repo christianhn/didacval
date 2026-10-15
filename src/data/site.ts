@@ -15,8 +15,6 @@ export const siteData = {
     name: "Didac Val",
     fullName: "Didac Val Capdevila",
     role: "Psicólogo en Zaragoza",
-    // Subtítulo corto que el header muestra bajo la wordmark.
-    subtitle: "Psicólogo",
     logo,
     logoAlt: "Didac Val, psicólogo en Zaragoza",
   },
@@ -78,18 +76,9 @@ export const siteData = {
   credentials: {
     collegiate: "A-03214",
     college: "Colegio Oficial de Psicología de Aragón",
-    // TODO con Didac: "Centro Sanitario Autorizado" ya estaba en la web, pero
-    // falta el nº de registro sanitario que lo respalda. Confirmar antes de
-    // publicar; si no, quitarlo.
-    sanitaryRegistry: "Centro Sanitario Autorizado",
   },
 
   // ------------------------------------------------------------ navegación
-  // `href` se escribe tal como se ve desde la landing. Las entradas que son
-  // anclas (#) las convierte Header/MobileMenu en rutas absolutas ("/#proceso")
-  // cuando la página actual no es la home: ver `resolveNavHref` más abajo.
-  // `active` ya no se guarda aquí: se deduce de Astro.url.pathname, así que una
-  // subpágina siempre marca bien su enlace.
   nav: [
     { label: "Inicio", href: "/", path: "inicio" },
     {

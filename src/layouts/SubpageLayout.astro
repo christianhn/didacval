@@ -28,6 +28,11 @@ interface Props {
   /** Franja superior fina con los datos de disponibilidad de la consulta. */
   showNoticeBar?: boolean;
   /**
+   * Subtítulo del formulario. Por defecto es el de la portada; /sexologo-zaragoza/
+   * lo cambia para subrayar la confidencialidad, que es su principal objeción.
+   */
+  contactDescription?: string;
+  /**
    * Por defecto el layout ya añade el formulario al final. /contacto/ lo pone
    * False porque allí el formulario ES el contenido de la página, con su propio
    * encabezado y sus datos de contacto debajo.
@@ -45,6 +50,7 @@ const {
   jsonLd = [],
   origen,
   showNoticeBar = false,
+  contactDescription,
   withContact = true,
 } = Astro.props;
 
@@ -78,7 +84,9 @@ const structured = [
   <main class="page-main">
     <slot />
     {showNoticeBar && <NoticeBar />}
-    {withContact && <Contact origen={origen} />}
+    {withContact && (
+      <Contact origen={origen} description={contactDescription} />
+    )}
   </main>
   <Footer />
 </Layout>
@@ -110,3 +118,12 @@ const structured = [
     @include section-block;
   }
 </style>
+
+<script>
+  import { initReveals } from "../scripts/reveal";
+
+  // Entrada escalonada de los bloques al llegar a la vista. Se llama una vez,
+  // aquí, y no desde cada componente: así todas las subpáginas se mueven igual
+  // sin que cada bloque tenga que acordarse de hacerlo.
+  initReveals(document.querySelector(".page-main") ?? document);
+</script>

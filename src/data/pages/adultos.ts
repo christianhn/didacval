@@ -12,208 +12,175 @@ export const adultosPage: PageContent = {
   },
 
   hero: {
-    eyebrow: "Terapia individual",
     title: "Terapia para adultos en Zaragoza",
-    subtitle: "Un espacio sin juicios para entender lo que te pasa y decidir cómo seguir.",
+    subtitle:
+      "Un espacio sin juicios para entender lo que te pasa y decidir cómo seguir. La terapia no es un examen: es un lugar donde mirar de verdad lo que está pasando.",
     image: adultosImg,
     imageAlt: "Persona sentada en un entorno tranquilo y luminoso",
     breadcrumbLabel: "Terapia para adultos",
   },
 
   blocks: [
+    // ---- 1. Contenedor beige redondeado (una sola vez por página) --------
+    //
+    // Antes eran siete filas en un panel de casi 1400 px, más una franja de
+    // enlaces relacionados debajo que hacía el bloque todavía más largo. Ahora
+    // son seis filas y los enlaces relacionados salen del panel: los dos
+    // "página propia" son filas con enlace, y el resto de páginas se enlaza
+    // desde el texto de la sección siguiente.
     {
-      kind: "text",
-      data: {
-        id: "que-puedes-esperar",
-        eyebrow: "Qué puedes esperar",
-        title: "Un espacio para mirar lo que de verdad te pasa",
-        paragraphs: [
-          "La terapia no es un examen ni un tratamiento. Es un espacio para mirar lo que está pasando de verdad, con alguien que te ayuda a ordenarlo.",
-        ],
-        bullets: [
-          "Explorar lo que piensas y sientes sin miedo a ser juzgado",
-          "Comprender el origen de tu malestar y de tus patrones repetidos",
-          "Aprender a relacionarte mejor contigo y con los demás",
-          "Recuperar tu equilibrio y tus recursos",
-        ],
-        layout: "aside",
-        tone: "bone",
-      },
-    },
-
-    // ------------------------------------------------------- cuándo es buen momento
-    {
-      kind: "text",
-      data: {
-        id: "cuando-es-buen-momento",
-        eyebrow: "¿Cuándo es buen momento?",
-        title: "No hace falta que sea grave",
-        paragraphs: [
-          "Si algo de esto lleva meses rayando en tu día a día, merece la pena mirarlo:",
-        ],
-        bullets: [
-          "Ansiedad o estrés continuo",
-          "Ánimo bajo o tristeza",
-          "Conflictos de pareja o familiares",
-          "Duelo o ruptura",
-          "Baja autoestima o inseguridad",
-          "Sensación de vacío o dificultad para decidir",
-        ],
-        footnote:
-          "La terapia no es solo para momentos de crisis: también sirve para conocerte mejor.",
-        tone: "canvas",
-      },
-    },
-
-    // --------------------------------------------------------- áreas que trabajo
-    {
-      kind: "rows-legacy",
+      kind: "rows",
       data: {
         id: "areas",
         eyebrow: "Áreas que trabajo",
         title: "Todo lo que cabe en una terapia individual",
         description:
           "Las dos primeras tienen página propia, porque son las que más se repiten: si tu caso es sobre todo una de ellas, empieza por ahí.",
-        variant: "panel",
-        cta: {
-          label: "Consultar mi caso",
-          href: "#contacto-cita",
-        },
         items: [
           {
             icon: "spa",
             kicker: "Página propia",
-            title: serviceRoutes.ansiedad.label,
+            // El título de la fila describe la situación y el `ctaLabel` nombra
+            // la página a la que lleva. Al revés, el rótulo repetía palabra por
+            // palabra la primera viñeta.
+            title: "Ansiedad y preocupación que no para",
             href: serviceRoutes.ansiedad.path,
-            ctaLabel: serviceRoutes.ansiedad.short,
+            ctaLabel: serviceRoutes.ansiedad.label,
+            bullets: [
+              "Tensión, insomnio y la sensación de ir siempre al límite",
+              "Ataques de pánico o delante de situaciones concretas",
+            ],
           },
           {
             icon: "favorite",
             kicker: "Página propia",
-            title: serviceRoutes.sexologia.label,
+            title: "Dificultades en la vida sexual",
             href: serviceRoutes.sexologia.path,
-            ctaLabel: serviceRoutes.sexologia.short,
+            ctaLabel: serviceRoutes.sexologia.label,
+            bullets: [
+              "Disfunción eréctil, eyaculación precoz y bajo deseo",
+              "Inseguridad en la vida sexual o en la pareja",
+            ],
           },
           {
             icon: "water_drop",
-            title: "Tristeza y depresión",
+            kicker: "Ánimo bajo",
+            title: "Tristeza y bajo estado de ánimo",
             bullets: [
               "Ánimo bajo persistente",
               "Pérdida de interés por lo que te gustaba",
+              "Sensación de vacío o dificultad para decidir",
             ],
           },
           {
             icon: "hourglass_empty",
-            title: "Duelo y rupturas",
+            kicker: "Duelo",
+            title: "Rupturas y pérdidas",
             bullets: [
-              "Pérdida de alguien, o de una etapa",
+              "Pérdida de alguien, o de una etapa entera",
               "Separaciones y divorcios",
+              "Duelos que no acaban de pasar",
             ],
           },
           {
             icon: "work",
+            kicker: "Trabajo",
             title: "Estrés laboral y oposiciones",
             bullets: [
               "Saturación y desgaste",
               "Preparación de exámenes y tests",
-            ],
-          },
-          {
-            icon: "visibility",
-            title: "Fobias",
-            bullets: [
-              "Miedos que evitan cosas de tu día a día",
-              "Reacciones de evitación",
+              "Dificultad para desconectar al salir",
             ],
           },
           {
             icon: "self_improvement",
+            kicker: "Vinculación",
             title: "Autoestima y relaciones",
             bullets: [
               "Inseguridad y autocrítica",
+              "Miedos que te hacen evitar cosas del día a día",
               "Dificultades para relacionarte con los demás",
             ],
           },
         ],
-        related: {
-          title: "También puedes empezar por aquí",
-          links: [
-            {
-              label: serviceRoutes.familiar.label,
-              href: serviceRoutes.familiar.path,
-              description: serviceRoutes.familiar.short,
-            },
-            {
-              label: "Sobre mí",
-              href: "/quien-soy/",
-              description: "Formación, enfoque y cómo es la consulta.",
-            },
-          ],
-        },
       },
     },
 
+    // ---- 2. Dos columnas -------------------------------------------------
+    // Sin imagen: `adults.jpg` es la del hero y repetirla dentro de la misma
+    // página la convertiría en papel pintado. Antes esto eran dos secciones
+    // ("Qué puedes esperar" y "¿Cuándo es buen momento?") más una secuencia
+    // numerada de cuatro pasos: tres bloques para decir lo mismo. Ahora es una
+    // sección a dos columnas, y la segunda la ocupa el apunte.
     {
-      kind: "text",
+      kind: "split",
       data: {
-        id: "como-trabajo",
-        eyebrow: "Cómo trabajo",
-        title: "Un plan claro desde el principio",
+        id: "que-puedes-esperar",
+        eyebrow: "Qué puedes esperar",
+        title: "Un espacio para mirar lo que de verdad te pasa",
         paragraphs: [
-          "Desde un enfoque cognitivo-conductual y humanista que adapto a cada persona: qué te trae, qué vamos a trabajar y cómo revisamos los avances. El objetivo es que termines con herramientas para afrontarlo por tu cuenta, no con una dependencia de la sesión.",
+          "Desde un enfoque cognitivo-conductual y humanista, el trabajo tiene siempre la misma forma: primero mirar lo que piensas y sientes sin miedo a que nada de eso esté en tu contra, y después entender de dónde viene, que es lo que deja de hacerlo un misterio y empieza a poder cambiarse.",
+          "Luego la parte que más se nota: practicar otras formas de estar con lo que ocurre, en tus relaciones y contigo, y volver a los recursos que ya tienes y que el malestar había dejado enterrados.",
+          "Si has llegado hasta aquí leyendo, ya sabes lo que te trae. Y si aún no lo sabes del todo, también sirve: puedes contármelo en la primera sesión.",
         ],
-        link: {
-          label: "Ver las cuatro fases del proceso",
-          href: "/#proceso",
+        note: {
+          label: "El objetivo",
+          text: "Que termines con herramientas para afrontarlo por tu cuenta, no con una dependencia de la sesión. Si en algún momento dejamos de aportar, lo hablamos y lo ajustamos.",
         },
-        tone: "bone",
+        // `soft`, no `base`: la FAQ es `base` y dos secciones seguidas no pueden
+        // compartir fondo.
+        tone: "soft",
       },
     },
 
+    // ---- 3. FAQ -----------------------------------------------------------
+    //
+    // Preguntas propias de esta página. Las de la portada ("¿Cuándo es el
+    // momento de acudir?", "¿Cuántas sesiones necesitaré?", "¿Presencial u
+    // online?", la primera sesión) no se repiten: aquí va lo que se pregunta
+    // desde el hueco de "no sé bien qué me pasa".
     {
       kind: "faq",
       data: {
         id: "faq",
-        eyebrow: "Preguntas frecuentes",
-        title: "Dudas habituales",
+          title: "Dudas habituales",
         description:
           "Las preguntas que más me llegan de quien entra por primera vez a terapia.",
-        // TODO confirmar con Didac: redacción propuesta. En especial la política
-        // de derivación cuando aparece riesgo.
+        // TODO confirmar con Didac: redacción propuesta. Sobre todo la política
+        // de derivación y el paso a otro profesional.
         items: [
-          {
-            question: "¿Cómo sé si necesito terapia?",
-            answer:
-              "No hace falta estar mal para pedir ayuda. Si algo no se va de tu cabeza, si la tristeza o la tensión se repiten o si te cuesta funcionar como antes, suele ayudar empezar. También sirve para conocerte mejor y decidir con más claridad.",
-          },
-          {
-            question: "¿Cuánto dura?",
-            answer:
-              "No hay un número cerrado de sesiones: depende de cada caso. Al principio lo habitual es ir semanalmente y después se espacian. Lo revisamos juntos.",
-          },
           {
             question: "¿Qué problemas se trabajan?",
             answer:
               "Principalmente tristeza, duelo y rupturas, estrés y ansiedad, baja autoestima, fobias, estrés laboral y dificultades en las relaciones. Si lo tuyo tiene que ver con la intimidad sexual, esa parte tiene su propia página.",
           },
           {
-            question: "¿Presencial u online?",
+            question: "¿Y si no sé bien qué me pasa?",
             answer:
-              "Las dos son igual de válidas. La online te ahorra desplazamientos, encaja mejor con tu trabajo o tus cuidados y puedes hacerla desde cualquier punto de España.",
+              "Es más común de lo que parece, y no impide empezar. La primera sesión sirve precisamente para poner orden: me cuentas lo que notas y lo vamos ordenando hasta encontrar qué lo alimenta.",
+          },
+          {
+            question: "¿Puedo pedir cita sin un problema claro?",
+            answer:
+              "Sí. Muchas personas llegan sin una etiqueta y con la sensación de que algo no encaja. Eso ya es motivo suficiente, y trabajar sobre ello suele ser el principio de lo demás.",
+          },
+          {
+            question: "¿Qué pasa si en terapia aparece algo que necesita otro profesional?",
+            answer:
+              "Te lo digo y lo hablamos. Si veo que tu caso necesita una valoración médica, psiquiátrica o de otra especialidad, te lo comento con la misma claridad y te ayudo a buscar ese profesional. No se continúa con algo que no es mío.",
+          },
+          {
+            question: "¿Cada cuánto se cita?",
+            answer:
+              "Al principio lo habitual es semanal, porque es el ritmo en el que el trabajo coge forma. Después se espacia a quincenal o mensual según cómo vaya, y lo revisamos juntos en lugar de decidirlo por inercia.",
           },
         ],
       },
     },
-
-    {
-      kind: "cta",
-      data: {
-        title: "No tienes que saber qué te pasa para empezar",
-        description:
-          "Con que me cuentes qué te trae es suficiente. La primera sesión informativa es gratuita y sin compromiso.",
-      },
-    },
   ],
+
+  // La banda de CTA que cerraba la página ("No tienes que saber qué te pasa para
+  // empezar") ya no existe: el CTA está en el hero y en el formulario.
 
   // TODO confirmar con Didac:
   // - Lista de problemas: trauma, obsesiones, adicciones y trastornos de

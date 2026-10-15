@@ -26,7 +26,7 @@ const { id, eyebrow, title, description, link, items } = Astro.props;
 const titleId = `${id ?? "rows"}-title`;
 ---
 
-<section id={id} class="rows" aria-labelledby={titleId}>
+<section id={id} class="rows" aria-labelledby={titleId} data-reveal>
   <div class="rows__inner">
     <SectionHeader
       id={titleId}
@@ -60,12 +60,10 @@ const titleId = `${id ?? "rows"}-title`;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .rows {
-      margin-inline: 0;
-      border-radius: 0;
-    }
-  }
+  // El margen lateral y el radio se quitan en el script de abajo, al llegar la
+  // sección arriba. No hay ninguna regla de `prefers-reduced-motion` que los toque:
+  // esa preferencia quita la animación, no cambia el diseño. (Antes las quitaba
+  // en CSS, y quien la tenía activada veía el bloque a sangre y sin esquinas.)
 
   .rows__inner {
     max-width: $container-max;

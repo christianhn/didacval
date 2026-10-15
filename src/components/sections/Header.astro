@@ -39,7 +39,6 @@ const specialties = nav.find((item) => item.children);
       />
       <a class="header__brand-text" href="/" data-path="inicio">
         <span class="header__brand-name">{siteData.brand.name}</span>
-        <span class="header__brand-subtitle">{siteData.brand.subtitle}</span>
       </a>
     </div>
 
@@ -65,7 +64,10 @@ const specialties = nav.find((item) => item.children);
                   data-group-trigger
                 >
                   <span>{item.label}</span>
-                  <span class="material-symbols-outlined header__group-caret" aria-hidden="true">
+                  <span
+                    class="material-symbols-outlined header__group-caret"
+                    aria-hidden="true"
+                  >
                     expand_more
                   </span>
                 </a>
@@ -480,25 +482,6 @@ const specialties = nav.find((item) => item.children);
     }
   }
 
-  .header__brand-subtitle {
-    @include text-caption-micro;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.5625rem;
-    transition: color 0.3s ease;
-
-    .header--solid & {
-      color: var(--color-secondary);
-    }
-    .header--transparent & {
-      color: color-mix(
-        in srgb,
-        var(--color-surface-container-lowest) 75%,
-        transparent
-      );
-    }
-  }
-
   .header__nav {
     display: none;
     align-items: center;
@@ -801,7 +784,11 @@ const specialties = nav.find((item) => item.children);
 
       &:hover {
         color: var(--color-on-surface);
-        background: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+        background: color-mix(
+          in srgb,
+          var(--color-on-surface) 12%,
+          transparent
+        );
       }
     }
 

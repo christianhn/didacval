@@ -63,7 +63,7 @@ const titleId = `${id ?? "steps"}-title`;
       <ol class="steps__stack-list">
         {
           steps.map((step) => (
-            <li class="steps__card">
+            <li class="steps__card" data-reveal-item>
               <span class="steps__number" aria-hidden="true">
                 {step.number}
               </span>
@@ -137,34 +137,55 @@ const titleId = `${id ?? "steps"}-title`;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: $card-gap-sm;
+    gap: $space-xl;
+    position: relative;
+  }
 
-    @media (min-width: $bp-lg) {
-      gap: $card-gap;
-    }
+  // Línea de tiempo: una línea vertical continua por la que corre la
+  // secuencia, con el número dentro de un círculo. El orden se lee por la
+  // posición, que es lo que hace que esto sea una secuencia y no una lista.
+  //
+  // El trazo se dibuja en el `::before` del `<ol>` (no en cada `<li>`) para que
+  // sea una sola línea de principio a fin y no un trocito por paso. El primer
+  // círculo se sube media altura para centrarse en su tramo de línea.
+  .steps__stack-list::before {
+    content: "";
+    position: absolute;
+    top: $steps-marker;
+    bottom: $steps-marker;
+    left: calc(#{$steps-marker} / 2);
+    width: 0.0625rem;
+    transform: translateX(-50%);
+    background: var(--color-outline-variant);
   }
 
   .steps__card {
+    position: relative;
     display: flex;
     align-items: flex-start;
     gap: $space-lg;
-    padding: $card-pad;
-    border-radius: $card-radius;
-    background: var(--color-surface-container-lowest);
-    box-shadow:
-      0 0.625rem 1.875rem -0.3125rem rgba(0, 0, 0, 0.04),
-      0 0.125rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.02);
+    padding-left: calc(#{$steps-marker} + #{$space-lg});
   }
 
   .steps__number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $steps-marker;
+    height: $steps-marker;
     flex-shrink: 0;
-    min-width: $card-number-width;
+    border-radius: $radius-full;
+    border: 0.0625rem solid var(--color-outline-variant);
+    background: var(--color-surface-bone);
     font-family: $font-family-base;
-    font-size: $card-number-size;
-    font-weight: 800;
+    font-size: $steps-number-size;
+    font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--color-on-secondary-container);
+    letter-spacing: -0.02em;
+    color: var(--color-secondary);
   }
 
   .steps__body {
@@ -194,10 +215,10 @@ const titleId = `${id ?? "steps"}-title`;
     color: var(--color-on-surface-variant);
   }
 
-  // Alineado con el texto de las tarjetas, no con su borde: el enlace se lee
+  // Alineado con el texto de los pasos, no con su borde: el enlace se lee
   // como parte de la secuencia, no como una llamada a la acción aparte.
   .steps__footer-link {
     @include section-link;
-    margin-left: calc(#{$card-number-width} + #{$space-lg});
+    margin-left: calc(#{$steps-marker} + #{$space-lg});
   }
 </style>

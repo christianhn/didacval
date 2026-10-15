@@ -1,11 +1,8 @@
 import type { ImageMetadata } from "astro";
 import type { RowsItem } from "../../components/layout/RowsItem.astro";
-import type { RowListItem } from "../../components/ui/RowList.astro";
-import type { RelatedLink } from "../../components/ui/RelatedServices.astro";
 import type { Step } from "../../components/layout/NumberedSteps.astro";
 import type { Note } from "../../components/ui/NoteCard.astro";
 import type { FaqItem } from "../../components/layout/Faq.astro";
-import type { FormationEntry } from "../../components/ui/FormationGroup.astro";
 import type { Crumb } from "../structuredData";
 
 /** Superficies del sistema. El `panel` se usa una sola vez por página. */
@@ -25,7 +22,8 @@ export interface PageSeo {
 }
 
 export interface PageHeroContent {
-  eyebrow: string;
+  /** Etiqueta sobre el H1. Sólo si dice algo que el titular no dice. */
+  eyebrow?: string;
   title: string;
   subtitle: string;
   image: ImageMetadata;
@@ -38,9 +36,11 @@ export interface PageHeroContent {
 // Sistema de composición (DESIGN_SPEC.md)
 // =========================================================
 //
-// Las secciones se componen con las seis recetas de la fase 3 del brief:
-// PageHero (en la página, no aquí) + RowsContainer + NumberedSteps + SplitImage
-// + FAQ + Contact. Cada bloque lleva su superficie, y las superficies alternan.
+// Las secciones se componen con cuatro recetas —PageHero (en la página, no
+// aquí), RowsContainer, NumberedSteps, SplitImage y Faq— más la NoteCard, que
+// es un elemento auxiliar y no una sección. Cada bloque lleva su superficie y
+// las superficies alternan: es la regla que hace que páginas con bloques
+// distintos se lean como una sola.
 
 /** Contenedor beige redondeado. `variant: "full"` lo deja a sangre. */
 export interface RowsBlock {
@@ -97,78 +97,11 @@ export interface FaqBlock {
   items: readonly FaqItem[];
 }
 
-// =========================================================
-// Tipos heredados, pendientes de migrar página a página
-// =========================================================
-// TODO borrar en cuanto las cinco páginas de servicio y /quien-soy/ usen el
-// sistema de arriba.
-
-export interface TextBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  paragraphs: readonly string[];
-  bullets?: readonly string[];
-  link?: { label: string; href: string };
-  layout?: "wide" | "aside";
-  tone?: "bone" | "canvas" | "transparent";
-  footnote?: string;
-}
-
-export interface FormationBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  groups: readonly FormationEntry[];
-}
-
-export interface CtaBlock {
-  title: string;
-  description: string;
-}
-
 export type PageBlock =
   | { kind: "rows"; data: RowsBlock }
   | { kind: "steps"; data: StepsBlock }
   | { kind: "split"; data: SplitBlock }
-  | { kind: "faq"; data: FaqBlock }
-  // Heredados: se quitan al migrar cada página.
-  | { kind: "text"; data: TextBlock }
-  | { kind: "formation"; data: FormationBlock }
-  | { kind: "cta"; data: CtaBlock }
-  | { kind: "rows-legacy"; data: LegacyRowsBlock }
-  | { kind: "split-legacy"; data: LegacySplitBlock }
-  | {
-      kind: "process-link";
-      data: { title: string; description: string; href: string };
-    };
-
-/** `rows` antiguo: con subtítulo libre en la fila y franja de enlaces al pie. */
-export interface LegacyRowsBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  cta?: { label: string; href: string };
-  items: readonly RowListItem[];
-  variant?: "panel" | "full";
-  related?: { title?: string; links: readonly RelatedLink[] };
-}
-
-/** `split` antiguo:tonos `bone`/`canvas`/`soft` e imagen obligatoria. */
-export interface LegacySplitBlock {
-  id: string;
-  eyebrow?: string;
-  title: string;
-  paragraphs: readonly string[];
-  bullets?: readonly string[];
-  image: ImageMetadata;
-  imageAlt: string;
-  direction?: "text-start" | "media-start";
-  tone?: "bone" | "canvas" | "soft";
-  footnote?: string;
-}
+  | { kind: "faq"; data: FaqBlock };
 
 export interface PageContent {
   /** Slug de la ruta, con barras (p. ej. "/sexologo-zaragoza/"). */
@@ -180,6 +113,12 @@ export interface PageContent {
   blocks: readonly PageBlock[];
   /** Migas completas. Si se omite, se generan "Inicio > hero.breadcrumbLabel". */
   breadcrumb?: readonly Crumb[];
+  /**
+   * Subtítulo del formulario, si la página necesita cambiarlo. Sin él, el de la
+   * portada. Lo usa /sexologo-zaragoza/, donde la confidencialidad es la
+   * condición que hace que alguien escriba.
+   */
+  contactDescription?: string;
 }
 
 // ------------------------------------------------------------- Enlaces comunes a todas las páginas

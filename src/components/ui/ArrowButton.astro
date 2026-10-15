@@ -7,7 +7,7 @@ interface Props {
   disabled?: boolean;
   class?: string;
   "aria-label"?: string;
-  variant?: "primary" | "secondary" | "accent";
+  variant?: "primary" | "secondary" | "accent" | "on-dark";
 }
 
 const {
@@ -66,7 +66,9 @@ const Tag = href ? "a" : "button";
     border: none;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.15s;
+    // Se ve cientos de veces al día: el botón no se desplaza al pulsarse, sólo
+    // encoge. Moverlo en `:active` añadiría retardo entre el clic y el cambio.
+    transition: transform 150ms var(--ease-out-ui);
 
     &.cta--primary {
       .cta__label {
@@ -116,8 +118,37 @@ const Tag = href ? "a" : "button";
       }
     }
 
-    &:active {
-      transform: scale(0.98);
+    // Contraste sobre foto o vídeo oscuro (el hero). Misma forma y mismas
+    // medidas que las demás variantes: sólo cambia el color, para que el rótulo
+    // siga destacando contra el fondo y el círculo siga siendo de tinta.
+    &.cta--on-dark {
+      .cta__label {
+        background: var(--color-surface-container-lowest);
+        color: var(--color-primary);
+      }
+
+      .cta__icon {
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+
+        .material-symbols-outlined {
+          color: var(--color-on-primary);
+        }
+      }
+
+      // El anillo de foco por defecto es negro: sobre el vídeo se perdería.
+      &:focus-visible {
+        outline-color: var(--color-surface-container-lowest);
+      }
+    }
+
+    // Confirmación de pulsación. `scale()` arrastra también a los hijos, así que
+    // el rótulo y el icono encogen con la píldora: es lo que hace un botón
+    // físico al hundirse.
+    @media (prefers-reduced-motion: no-preference) {
+      &:active {
+        transform: scale(0.98);
+      }
     }
 
     &:disabled {
@@ -175,7 +206,10 @@ const Tag = href ? "a" : "button";
     border-radius: $radius-full;
     background: var(--color-primary);
     color: var(--color-on-primary);
-    transition: transform 350ms cubic-bezier(0.65, 0, 0.35, 1);
+    // El círculo gira 45° al pasar por encima: 280 ms con curva propia, no los
+    // 350 ms con `cubic-bezier(.65,0,.35,1)` de antes. A 350 ms el giro llegaba
+    // tarde y se leía como retraso en lugar de como reacción.
+    transition: transform var(--dur-panel) var(--ease-out-ui);
 
     .material-symbols-outlined {
       font-size: 1.125rem;
@@ -205,8 +239,14 @@ const Tag = href ? "a" : "button";
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
+  // El texto hace un rodillo (roll) de la copia de arriba a la de abajo: es la
+  // única animación del CTA y se dispara en cada hover, así que va corta y sin
+  // retardo. Con movimiento reducido, el rótulo no se mueve: la etiqueta sigue
+  // ahí y eso es lo único que importa.
   if (!prefersReducedMotion) {
-    document.querySelectorAll("[data-cta]").forEach((btn) => {
+    document
+      .querySelectorAll<HTMLElement>("[data-cta]")
+      .forEach((btn) => {
       const stack = btn.querySelector<HTMLElement>("[data-stack]");
       if (!stack) return;
 
@@ -218,7 +258,7 @@ const Tag = href ? "a" : "button";
 
         const anim = stack.animate(
           [{ transform: "translateY(0)" }, { transform: "translateY(-50%)" }],
-          { duration: 350, easing: "cubic-bezier(.65, 0, .35, 1)" },
+          { duration: 280, easing: "cubic-bezier(0.23, 1, 0.32, 1)" },
         );
 
         anim.onfinish = () => {
@@ -226,24 +266,24 @@ const Tag = href ? "a" : "button";
         };
       };
 
-      const isFocusVisible = (e: FocusEvent) => {
-        return btn.matches(":focus-visible");
-      };
+      const isDisabled = () => btn instanceof HTMLButtonElement && btn.disabled;
+
+      const isFocusVisible = () => btn.matches(":focus-visible");
 
       btn.addEventListener("pointerenter", (e: PointerEvent) => {
-        if (e.pointerType === "mouse" && !btn.disabled) roll();
+        if (e.pointerType === "mouse" && !isDisabled()) roll();
       });
 
       btn.addEventListener("pointerleave", (e: PointerEvent) => {
-        if (e.pointerType === "mouse" && !btn.disabled) roll();
+        if (e.pointerType === "mouse" && !isDisabled()) roll();
       });
 
-      btn.addEventListener("focusin", (e: FocusEvent) => {
-        if (isFocusVisible(e) && !btn.disabled) roll();
+      btn.addEventListener("focusin", () => {
+        if (isFocusVisible() && !isDisabled()) roll();
       });
 
-      btn.addEventListener("focusout", (e: FocusEvent) => {
-        if (isFocusVisible(e) && !btn.disabled) roll();
+      btn.addEventListener("focusout", () => {
+        if (isFocusVisible() && !isDisabled()) roll();
       });
     });
   }

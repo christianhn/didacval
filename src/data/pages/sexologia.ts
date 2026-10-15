@@ -1,5 +1,5 @@
 import parejaImg from "../../assets/speciality/pareja.jpg";
-import type { PageContent } from "./types";
+import { serviceRoutes, type PageContent } from "./types";
 
 export const sexologiaPage: PageContent = {
   path: "/sexologo-zaragoza/",
@@ -12,38 +12,32 @@ export const sexologiaPage: PageContent = {
   },
 
   hero: {
-    eyebrow: "Sexología",
     title: "Sexólogo en Zaragoza",
-    subtitle: "Un espacio confidencial para hablar de lo que cuesta nombrar.",
+    subtitle:
+      "Un espacio confidencial para hablar de lo que cuesta nombrar. Las dificultades sexuales generan angustia, inseguridad y vergüenza, y muchas veces se viven en silencio durante años antes de pedir ayuda.",
     image: parejaImg,
     imageAlt: "Dos personas hablando en un ambiente tranquilo y privado",
     breadcrumbLabel: "Sexología",
   },
 
-  blocks: [
-    {
-      kind: "text",
-      data: {
-        id: "intro",
-        title: "Lo que casi nadie cuenta",
-        paragraphs: [
-          "Las dificultades sexuales generan angustia, inseguridad y vergüenza, y muchas veces se viven en silencio durante años antes de pedir ayuda.",
-          "Aquí puedes hablarlo con naturalidad, sin juicios y con total discreción.",
-        ],
-        layout: "aside",
-        tone: "bone",
-      },
-    },
+  /**
+   * En esta página la confidencialidad no es una fila del panel ni una nota: es
+   * la condición que hace que alguien acuda. Va en el subtítulo del hero y en el
+   * del formulario, los dos sitios donde la persona está a punto de escribir.
+   */
+  contactDescription:
+    "Primera sesión informativa gratuita y sin compromiso. Lo que cuentes está protegido por el secreto profesional: no se comparte con nadie, tampoco con tu pareja.",
 
+  blocks: [
+    // ---- 1. Contenedor beige redondeado (una sola vez por página) --------
     {
-      kind: "rows-legacy",
+      kind: "rows",
       data: {
         id: "que-trabajo",
         eyebrow: "Qué dificultades trabajo",
         title: "Las que más se ven en consulta",
         description:
           "Todas se abordan desde su origen psicológico, que es el que más depende de lo que pasa por tu cabeza y no sólo de tu cuerpo.",
-        variant: "panel",
         items: [
           {
             icon: "favorite",
@@ -70,77 +64,39 @@ export const sexologiaPage: PageContent = {
             // que es lo que sugiere la landing. Si sólo atiende a hombres,
             // quitar esta fila.
           },
-        ],
-      },
-    },
-
-    {
-      kind: "text",
-      data: {
-        id: "por-que-aparecen",
-        eyebrow: "Por qué aparecen",
-        title: "El cuerpo responde a lo que pasa por la cabeza",
-        paragraphs: [
-          "La ansiedad, la presión por el rendimiento, experiencias previas, conflictos internos o dificultades en la relación pueden influir directamente en la respuesta sexual. Y también pasa lo contrario: cuando algo no funciona, acaba pesando en cómo se vive la relación entera.",
-        ],
-        footnote:
-          "Si hay una posible causa física, te lo comento y te animo a consultarlo con tu médico.",
-        tone: "canvas",
-      },
-    },
-
-    {
-      kind: "rows-legacy",
-      data: {
-        id: "confidencialidad",
-        eyebrow: "Confidencialidad",
-        title: "Secreto profesional, siempre",
-        description:
-          "Lo que cuentas en consulta no sale de consulta. Estoy colegiado en el Colegio Oficial de Psicología de Aragón y el Código Deontológico me obliga a guardarlo.",
-        variant: "full",
-        items: [
           {
-            title: "Discreción total",
-            subtitle:
-              "No comparto nada con nadie sin tu permiso, tampoco con tu pareja.",
-          },
-          {
-            title: "Sesiones online disponibles",
-            subtitle:
-              "Por videollamada, con la misma reserva que en la consulta.",
+            icon: "psychology_alt",
+            kicker: "También puede ayudar",
+            title: "Si lo que pesa es el ánimo o la confianza",
+            href: serviceRoutes.ansiedad.path,
+            ctaLabel: serviceRoutes.ansiedad.label,
+            bullets: [
+              "Si la dificultad viene de un momento malo",
+              "Si detrás de la baja del deseo hay otra cosa",
+            ],
           },
         ],
       },
     },
 
-    {
-      kind: "text",
-      data: {
-        id: "que-esperar",
-        eyebrow: "Qué esperar",
-        title: "A tu ritmo y sin prisas",
-        paragraphs: [
-          "No hay un guion cerrado. Estas son las tres cosas que suelen pasar en consulta:",
-        ],
-        bullets: [
-          "Hablamos de tu situación con calma.",
-          "Entendemos qué la mantiene.",
-          "Trabajamos con estrategias concretas, a tu ritmo.",
-        ],
-        link: {
-          label: "Ver las cuatro fases del proceso",
-          href: "/#proceso",
-        },
-        tone: "bone",
-      },
-    },
-
+    // ---- 2. FAQ -----------------------------------------------------------
+    //
+    // Sin pasos: aquí no hay una secuencia propia que contar. Lo que hay es el
+    // proceso general de la portada, que es el mismo en todas las páginas y vive
+    // en el hero y en el formulario. Un bloque de pasos que lo repitiera con otros
+    // títulos sería relleno con forma de sección.
+    //
+    // Va antes que la explicación de por qué aparecen, y no después: quien llega
+    // aquí con una duda concreta ("¿es físico o psicológico?", "¿viene mi
+    // pareja?") la resuelve en este punto; la explicación llega después como
+    // respuesta a lo que ya se ha leído. Además rompe la coincidencia con
+    // /terapia-adultos-zaragoza/, que tiene la misma lista de bloques en otro
+    // orden por una razón editorial, no estética.
     {
       kind: "faq",
       data: {
         id: "faq",
-        eyebrow: "Preguntas frecuentes",
-        title: "Dudas frecuentes",
+          title: "Dudas frecuentes",
         description:
           "Las preguntas que más me llegan a la primera sesión, respondidas con la misma franqueza con la que las hablamos en consulta.",
         // TODO confirmar con Didac: la redacción es propuesta. Sobre todo "¿Cómo
@@ -175,16 +131,41 @@ export const sexologiaPage: PageContent = {
         ],
       },
     },
-
+    // ---- 3. Dos columnas -------------------------------------------------
+    // Antes eran dos secciones ("Por qué aparecen" y "Secreto profesional"), y
+    // la segunda era una sección entera para decir una sola cosa. La de
+    // confidencialidad ha subido al subtítulo del hero y al del formulario, que
+    // es donde de verdad frena a alguien a escribir; la explicación de por qué
+    // aparecen es una sola sección a dos columnas.
+    //
+    // Sin imagen: `pareja.jpg` es la del hero y repetirla dentro de la misma
+    // página la convertiría en papel pintado. La segunda columna la ocupa el
+    // apunte de la posible causa física.
     {
-      kind: "cta",
+      kind: "split",
       data: {
-        title: "Lo que cuesta nombrar, se puede trabajar",
+        id: "por-que-aparecen",
+        eyebrow: "Por qué aparecen",
+        title: "El cuerpo responde a lo que pasa por la cabeza",
         description:
-          "Una primera sesión informativa, gratuita y confidencial, para entenderlo sin compromiso.",
+          "Casi nunca hay una sola causa, y casi nunca es sólo del cuerpo.",
+        paragraphs: [
+          "La ansiedad, la presión por el rendimiento, experiencias previas, conflictos internos o dificultades en la relación pueden influir directamente en la respuesta sexual.",
+          "Y también pasa lo contrario: cuando algo no funciona, acaba pesando en cómo se vive la relación entera. Por eso el trabajo no se queda en el síntoma que no funciona, sino en lo que eso ha ido dejando detrás.",
+        ],
+        note: {
+          label: "Cuando puede haber una causa física",
+          text: "Si la veo, te lo digo y te animo a consultarlo con tu médico. Lo que sí es psicológico es todo lo demás, y en eso trabajamos en consulta.",
+        },
+        tone: "soft",
       },
     },
+
   ],
+
+  // La banda de CTA que cerraba la página ("Lo que cuesta nombrar, se puede
+  // trabajar") ya no existe: el CTA está en el hero y en el formulario, que es lo
+  // único que debe empujar a la conversión.
 
   // TODO confirmar con Didac:
   // - Alcance real de la sexología: ¿sólo hombres, también mujeres y parejas?

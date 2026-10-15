@@ -20,6 +20,12 @@ interface Props {
   items: readonly ContactDataItem[];
   /** Enlace secundario (WhatsApp). TODO confirmar con Didac. */
   secondary?: { label: string; href: string };
+  /**
+   * Superficie del bloque. En /contacto/ va `soft` porque va seguido del
+   * formulario, que es `panel`: con `base` los dos bloques de arriba compartirían
+   * fondo y la alternancia se rompería justo en el tramo final de la página.
+   */
+  tone?: "base" | "soft";
   /** Línea final de enlaces a las áreas. */
   areas?: readonly { label: string; href: string }[];
 }
@@ -31,13 +37,18 @@ const {
   description,
   items,
   secondary,
+  tone = "base",
   areas,
 } = Astro.props;
 
 const titleId = `${id ?? "contact-data"}-title`;
 ---
 
-<section id={id} class="contact-data" aria-labelledby={titleId}>
+<section
+  id={id}
+  class:list={["contact-data", `contact-data--${tone}`]}
+  aria-labelledby={titleId}
+>
   <div class="contact-data__inner">
     <header class="contact-data__header">
       {eyebrow && <span class="contact-data__eyebrow">{eyebrow}</span>}
@@ -131,14 +142,23 @@ const titleId = `${id ?? "contact-data"}-title`;
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
+  @use "../../styles/scale" as *;
   @use "../../styles/mixins" as *;
+  @use "../../styles/motion" as *;
 
+  // El bloque cierra la última de las subpáginas, y en la portada es el penúltimo.
+  // Tenía un `padding-block` propio (72/104 en móvil, 104/144 en escritorio) que
+  // rompía la escala justo en el final de la página: ahora usa el mismo
+  // `section-block` que el resto de secciones.
   .contact-data {
-    background: var(--color-surface-bone);
-    padding-block: $space-3xl $space-4xl;
+    @include section-block;
 
-    @media (min-width: $bp-lg) {
-      padding-block: $space-4xl $space-5xl;
+    &--base {
+      @include surface(base);
+    }
+
+    &--soft {
+      @include surface(soft);
     }
   }
 
@@ -168,14 +188,14 @@ const titleId = `${id ?? "contact-data"}-title`;
   }
 
   .contact-data__title {
-    @include text-headline-xl;
+    @include type-h2;
     margin: 0;
     color: var(--color-on-surface);
     text-wrap: balance;
   }
 
   .contact-data__desc {
-    @include text-body-base;
+    @include type-body;
     margin: 0;
     color: var(--color-on-surface-variant);
   }

@@ -21,7 +21,10 @@ interface Props {
 const { id, eyebrow, title, description, link, layout = "wide" } = Astro.props;
 ---
 
-<header class:list={["section-header", `section-header--${layout}`]}>
+<header
+  class:list={["section-header", `section-header--${layout}`]}
+  data-reveal-item
+>
   <div class="section-header__heading">
     {eyebrow && <span class="section-header__eyebrow">{eyebrow}</span>}
     <h2 id={id} class="section-header__title">{title}</h2>

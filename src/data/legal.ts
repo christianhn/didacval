@@ -13,7 +13,8 @@ export interface LegalPage {
     title: string;
     description: string;
   };
-  eyebrow: string;
+  /** Etiqueta sobre el H1. Sólo si dice algo que el titular no dice. */
+  eyebrow?: string;
   title: string;
   updated: string;
   /** Aviso visible en la parte superior de las tres páginas. */
@@ -47,7 +48,6 @@ export const avisoLegal = {
     description:
       "Aviso legal de la web de Didac Val, psicólogo colegiado A-03214 en Zaragoza. Información legal, propiedad intelectual y condiciones de uso.",
   },
-  eyebrow: "Legal",
   title: "Aviso legal",
   updated: "Última actualización: pendiente de fijar la fecha de publicación",
   provisional: provisionalNotice,
@@ -89,7 +89,6 @@ export const politicaPrivacidad = {
     description:
       "Política de privacidad de la web de Didac Val: qué datos se recogen a través del formulario, con qué finalidad, cuánto tiempo se conservan y cómo ejercer tus derechos.",
   },
-  eyebrow: "Legal",
   title: "Política de privacidad",
   updated: "Última actualización: pendiente de fijar la fecha de publicación",
   provisional: provisionalNotice,
@@ -150,7 +149,6 @@ export const cookies = {
     description:
       "Cookies de la web de Didac Val: esta web no utiliza cookies publicitarias ni de seguimiento, por lo que no instala banner de consentimiento.",
   },
-  eyebrow: "Legal",
   title: "Cookies",
   updated: "Última actualización: pendiente de fijar la fecha de publicación",
   provisional: provisionalNotice,

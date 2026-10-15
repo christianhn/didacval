@@ -30,6 +30,17 @@
   --radius-lg: #{$radius-lg};
   --radius-xl: #{$radius-xl};
   --radius-full: #{$radius-full};
+
+  // Las curvas y duraciones también salen como custom properties para poder
+  // usarlas desde `<script>` (GSAP) sin volver a declararlas en JavaScript:
+  // si divergen, la animación discreta y la de scroll dejan de cuadrar.
+  --ease-out-ui: #{$ease-out-ui};
+  --ease-in-out: #{$ease-in-out};
+  --ease-drawer: #{$ease-drawer};
+  --dur-press: #{$dur-press};
+  --dur-ui: #{$dur-ui};
+  --dur-panel: #{$dur-panel};
+  --dur-reveal: #{$dur-reveal};
 }
 
 *,

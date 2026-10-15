@@ -19,8 +19,10 @@ export const contactData = {
         placeholder: "tuemail@ejemplo.com",
       },
       phone: { label: "Teléfono", placeholder: "Ej: 600 000 000" },
+      // "Modalidad" era el rótulo del campo y no le decía nada a quien
+      // rellena el formulario: pregunta en qué formato se hace la sesión.
       mode: {
-        label: "Modalidad",
+        label: "¿Cómo prefieres la sesión?",
         options: siteData.contact.modalities,
       },
       message: {

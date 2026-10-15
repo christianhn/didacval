@@ -42,7 +42,7 @@ const others = [
       <Breadcrumbs items={crumbs} />
 
       <header class="legal__header">
-        <span class="legal__eyebrow">{page.eyebrow}</span>
+        {page.eyebrow && <span class="legal__eyebrow">{page.eyebrow}</span>}
         <h1 class="legal__title">{page.title}</h1>
         <p class="legal__updated">{page.updated}</p>
       </header>
