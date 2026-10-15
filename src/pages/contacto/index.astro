@@ -1,0 +1,120 @@
+---
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import Contact from "../../components/layout/Contact.astro";
+import ContactData from "../../components/layout/ContactData.astro";
+import { contactoPage } from "../../data/pages/contacto";
+
+const page = contactoPage;
+
+const crumbs = [
+  { label: "Inicio", href: "/" },
+  { label: "Contacto", href: page.path },
+];
+
+// En /contacto/ el bloque de contacto ES el contenido de la página: por eso el
+// layout no lo añade al final (withContact={false}) y aquí se pinta a página
+// completa, con la imagen de la consulta a la derecha.
+//
+// El orden es el del sistema: datos primero, formulario al final. Es el único
+// punto de la web donde se ve el bloque de contacto, así que va precedido por lo
+// único que hay que saber para llegar hasta él, y no por un hero con imagen.
+---
+
+<SubpageLayout
+  title={page.seo.title}
+  description={page.seo.description}
+  path={page.path}
+  breadcrumb={crumbs}
+  ogImage={page.hero.image}
+  origen={page.slug}
+  withContact={false}
+>
+  <section class="contact-page" aria-labelledby="contact-page-title">
+    <div class="contact-page__inner">
+      <Breadcrumbs items={crumbs} />
+
+      <div class="contact-page__heading">
+        <span class="contact-page__eyebrow">{page.hero.eyebrow}</span>
+        <h1 id="contact-page-title" class="contact-page__title">
+          {page.hero.title}
+        </h1>
+        <p class="contact-page__subtitle">{page.hero.subtitle}</p>
+      </div>
+    </div>
+  </section>
+
+  <ContactData
+    id="datos"
+    title="Cómo llegar y cómo llamarme"
+    description="Puedes escribir, llamar o pasar por la consulta. Las citas se confirman por teléfono o por correo antes de la primera sesión."
+    items={page.contactItems}
+    secondary={page.whatsapp}
+    areas={page.areas}
+    tone="soft"
+  />
+
+  <Contact
+    origen={page.slug}
+    eyebrow="Primera sesión gratuita"
+    title="Cuéntame qué te trae"
+    description="Primera sesión informativa gratuita y sin compromiso. Elige presencial u online, y si prefieres escribir por teléfono o por correo."
+  />
+</SubpageLayout>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  /**
+   * Cabecera corta de /contacto/. Es la única subpágina sin `PageHero`, y no por
+   * gusto: la imagen que usan las demás (`consulta.jpeg`) es la misma que pinta
+   * el bloque de contacto de abajo, y ponerla dos veces en la misma página la
+   * convierte en papel pintado.
+   *
+   * Aun así es un hero del sistema: mismo `padding-block`, mismo H1 de 64 px y
+   * mismo subtítulo de cuerpo que en el resto. Antes usaba 55 px y 24/48 px de
+   * padding, que es lo que la hacía leer como una página distinta.
+   */
+  .contact-page {
+    @include surface(base);
+    @include section-block;
+  }
+
+  .contact-page__inner {
+    @include section-inner;
+  }
+
+  .contact-page__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $space-md;
+    margin-top: $space-lg;
+  }
+
+  .contact-page__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: $space-2xs $space-sm;
+    border-radius: $radius-full;
+    background: var(--color-surface-container-low);
+    @include type-kicker;
+    font-weight: 500;
+  }
+
+  .contact-page__title {
+    @include type-display;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .contact-page__subtitle {
+    @include type-body;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    max-width: 34rem;
+    text-wrap: pretty;
+  }
+</style>

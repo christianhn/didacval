@@ -1,0 +1,149 @@
+// ==========================================
+// Motion — curvas, duraciones y estados
+// ==========================================
+//
+// Reglas del proyecto (ver `.agents/skills/emil-design-eng`):
+//
+// 1. Nada se anima sin un porqué. Antes de añadir una transición, decidir cuál de
+//    los cinco casos es: consistencia espacial, indicación de estado, explicación,
+//    confirmación de una pulsación o evitar un cambio brusco.
+// 2. Lo que se ve cientos de veces al día no se anima. Los hovers y el foco son
+//    eso: cambian de color y ya está. El movimiento se reserva para las entradas
+//    por scroll, que se ven una vez por visita.
+// 3. Todo elemento pulsable confirma la pulsación. Sin `scale` en `:active` el
+//    botón no parece oír al usuario.
+// 4. Los hovers van detrás de `@media (hover: hover)`. En táctil, el hover se
+//    dispara al tocar y se queda pegado hasta el siguiente toque: un falso
+//    positivo que no existe en un ratón.
+// 5. `prefers-reduced-motion` reduce el movimiento, no el color: lo que explica
+//    algo se queda, lo que sólo decora se va.
+//
+// Ninguna de estas reglas cambia el diseño en reposo: dos capturas con y sin
+// movimiento deben salir idénticas.
+
+@use "variables" as *;
+
+// -------------------------------------------------------------
+// 1. Confirmación de pulsación
+// -------------------------------------------------------------
+
+// Escala breve al pulsar. Entre 0.95 y 0.98: por debajo de 0.95 el botón da un
+// salto, y por encima de 0.98 no se nota.
+//
+// `scale()` escala también los hijos, así que el rótulo y el icono encogen con
+// el fondo: es exactamente lo que hace un botón físico al hundirse.
+@mixin press($scale: 0.97) {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform $dur-press var(--ease-out-ui);
+
+    &:active {
+      transform: scale($scale);
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// 2. Hover sólo donde hay puntero fino
+// -------------------------------------------------------------
+
+// En táctil el hover se queda pegado tras el toque y confunde. Este mixin
+// envuelve cualquier bloque de reglas dentro del guard.
+@mixin on-hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// Igual, pero para los hijos: `.card { @include on-hover-child { ... } }`.
+@mixin on-hover-child {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+// -------------------------------------------------------------
+// 3. Cambio de color y de estado (hover, foco)
+// -------------------------------------------------------------
+
+// Especificar las propiedades exactas en vez de `transition: all`: `all`
+// arrastra a propiedades que nadie ha pedido (por ejemplo `box-shadow` de un
+// `filter` heredado) y produce transiciones que empiezan a medio camino.
+@mixin color-shift {
+  transition:
+    color var(--dur-ui) var(--ease-out-ui),
+    background-color var(--dur-ui) var(--ease-out-ui),
+    border-color var(--dur-ui) var(--ease-out-ui),
+    text-decoration-color var(--dur-ui) var(--ease-out-ui),
+    opacity var(--dur-ui) var(--ease-out-ui);
+}
+
+// Enlace de texto con subrayado que se dibuja de izquierda a derecha. Con dos
+// píxeles de alto, encender el color de golpe se lee como un parpadeo; hacerlo
+// crecer desde el inicio de la línea es lo que hace que parezca intencionado.
+@mixin underline-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 0.0625rem;
+  transition:
+    background-size var(--dur-ui) var(--ease-out-ui),
+    color var(--dur-ui) var(--ease-out-ui);
+
+  @include on-hover {
+    background-size: 100% 0.0625rem;
+  }
+
+  &:focus-visible {
+    background-size: 100% 0.0625rem;
+  }
+
+  // Con movimiento reducido el subrayado aparece de golpe, pero el cambio de
+  // color se mantiene: es el que dice que el enlace está activo.
+  @media (prefers-reduced-motion: reduce) {
+    background-size:
+      0 0.0625rem,
+      100% 100%;
+
+    &:hover,
+    &:focus-visible {
+      background-size:
+        100% 0.0625rem,
+        100% 100%;
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// 4. Entrada por scroll
+// -------------------------------------------------------------
+
+// `@starting-style` para la entrada de un elemento: sustituye al patrón
+// `mounted: true` en JavaScript. El estado inicial sólo se aplica cuando el
+// elemento se inserta en el documento, así que nunca queda invisible si el
+// script falla.
+//
+// Se usa en los Disclosure del acordeón; para el resto del sistema la entrada la
+// lleva `scripts/reveal.ts`, que necesita saber cuántos elementos hay.
+@mixin enter-from-bottom($offset: 0.5rem) {
+  transition:
+    opacity var(--dur-ui) var(--ease-out-ui),
+    transform var(--dur-ui) var(--ease-out-ui);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY($offset);
+  }
+}
+
+// Para elementos que ya están en la pantalla cuando se insertan (pestañas
+// activas, el elemento recién marcado): sólo opacidad. Mover algo que ya se ve
+// llama más la atención que dejarlo aparecer.
+@mixin enter-from-none {
+  transition: opacity var(--dur-ui) var(--ease-out-ui);
+
+  @starting-style {
+    opacity: 0;
+  }
+}

@@ -5,18 +5,29 @@ import PlaceholderIcon from "./PlaceholderIcon.astro";
 
 interface Props {
   image?: ImageMetadata;
+  /** Línea corta que acompaña al enlace; forma su nombre accesible. */
+  short?: string;
   imageAlt?: string;
   title: string;
   kicker: string;
   description: string;
+  /** Página interior de la especialidad: la imagen es el enlace. */
+  href: string;
+  /** CTA secundario (formulario). */
   cta: { href: string; label: string };
 }
 
-const { image, imageAlt, title, kicker, description, cta } = Astro.props;
+const { image, imageAlt, title, kicker, description, short, href, cta } =
+  Astro.props;
+
+// El enlace principal es la imagen y su título: es la superficie grande y la
+// que la gente elige. El CTA de abajo es una acción distinta ("consultar mi
+// caso"), así que sigue siendo un enlace aparte y no un duplicado del primero.
+const linkLabel = `${title}. ${short ?? description}`.trim();
 ---
 
-<article class="specialty-card" tabindex="0">
-  <div class="specialty-card__media">
+<article class="specialty-card">
+  <a class="specialty-card__media" href={href} aria-label={linkLabel}>
     {
       image ? (
         <Image
@@ -33,19 +44,28 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     <div class="specialty-card__overlay" aria-hidden="true">
       <h3 class="specialty-card__overlay-title">{title}</h3>
     </div>
-  </div>
+  </a>
 
-  <div class="specialty-card__reveal" aria-hidden="true">
+  <!--
+    Sin `aria-hidden`: el panel se dibuja al hacer hover, pero para teclado y
+    lectores de pantalla su contenido debe estar disponible siempre. Marcarlo
+    oculto dejaba además enlaces enfocables dentro de un `aria-hidden`, que es
+    un error de accesibilidad. `:focus-within` hace que el panel aparezca al
+    tabular sobre él.
+  -->
+  <div class="specialty-card__reveal">
     <div class="specialty-card__reveal-inner">
       <div class="specialty-card__body">
         <span class="specialty-card__kicker">{kicker}</span>
         <h3 class="specialty-card__title">{title}</h3>
         <p class="specialty-card__desc">{description}</p>
       </div>
-      <a class="specialty-card__link" href={cta.href} tabindex="-1">
-        <span>{cta.label}</span>
-        <span aria-hidden="true">→</span>
-      </a>
+      <span class="specialty-card__actions">
+        <a class="specialty-card__more" href={href}>
+          <span>Ver {title.toLowerCase()}</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </span>
     </div>
   </div>
 </article>
@@ -53,11 +73,14 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
 <style lang="scss">
   @use "../../styles/variables" as *;
   @use "../../styles/typography" as *;
+  @use "../../styles/mixins" as *;
 
   // --- tokens de la card mapeados a variables globales ---
   $ink: var(--color-on-surface);
   $muted: var(--color-on-surface-variant);
-  $accent: var(--color-sage-muted);
+  // Verde oscuro de kicker (no el verde medio de marca): sobre blanco el
+  // segundo daba 3.9:1 y no llegaba al 4.5:1 que exige AA a 9px.
+  $accent: var(--color-eyebrow-accent);
   $media-bg: var(--color-surface-subtle);
 
   // --- mixin: evita repetir la lista de propiedades en reposo/hover ---
@@ -101,6 +124,9 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     background: $media-bg;
     will-change: top, left, right, height, border-radius;
     z-index: 1;
+    display: block;
+    cursor: pointer;
+    @include focus-ring;
     @include media-transition(0.62s, cubic-bezier(0.33, 0.72, 0, 1));
 
     img {
@@ -189,7 +215,7 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
   .specialty-card__title {
     margin: 0.15rem 0 0;
     font-family: $font-family-base;
-    font-size: 1.05rem;
+    font-size: 1.5rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
     font-weight: 700;
@@ -205,21 +231,35 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     color: $muted;
   }
 
-  .specialty-card__link {
+  // Los dos enlaces del panel revelado: el de la página (principal) y el CTA
+  // al formulario (secundario).
+  .specialty-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    margin-top: 0.9rem;
+    padding: 0 1rem 1.05rem;
+  }
+
+  .specialty-card__more {
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    margin-top: 0.9rem;
-    padding: 0 1rem 1.05rem;
     font-family: $font-family-base;
     font-size: 0.71rem;
     font-weight: 600;
     color: $ink;
     letter-spacing: -0.01em;
     pointer-events: auto;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.25em;
     transition:
       gap 0.2s,
-      opacity 0.2s;
+      opacity 0.2s,
+      text-decoration-color 0.2s;
+    @include focus-ring;
 
     span:last-child {
       font-size: 0.8rem;
@@ -229,26 +269,31 @@ const { image, imageAlt, title, kicker, description, cta } = Astro.props;
     &:hover {
       gap: 0.5rem;
       opacity: 0.75;
+      text-decoration-color: currentColor;
       span:last-child {
         transform: translateX(2px);
       }
     }
   }
 
+  .specialty-card__more {
+    color: var(--color-secondary);
+  }
+
   @media (hover: hover) and (pointer: fine) {
-      .specialty-card:hover,
-      .specialty-card:focus-within {
-        .specialty-card__media {
-          top: 0.625rem;
-          left: 0.625rem;
-          right: 0.625rem;
-          // 46% en vez del 55% original: con textos largos (5-7 líneas en el
-          // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
-          // subía encima de la foto y el kicker dejaba de leerse.
-          height: 46%;
-          border-radius: 0.75rem;
-          @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
-        }
+    .specialty-card:hover,
+    .specialty-card:focus-within {
+      .specialty-card__media {
+        top: 0.625rem;
+        left: 0.625rem;
+        right: 0.625rem;
+        // 46% en vez del 55% original: con textos largos (5-7 líneas en el
+        // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
+        // subía encima de la foto y el kicker dejaba de leerse.
+        height: 46%;
+        border-radius: 0.75rem;
+        @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
+      }
 
       .specialty-card__media img {
         transform: scale(1.02);

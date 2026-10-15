@@ -1,0 +1,116 @@
+---
+import { siteData } from "../../data/site";
+
+/**
+ * Barra inferior fija, sólo en móvil, con los dos canales síncronos: llamar y
+ * WhatsApp. La web pedía cuatro campos de formulario y nada más; esta gente
+ * prefiere escribir o llamar antes, y en un teléfono la acción tiene que estar
+ * a un pulgar y no al final de 7.000 px de scroll.
+ *
+ * No se pinta sobre /contacto/: allí el formulario ya es la acción, y una barra
+ * con dos acciones más compite con él.
+ */
+const onContactPage = Astro.url.pathname.replace(/\/+$/, "") === "/contacto";
+---
+
+{
+  !onContactPage && (
+    <nav class="action-bar" aria-label="Contacto rápido" data-action-bar>
+      <a class="action-bar__item" href={siteData.contact.phone.href}>
+        <span class="material-symbols-outlined" aria-hidden="true">call</span>
+        <span>Llamar</span>
+      </a>
+      <a
+        class="action-bar__item action-bar__item--whatsapp"
+        href={siteData.contact.phone.whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+        <span>WhatsApp</span>
+      </a>
+    </nav>
+  )
+}
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/typography" as *;
+  @use "../../styles/motion" as *;
+
+  // Debajo del menú lateral ($z-menu) y del header fijo ($z-header), por encima
+  // del pie ($z-footer).
+  $bar-h: 3.5rem; // 56 px: el mínimo cómodo para un dedo
+  // El mismo $bp-lg resuelto por el lado contrario. Sass no puede restar px a
+  // rem, y `(min-width: $bp-lg)` y `(max-width: $bp-lg)` se solaparían en el
+  // píxel exacto: el body se quedaría con el hueco de la barra sin barra.
+  $bp-below-lg: 63.999rem;
+
+  .action-bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: $z-action-bar;
+    display: flex;
+    gap: $space-3xs;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--color-surface-container-low);
+    border-top: 0.0625rem solid var(--color-border-hairline);
+
+    // Escritorio: la barra no existe y el `body` no lleva el aire de reserva.
+    @media (min-width: $bp-lg) {
+      display: none;
+    }
+  }
+
+  // Sin este `padding-bottom` el pie de página queda debajo de la barra.
+  :global(body) {
+    @media (max-width: $bp-below-lg) {
+      padding-bottom: calc(#{$bar-h} + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  // Con el menú lateral abierto la barra estorba: el menú ya es la única capa
+  // por encima del contenido, y sus enlaces son la misma navegación.
+  :global(body:has([data-menu][data-open="true"])) .action-bar {
+    opacity: 0;
+    visibility: hidden;
+    @include color-shift;
+  }
+
+  .action-bar__item {
+    flex: 1;
+    min-height: $bar-h;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-xs;
+    // Rol pequeño de la escala (13 px): la barra no compite con el CTA.
+    @include text-body-sm;
+    font-weight: 600;
+    color: var(--color-on-surface);
+    @include press(0.97);
+
+    .material-symbols-outlined {
+      font-size: 1.125rem;
+    }
+
+    @include on-hover {
+      background: var(--color-surface-bone);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--color-secondary);
+      outline-offset: -0.125rem;
+    }
+  }
+
+  // El verde de marca es el que ya usa el CTA, y sobre el fondo claro de la
+  // barra el negro y el verde se distinguen por el color, no sólo por el texto.
+  .action-bar__item--whatsapp {
+    color: var(--color-secondary);
+
+    @include on-hover {
+      background: color-mix(in srgb, var(--color-secondary) 8%, transparent);
+    }
+  }
+</style>

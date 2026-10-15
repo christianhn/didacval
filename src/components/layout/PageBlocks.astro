@@ -1,0 +1,105 @@
+---
+import type { PageBlock } from "../../data/pages/types";
+import RowsContainer from "./RowsContainer.astro";
+import NumberedSteps from "./NumberedSteps.astro";
+import SplitImage from "./SplitImage.astro";
+import NoteCard from "../ui/NoteCard.astro";
+import Faq from "./Faq.astro";
+
+/**
+ * Pinta los bloques de una página en el orden en que están declarados.
+ *
+ * El orden de las secciones es parte del diseño, no una consecuencia: hero →
+ * panel de filas → pasos → dos columnas → FAQ → contacto. Son seis bloques como
+ * máximo, contando el hero (lo pone la página) y el formulario (lo pone
+ * `SubpageLayout`).
+ *
+ * Además del orden, las superficies alternan: cada bloque declara su `tone` y
+ * dos secciones seguidas nunca llevan el mismo fondo. Es la regla que hace que
+ * seis páginas distintas con cuatro bloques distintos se lean como una sola.
+ *
+ * Los bloques heredados (`text`, `cta`, `rows-legacy`, `split-legacy`,
+ * `process-link`) ya no existen: todas las páginas de servicio, `/quien-soy/` y
+ * `/contacto/` usan el sistema de arriba. El interruptor es ahora exhaustivo,
+ * que es lo que permite que un `kind` nuevo se note al compilar y no al pintar
+ * una página en blanco.
+ */
+interface Props {
+  blocks: readonly PageBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+{
+  blocks.map((block) => {
+    switch (block.kind) {
+      // ---------- Sistema de composición ----------
+      case "rows":
+        return (
+          <RowsContainer
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            link={block.data.link}
+            items={block.data.items}
+          />
+        );
+
+      case "steps":
+        return (
+          <NumberedSteps
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            steps={block.data.steps}
+            tone={block.data.tone}
+            footerLink={block.data.footerLink}
+          >
+            {
+              block.data.aside && (
+                <NoteCard
+                  slot="aside"
+                  text={block.data.aside.text}
+                  label={block.data.aside.label}
+                />
+              )
+            }
+          </NumberedSteps>
+        );
+
+      case "split":
+        return (
+          <SplitImage
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            paragraphs={block.data.paragraphs}
+            paragraphLink={block.data.paragraphLink}
+            note={block.data.note}
+            image={block.data.image}
+            imageAlt={block.data.imageAlt}
+            reverse={block.data.reverse}
+            tone={block.data.tone}
+          />
+        );
+
+      case "faq":
+        // Sin imagen: la cabecera va a la izquierda y el acordeón a la derecha,
+        // con el mismo ancho que en la portada. La foto de la mano es de la
+        // landing y no se repite en las subpáginas.
+        return (
+          <Faq
+            id={block.data.id}
+            eyebrow={block.data.eyebrow}
+            title={block.data.title}
+            description={block.data.description}
+            items={block.data.items}
+          />
+        );
+    }
+  })
+}

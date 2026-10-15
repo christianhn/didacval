@@ -1,0 +1,113 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import RowsItem, { type RowsItem as RowsItemData } from "./RowsItem.astro";
+
+/**
+ * El contenedor beige redondeado de las subpáginas: el mismo bloque, con el mismo
+ * markup, las mismas alturas y las mismas líneas finas que "Tres situaciones" de
+ * la landing. Se usa **una sola vez por página**: es la superficie más pesada
+ * del sistema y repetida deja de ser un acento.
+ *
+ * A diferencia de `Section`, aquí el `padding-block` no es el de la escala: es el
+ * del panel (72/48 en escritorio, 48/32 en móvil), medido en la landing, porque
+ * en esta sección el aire lo marcan los márgenes del panel, no sus rellenos.
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  link?: { label: string; href: string };
+  items: readonly RowsItemData[];
+}
+
+const { id, eyebrow, title, description, link, items } = Astro.props;
+
+const titleId = `${id ?? "rows"}-title`;
+---
+
+<section id={id} class="rows" aria-labelledby={titleId} data-reveal>
+  <div class="rows__inner">
+    <SectionHeader
+      id={titleId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      link={link}
+    />
+
+    <ul class="rows__list">
+      {items.map((item) => <RowsItem {...item} />)}
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  // Sin `width: 100%`: dentro de `main` (flex column) un ancho explícito se
+  // suma a los márgenes laterales y el bloque se sale por la derecha.
+  .rows {
+    margin-inline: $panel-inset;
+    @include surface(panel);
+    border-top: 0.0625rem solid var(--color-border-hairline);
+    border-radius: $panel-radius;
+    padding-block: $space-2xl $space-xl;
+
+    @media (min-width: $bp-lg) {
+      padding-block: $space-3xl $space-2xl;
+    }
+  }
+
+  // El margen lateral y el radio se quitan en el script de abajo, al llegar la
+  // sección arriba. No hay ninguna regla de `prefers-reduced-motion` que los toque:
+  // esa preferencia quita la animación, no cambia el diseño. (Antes las quitaba
+  // en CSS, y quien la tenía activada veía el bloque a sangre y sin esquinas.)
+
+  .rows__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding-inline: $gutter-mobile;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $bp-lg) {
+      padding-inline: $gutter-desktop;
+    }
+  }
+
+  .rows__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: $hairline;
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { prefersReducedMotion } from "../../scripts/motion";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // El panel se abre a sangre al llegar arriba: el contenedor redondeado deja de
+  // ser una tarjeta y pasa a ser una banda, igual que en la landing.
+  document.querySelectorAll<HTMLElement>(".rows").forEach((section) => {
+    if (prefersReducedMotion()) return;
+
+    gsap.to(section, {
+      marginLeft: 0,
+      marginRight: 0,
+      borderRadius: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+      },
+    });
+  });
+</script>

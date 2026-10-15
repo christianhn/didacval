@@ -1,0 +1,129 @@
+---
+import Layout from "./Layout.astro";
+import Header from "../components/sections/Header.astro";
+import Footer from "../components/sections/Footer.astro";
+import Contact from "../components/layout/Contact.astro";
+import NoticeBar from "../components/layout/NoticeBar.astro";
+import { siteData } from "../data/site";
+import {
+  breadcrumbList,
+  localBusiness,
+  type Crumb,
+} from "../data/structuredData";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Ruta con barra final. Se usa para canonical, OG y el JSON-LD de migas. */
+  path: string;
+  /** Migas de pan. Si se omite, se genera "Inicio > <título corto>". */
+  breadcrumb?: Crumb[];
+  /** Etiqueta corta para las migas cuando no se pasan completas. */
+  breadcrumbLabel?: string;
+  ogImage?: { src: string; width?: number; height?: number };
+  /** JSON-LD adicional (FAQPage, Person...) que se añade al bloque común. */
+  jsonLd?: Record<string, unknown>[];
+  /** Slug de la página: se manda como campo oculto `origen` en el formulario. */
+  origen: string;
+  /** Franja superior fina con los datos de disponibilidad de la consulta. */
+  showNoticeBar?: boolean;
+  /**
+   * Subtítulo del formulario. Por defecto es el de la portada; /sexologo-zaragoza/
+   * lo cambia para subrayar la confidencialidad, que es su principal objeción.
+   */
+  contactDescription?: string;
+  /**
+   * Por defecto el layout ya añade el formulario al final. /contacto/ lo pone
+   * False porque allí el formulario ES el contenido de la página, con su propio
+   * encabezado y sus datos de contacto debajo.
+   */
+  withContact?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  breadcrumb,
+  breadcrumbLabel,
+  ogImage,
+  jsonLd = [],
+  origen,
+  showNoticeBar = false,
+  contactDescription,
+  withContact = true,
+} = Astro.props;
+
+const origin = Astro.site?.origin ?? siteData.url;
+
+// Las migas vienen del propio layout para que el breadcrumb visible y el
+// BreadcrumbList del JSON-LD nunca puedan contradecirse.
+const crumbs: Crumb[] = breadcrumb ?? [
+  { label: "Inicio", href: "/" },
+  {
+    label: breadcrumbLabel ?? title,
+    href: path,
+  },
+];
+
+const structured = [
+  localBusiness(origin),
+  breadcrumbList(crumbs),
+  ...jsonLd,
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={path}
+  ogImage={ogImage}
+  jsonLd={structured}
+>
+  <Header />
+  <main class="page-main">
+    <slot />
+    {showNoticeBar && <NoticeBar />}
+    {withContact && (
+      <Contact origen={origen} description={contactDescription} />
+    )}
+  </main>
+  <Footer />
+</Layout>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/scale" as *;
+
+  .page-main {
+    display: flex;
+    flex-direction: column;
+    // El header es fijo y mide 5rem en todo el ancho. Este aire no se reduce en
+    // escritorio: si bajara, las migas de pan de las subpáginas (lo primero que
+    // hay bajo el header) quedarían tapadas.
+    padding-top: 5rem;
+  }
+
+  // La FAQ y el formulario son componentes globales, pensados para la landing, y
+  // llevan 104px de padding vertical también en móvil. Aquí se les aplica la
+  // escala de secciones de las subpáginas: si no, el ritmo se rompe justo en el
+  // último tramo de la página, que es donde más se nota.
+  //
+  // Un selector por id gana a los estilos con ámbito de componente de Astro
+  // (`.faq[data-astro-cid-…]`), así que no hace falta tocar ninguno de los dos.
+  // `:global()` es necesario porque esas dos `<section>` se pintan desde sus
+  // propios componentes y no heredan el ámbito de este layout.
+  .page-main :global(#faq),
+  .page-main :global(#contacto-cita) {
+    @include section-block;
+  }
+</style>
+
+<script>
+  import { initReveals } from "../scripts/reveal";
+
+  // Entrada escalonada de los bloques al llegar a la vista. Se llama una vez,
+  // aquí, y no desde cada componente: así todas las subpáginas se mueven igual
+  // sin que cada bloque tenga que acordarse de hacerlo.
+  initReveals(document.querySelector(".page-main") ?? document);
+</script>

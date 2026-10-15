@@ -1,0 +1,46 @@
+---
+import SubpageLayout from "../../layouts/SubpageLayout.astro";
+import PageHero from "../../components/layout/PageHero.astro";
+import PageBlocks from "../../components/layout/PageBlocks.astro";
+import { quienSoyPage } from "../../data/pages/quienSoy";
+import { blocksJsonLd } from "../../data/pages/helpers";
+import { phoneCta } from "../../data/pages/types";
+import { person } from "../../data/structuredData";
+import { siteData } from "../../data/site";
+
+const page = quienSoyPage;
+
+const crumbs = [
+  { label: "Inicio", href: "/" },
+  { label: page.hero.breadcrumbLabel, href: page.path },
+];
+
+// Ficha de la persona: sólo tiene sentido en la página "Quién soy", así que no
+// la emite el resto.
+const jsonLd = [person(siteData.url), ...blocksJsonLd(page.blocks)];
+---
+
+<SubpageLayout
+  title={page.seo.title}
+  description={page.seo.description}
+  path={page.path}
+  breadcrumb={crumbs}
+  ogImage={page.hero.image}
+  jsonLd={jsonLd}
+  origen={page.slug}
+>
+  <PageHero
+    eyebrow={page.hero.eyebrow}
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    image={page.hero.image}
+    imageAlt={page.hero.imageAlt}
+    crumbs={crumbs}
+    ctaLabel="Primera sesión informativa gratuita"
+    ctaHref="#contacto-cita"
+    phoneLabel={phoneCta.label}
+    phoneHref={phoneCta.href}
+  />
+
+  <PageBlocks blocks={page.blocks} />
+</SubpageLayout>

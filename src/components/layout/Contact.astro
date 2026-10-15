@@ -3,6 +3,29 @@ import { Image } from "astro:assets";
 import consultaImg from "../../assets/contact/consulta.jpeg";
 import { contactData } from "../../data/contact";
 import ArrowButton from "../ui/ArrowButton.astro";
+
+interface Props {
+  /**
+   * Slug de la página desde la que se envía el formulario ("ansiedad",
+   * "sexologia"...). Se manda como campo oculto `origen` para saber de dónde
+   * viene cada consulta. En la landing se manda "inicio".
+   */
+  origen?: string;
+  /**
+   * Encabezado de la sección. La página /contacto/ lo cambia porque allí el
+   * bloque es el contenido principal y no una sección más.
+   */
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  origen = "inicio",
+  eyebrow = contactData.eyebrow,
+  title = contactData.title,
+  description = contactData.description,
+} = Astro.props;
 ---
 
 <section id="contacto-cita" class="contact" aria-labelledby="contact-title">
@@ -11,15 +34,21 @@ import ArrowButton from "../ui/ArrowButton.astro";
   <div class="contact__inner">
     <div class="contact__header">
       <div class="contact__heading">
-        <span class="contact__eyebrow">{contactData.eyebrow}</span>
-        <h2 id="contact-title" class="contact__title">{contactData.title}</h2>
+        <span class="contact__eyebrow">{eyebrow}</span>
+        <h2 id="contact-title" class="contact__title">{title}</h2>
       </div>
-      <p class="contact__desc">{contactData.description}</p>
+      <p class="contact__desc">{description}</p>
     </div>
 
     <div class="contact__grid">
       <div class="contact__panel">
         <form id="contact-psychology-form" class="contact__form" novalidate>
+          <!--
+            Página de origen de la consulta. No se ve ni se edita: sólo viaja
+            con el envío para poder saber qué página trajo a cada persona.
+          -->
+          <input type="hidden" name="origen" value={origen} />
+
           <div class="contact__row">
             <div class="contact__field">
               <label class="contact__label" for="form-name">

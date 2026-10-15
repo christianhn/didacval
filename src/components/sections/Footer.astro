@@ -57,12 +57,23 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
         <span class="footer__text">
           {footerData.legal.collegiate[0]}<br />{footerData.legal.collegiate[1]}
         </span>
-        <span class="footer__note">{footerData.legal.note}</span>
+        {footerData.legal.note && (
+          <span class="footer__note">{footerData.legal.note}</span>
+        )}
       </div>
     </div>
 
     <div class="footer__brand">
-      <span class="footer__brand-name">{footerData.brand.name}</span>
+      <!--
+        La wordmark gigante es decorativa: repite el nombre de marca, que ya
+        aparece en el header y en el title. Se marca como tal para no duplicar
+        el nombre ante un lector de pantalla. El contraste bajo que tiene es
+        deliberado (es una marca de agua, no un texto) y está anotado en el
+        informe de entrega.
+      -->
+      <span class="footer__brand-name" aria-hidden="true"
+        >{footerData.brand.name}</span
+      >
     </div>
 
     <div class="footer__bottom">
@@ -100,9 +111,18 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   const dim = document.querySelector<HTMLElement>("[data-contact-dim]");
   const footerInner = footer?.querySelector<HTMLElement>(".footer__inner");
 
+  // El footer pineado se ancla al viewport, así que sólo funciona si el bloque de
+  // contacto es lo último de `main`: cualquier sección posterior (los datos de
+  // contacto de /contacto/, por ejemplo) acabaría tapada detrás de él. Cuando no
+  // se cumple, el footer se queda en su sitio, dentro del flujo normal, que es
+  // justo lo que quiere una página sin ese bloque final.
+  const main = document.querySelector<HTMLElement>("main");
+  const contactIsLast =
+    !!contact && !!main && main.lastElementChild === contact;
+
   const canAnimate =
     !!footer &&
-    !!contact &&
+    contactIsLast &&
     !!contactInner &&
     !!dim &&
     !!footerInner &&
@@ -224,7 +244,11 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: 500;
-    color: var(--color-on-secondary-container);
+    // `--color-eyebrow-accent` y no `--color-on-secondary-container`: el
+    // segundo daba 3.1:1 sobre el fondo claro del pie, por debajo del 4.5:1
+    // que pide AA para texto pequeño. Es el mismo verde que ya usan los
+    // eyebrows de las secciones.
+    color: var(--color-eyebrow-accent);
   }
 
   .footer {
@@ -415,6 +439,10 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   .footer__link {
     @include text-body-sm;
     color: var(--color-on-surface-variant);
+    // Interlineado de 1.5rem (24px) en vez del de `text-body-sm` (19px): los
+    // enlaces del pie iban pegados entre sí y el área pulsable quedaba por
+    // debajo del mínimo de 24px que exigen WCAG 2.2 y Lighthouse.
+    line-height: 1.5rem;
     text-underline-offset: 0.2em;
     text-decoration-color: var(--color-outline-variant);
     transition:
@@ -474,6 +502,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
   .footer__legal-nav {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: $space-md;
     @include text-caption-sm;
     color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
@@ -483,6 +512,8 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
     }
 
     a {
+      padding-block: $space-2xs;
+      margin-block: -$space-2xs;
       text-underline-offset: 0.2em;
       text-decoration-color: var(--color-outline-variant);
       transition:

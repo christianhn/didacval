@@ -1,0 +1,81 @@
+---
+/**
+ * Cabecera única de sección: kicker + H2 + descripción corta a la izquierda y
+ * enlace/acción opcional a la derecha. Es la estructura de "Especialidades" y de
+ * "Tres situaciones" de la landing, y la única forma de titular una subpágina.
+ *
+ * `layout="stacked"` apila el enlace debajo del título. Se usa sólo cuando la
+ * cabecera vive en una columna estrecha (la barra lateral de NumberedSteps); el
+ * contenido es el mismo.
+ */
+interface Props {
+  /** `id` del H2. Lo usan los bloques para el `aria-labelledby` de su `<section>`. */
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  link?: { label: string; href: string };
+  layout?: "wide" | "stacked";
+}
+
+const { id, eyebrow, title, description, link, layout = "wide" } = Astro.props;
+---
+
+<header
+  class:list={["section-header", `section-header--${layout}`]}
+  data-reveal-item
+>
+  <div class="section-header__heading">
+    {eyebrow && <span class="section-header__eyebrow">{eyebrow}</span>}
+    <h2 id={id} class="section-header__title">{title}</h2>
+    {description && <p class="section-header__desc">{description}</p>}
+  </div>
+
+  {
+    link && (
+      <a class="section-header__link" href={link.href}>
+        <span>{link.label}</span>
+        <span class="material-symbols-outlined" aria-hidden="true">
+          north_east
+        </span>
+      </a>
+    )
+  }
+</header>
+
+<style lang="scss">
+  @use "../../styles/variables" as *;
+  @use "../../styles/scale" as *;
+
+  .section-header {
+    @include section-header;
+  }
+
+  .section-header__heading {
+    @include section-heading;
+  }
+
+  .section-header__eyebrow {
+    @include type-kicker;
+  }
+
+  .section-header__title {
+    @include section-title;
+  }
+
+  .section-header__desc {
+    @include section-description;
+  }
+
+  .section-header__link {
+    @include section-link;
+  }
+
+  // En columna estrecha no hay sitio para el enlace a la derecha: se coloca
+  // debajo del título, que es donde el ojo va después de leer el H2.
+  .section-header--stacked {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
+</style>

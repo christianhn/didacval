@@ -1,0 +1,38 @@
+---
+/**
+ * Icono de las filas de `RowsContainer`.
+ *
+ * Las tres primeras filas de "Tres situaciónes" de la landing usan SVG
+ * (`DetailIcon`), porque `compass` y `clock` no están en la fuente recortada de
+ * Material Symbols: si se pidieran como texto saldrían pintados como su nombre.
+ * El resto de iconos sí están en esa fuente, y se dibujan con ella.
+ *
+ * Regla: un icono de fila tiene que estar en la lista `ICONS` de
+ * `scripts/subset-icons.py` o ser `compass`, `clock` o `chat`.
+ * `scripts/audit.mjs` lo comprueba en cada página.
+ */
+import DetailIcon from "./DetailIcon.astro";
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const SVG_NAMES = new Set(["compass", "clock", "chat"]);
+const usesSvg = SVG_NAMES.has(name);
+---
+
+{
+  usesSvg ? (
+    <DetailIcon name={name as "compass" | "clock" | "chat"} />
+  ) : (
+    <span class="material-symbols-outlined">{name}</span>
+  )
+}
+
+<style lang="scss">
+  .material-symbols-outlined {
+    font-size: 1.375rem;
+  }
+</style>

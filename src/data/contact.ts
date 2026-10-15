@@ -1,6 +1,8 @@
+import { siteData } from "./site";
+
 export const contactData = {
   eyebrow: "Primera sesión gratuita",
-  title: "Cuéntame qué te trae",
+  title: "Cuéntame qué te pasa",
   description:
     "Primera sesión informativa gratuita y sin compromiso. Te respondo en menos de 24 horas laborables.",
   media: {
@@ -17,22 +19,11 @@ export const contactData = {
         placeholder: "tuemail@ejemplo.com",
       },
       phone: { label: "Teléfono", placeholder: "Ej: 600 000 000" },
+      // "Modalidad" era el rótulo del campo y no le decía nada a quien
+      // rellena el formulario: pregunta en qué formato se hace la sesión.
       mode: {
-        label: "Modalidad",
-        options: [
-          {
-            value: "presencial",
-            label: "Presencial",
-            description: "Paseo de Sagasta 17, Zaragoza",
-            icon: "location_on",
-          },
-          {
-            value: "online",
-            label: "Online",
-            description: "Por videollamada",
-            icon: "videocam",
-          },
-        ],
+        label: "¿Cómo prefieres la sesión?",
+        options: siteData.contact.modalities,
       },
       message: {
         label: "Motivo de consulta (opcional)",
@@ -40,9 +31,7 @@ export const contactData = {
       },
       consent: {
         text: "Acepto la",
-        // TODO con Didac: la web aún no tiene página de política de privacidad
-        // (el footer enlaza a "#"). Apuntarla al crearla.
-        link: { label: "política de privacidad", href: "#" },
+        link: { label: "política de privacidad", href: siteData.legal.privacy.href },
       },
     },
     submit: "Solicitar sesión gratuita",

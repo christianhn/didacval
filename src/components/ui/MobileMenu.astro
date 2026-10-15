@@ -1,5 +1,26 @@
 ---
-import { siteData } from "../../data/site";
+import {
+  siteData,
+  resolveNavHref,
+  isActiveNavItem,
+  isActiveNavChild,
+} from "../../data/site";
+
+// Mismo criterio que en el header de escritorio: las anclas de la landing se
+// convierten en rutas absolutas fuera de la home, y el enlace activo se deduce
+// de la ruta actual.
+const isHome = Astro.url.pathname === "/";
+const nav = siteData.nav.map((item) => ({
+  ...item,
+  href: resolveNavHref(item.href, isHome),
+  active: isActiveNavItem(item, Astro.url.pathname),
+  children: item.children?.map((child) => ({
+    ...child,
+    active: isActiveNavChild(child.href, Astro.url.pathname),
+  })),
+}));
+
+let index = -1;
 ---
 
 <div class="menu" data-menu data-open="false">
@@ -28,19 +49,42 @@ import { siteData } from "../../data/site";
     <nav class="menu__nav" aria-label="Navegación principal">
       <span class="menu__col-title">{siteData.menu.eyebrow}</span>
       {
-        siteData.nav.map((item, index) => (
-          <a
-            class:list={[
-              "menu__link",
-              { "menu__link--active": item.active },
-            ]}
-            style={`--menu-index: ${index};`}
-            href={item.href}
-            data-path={item.path}
-            aria-current={item.active ? "page" : undefined}
-          >
-            {item.label}
-          </a>
+        nav.map((item) => (
+          <div class="menu__group">
+            <a
+              class:list={[
+                "menu__link",
+                { "menu__link--active": item.active },
+              ]}
+              style={`--menu-index: ${++index};`}
+              href={item.href}
+              data-path={item.path}
+              aria-current={item.active ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+
+            {item.children && (
+              <ul class="menu__sublist">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      class:list={[
+                        "menu__sublink",
+                        { "menu__sublink--active": child.active },
+                      ]}
+                      style={`--menu-index: ${++index};`}
+                      href={child.href}
+                      data-path={child.path}
+                      aria-current={child.active ? "page" : undefined}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         ))
       }
     </nav>
@@ -48,7 +92,7 @@ import { siteData } from "../../data/site";
     <div class="menu__foot">
       <a
         class="menu__cta"
-        href={siteData.cta.href}
+        href={resolveNavHref(siteData.cta.href, isHome)}
         data-path={siteData.cta.path}
       >
         <span class="menu__cta-label">{siteData.cta.label}</span>
@@ -68,7 +112,9 @@ import { siteData } from "../../data/site";
   const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
 
   if (menu && panel && backdrop && trigger && closeBtn) {
-    const desktop = window.matchMedia("(min-width: 48rem)");
+    // Mismo umbral que el nav del header ($bp-nav): por debajo de él manda
+    // el panel lateral, por encima el nav de escritorio.
+    const desktop = window.matchMedia("(min-width: 64rem)");
     // El botón de cerrar vive dentro del panel, así que también entra en la
     // trampa de foco (va el primero en el orden de tabulación).
     const focusables = Array.from(
@@ -183,7 +229,11 @@ import { siteData } from "../../data/site";
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: 500;
-    color: var(--color-on-secondary-container);
+    // `--color-eyebrow-accent` y no `--color-on-secondary-container`: el
+    // segundo daba 3.1:1 sobre el fondo claro del pie, por debajo del 4.5:1
+    // que pide AA para texto pequeño. Es el mismo verde que ya usan los
+    // eyebrows de las secciones.
+    color: var(--color-eyebrow-accent);
   }
 
   .menu {
@@ -192,7 +242,7 @@ import { siteData } from "../../data/site";
     z-index: $z-menu;
     pointer-events: none;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-nav) {
       display: none;
     }
   }
@@ -301,6 +351,52 @@ import { siteData } from "../../data/site";
     }
   }
 
+  // ---------- Especialidades ----------
+  // En el panel no hay desplegable: el grupo se despliega siempre, como una
+  // lista secundaria bajo su entrada principal. Es lo que espera quien abre un
+  // menú lateral en un móvil.
+  .menu__group {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .menu__sublist {
+    list-style: none;
+    margin: 0;
+    padding-left: $space-md;
+    border-left: 0.0625rem solid var(--color-outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .menu__sublink {
+    @include text-body-base;
+    @include focus-ring;
+    color: var(--color-on-surface-variant);
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-outline-variant);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.2s,
+      text-decoration-color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+      text-decoration-line: underline;
+      text-decoration-color: var(--color-on-surface);
+    }
+
+    &--active {
+      color: var(--color-on-surface);
+      font-weight: 500;
+    }
+  }
+
   .menu__foot {
     margin-top: $space-2xl;
   }
@@ -374,7 +470,8 @@ import { siteData } from "../../data/site";
     }
 
     // Entrada escalonada: cada enlace se asienta un poco después del anterior.
-    .menu__link {
+    .menu__link,
+    .menu__sublink {
       opacity: 1;
       transform: translateY(0);
       transition-delay: calc(0.1s + var(--menu-index) * 0.04s);
@@ -391,12 +488,14 @@ import { siteData } from "../../data/site";
     .menu__backdrop,
     .menu__panel,
     .menu__link,
+    .menu__sublink,
     .menu__cta,
     .menu__cta-icon {
       transition: none;
     }
 
     .menu__link,
+    .menu__sublink,
     .menu__cta {
       opacity: 1;
       transform: none;

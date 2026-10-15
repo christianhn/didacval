@@ -1,3 +1,4 @@
+@use "fonts";
 @use "variables" as *;
 @use "typography" as *;
 
@@ -29,6 +30,17 @@
   --radius-lg: #{$radius-lg};
   --radius-xl: #{$radius-xl};
   --radius-full: #{$radius-full};
+
+  // Las curvas y duraciones también salen como custom properties para poder
+  // usarlas desde `<script>` (GSAP) sin volver a declararlas en JavaScript:
+  // si divergen, la animación discreta y la de scroll dejan de cuadrar.
+  --ease-out-ui: #{$ease-out-ui};
+  --ease-in-out: #{$ease-in-out};
+  --ease-drawer: #{$ease-drawer};
+  --dur-press: #{$dur-press};
+  --dur-ui: #{$dur-ui};
+  --dur-panel: #{$dur-panel};
+  --dur-reveal: #{$dur-reveal};
 }
 
 *,
@@ -107,14 +119,31 @@ main > :last-child {
   }
 }
 
-// Utilidad iconos Material Symbols
+// Utilidad iconos Material Symbols.
+//
+// El `font-family` estaba implícito: lo aportaba la hoja de estilos que Google
+// servía para los iconos. Con la fuente autoalojada hay que declararlo aquí, o
+// el navegador pinta el nombre del icono en texto ("north_east") en lugar del
+// pictograma. El resto son las reglas que traía aquella hoja.
 .material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
   font-variation-settings:
     "FILL" 0,
     "wght" 400,
     "GRAD" 0,
     "opsz" 24;
-  line-height: 1;
 }
 
 // ==========================================

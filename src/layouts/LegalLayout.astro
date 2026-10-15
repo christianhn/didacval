@@ -1,0 +1,267 @@
+---
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import Header from "../components/sections/Header.astro";
+import Footer from "../components/sections/Footer.astro";
+import Layout from "./Layout.astro";
+import type { LegalPage } from "../data/legal";
+import { avisoLegal, politicaPrivacidad, cookies } from "../data/legal";
+import { siteData } from "../data/site";
+
+interface Props {
+  page: LegalPage;
+}
+
+const { page } = Astro.props;
+
+const crumbs = [
+  { label: "Inicio", href: "/" },
+  { label: page.title, href: page.path },
+];
+
+const others = [
+  { label: avisoLegal.title, href: avisoLegal.path },
+  { label: politicaPrivacidad.title, href: politicaPrivacidad.path },
+  { label: cookies.title, href: cookies.path },
+].filter((item) => item.href !== page.path);
+
+// Estas páginas no son públicas en el mismo sentido que las de servicio: son
+// textos provisionales que deben revisarse antes de publicar. Por eso se
+// indexan pero no se enlazan desde la navegación principal, y por eso arrancan
+// con una advertencia visible.
+---
+
+<Layout
+  title={page.seo.title}
+  description={page.seo.description}
+  canonicalPath={page.path}
+  noindex
+>
+  <Header />
+  <main class="legal">
+    <div class="legal__inner">
+      <Breadcrumbs items={crumbs} />
+
+      <header class="legal__header">
+        {page.eyebrow && <span class="legal__eyebrow">{page.eyebrow}</span>}
+        <h1 class="legal__title">{page.title}</h1>
+        <p class="legal__updated">{page.updated}</p>
+      </header>
+
+      <p class="legal__notice" role="note">
+        <span class="material-symbols-outlined" aria-hidden="true">
+          info
+        </span>
+        <span>{page.provisional}</span>
+      </p>
+
+      <div class="legal__body">
+        {
+          page.sections.map((section) => (
+            <section class="legal__section">
+              <h2 class="legal__section-title">{section.heading}</h2>
+              {section.paragraphs.map((paragraph) => (
+                <p class="legal__paragraph">{paragraph}</p>
+              ))}
+              {section.list && (
+                <ul class="legal__list">
+                  {section.list.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))
+        }
+      </div>
+
+      <nav class="legal__others" aria-label="Otros textos legales">
+        <span class="legal__others-label">Otros textos legales</span>
+        <ul>
+          {
+            others.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <p class="legal__contact">
+        Cualquier duda:{" "}
+        <a href={siteData.contact.email.href}>{siteData.contact.email.label}</a>
+        {" · "}
+        <a href={siteData.contact.phone.href}>{siteData.contact.phone.label}</a>
+      </p>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style lang="scss">
+  @use "../styles/variables" as *;
+  @use "../styles/typography" as *;
+  @use "../styles/mixins" as *;
+
+  .legal {
+    background: var(--color-surface-bone);
+    padding-top: 5rem;
+
+    @media (min-width: $bp-lg) {
+      padding-top: 7rem;
+    }
+  }
+
+  .legal__inner {
+    max-width: $container-max;
+    margin-inline: auto;
+    padding: $space-lg $gutter-mobile $space-4xl;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xl;
+    max-width: 56rem;
+
+    @media (min-width: $bp-lg) {
+      padding-block: $space-2xl $space-5xl;
+      gap: $space-2xl;
+    }
+  }
+
+  .legal__header {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+  }
+
+  .legal__eyebrow {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .legal__title {
+    @include text-headline-xl;
+    margin: 0;
+    color: var(--color-on-surface);
+  }
+
+  .legal__updated {
+    @include text-caption-sm;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-on-surface-variant) 82%, transparent);
+  }
+
+  .legal__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    margin: 0;
+    padding: $space-md;
+    border-radius: $radius-default;
+    background: var(--color-surface-container-high);
+    @include text-body-sm;
+    color: var(--color-on-surface-variant);
+
+    .material-symbols-outlined {
+      flex: 0 0 auto;
+      font-size: 1.125rem;
+      color: var(--color-secondary);
+    }
+  }
+
+  .legal__body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xl;
+  }
+
+  .legal__section {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    padding-top: $space-lg;
+    border-top: 0.0625rem solid var(--color-outline-variant-transparent);
+  }
+
+  .legal__section-title {
+    @include text-headline-sm;
+    margin: 0;
+    color: var(--color-on-surface);
+    text-wrap: balance;
+  }
+
+  .legal__paragraph {
+    @include text-body-base;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+    line-height: 1.7;
+  }
+
+  .legal__list {
+    margin: 0;
+    padding-left: $space-md;
+    list-style-type: disc;
+
+    li {
+      @include text-body-base;
+      color: var(--color-on-surface-variant);
+      line-height: 1.7;
+
+      & + li {
+        margin-top: $space-2xs;
+      }
+
+      &::marker {
+        color: var(--color-secondary);
+      }
+    }
+  }
+
+  .legal__others {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    padding-top: $space-lg;
+    border-top: 0.0625rem solid var(--color-outline-variant-transparent);
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $space-xs $space-xl;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      @include text-body-base;
+      color: var(--color-on-surface);
+      text-underline-offset: 0.2em;
+      text-decoration-color: var(--color-outline-variant);
+      @include focus-ring;
+
+      &:hover {
+        color: var(--color-secondary);
+        text-decoration-color: var(--color-secondary);
+      }
+    }
+  }
+
+  .legal__others-label {
+    @include eyebrow(var(--color-eyebrow-accent));
+  }
+
+  .legal__contact {
+    @include text-body-sm;
+    margin: 0;
+    color: var(--color-on-surface-variant);
+
+    a {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      @include focus-ring;
+
+      &:hover {
+        color: var(--color-secondary);
+      }
+    }
+  }
+</style>

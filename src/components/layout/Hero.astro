@@ -458,6 +458,12 @@ const features = specialtiesData.cards.slice(0, 3);
       type: "chars,words",
       mask: "chars",
       charsClass: "hero-video__char",
+      // Sin `aria: "auto"` (el valor por defecto): con él SplitText coloca un
+      // aria-label sobre el <span> del titular, y un span sin rol no admite ese
+      // atributo (`aria-prohibited-attr` en Lighthouse). Con "none" el nombre
+      // accesible se calcula a partir del texto, que además ya está partido en
+      // letras: es el titular entero, no 25 trocitos sueltos.
+      aria: "none",
     });
 
     titleMain.style.visibility = "visible";
