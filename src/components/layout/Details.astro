@@ -20,11 +20,11 @@ import DetailRow from "../ui/DetailRow.astro";
       {
         detailsData.items.map((item) => (
           <DetailRow
-            icon={item.icon}
-            kicker={item.kicker}
             title={item.title}
             subtitle={item.subtitle}
             bullets={item.bullets}
+            linkLabel={item.linkLabel}
+            linkHref={item.linkHref}
           />
         ))
       }
@@ -140,12 +140,12 @@ import DetailRow from "../ui/DetailRow.astro";
   }
 
   .details__list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     padding-inline: $gutter-mobile;
-    border-bottom: 1px dashed var(--color-outline-variant);
 
     @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
       padding-inline: $gutter-desktop;
     }
   }

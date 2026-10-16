@@ -74,29 +74,27 @@ import didacImg from "../../assets/perfil/didac2.png";
     margin-inline: auto;
     overflow: hidden;
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
-    padding: 10px;
+    padding: 2px;
     background: white;
     border-radius: 18px;
+    aspect-ratio: 1;
 
     @media (min-width: $bp-lg) {
       margin-inline: 0;
       max-width: none;
+      aspect-ratio: 4 / 5;
+      max-height: 42rem;
     }
   }
 
   .profile__image {
-    display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
-    aspect-ratio: 1;
+    height: 100%;
     object-fit: cover;
     object-position: center top;
-    border-radius: 8px;
-
-    @media (min-width: $bp-lg) {
-      aspect-ratio: 4 / 5;
-      max-height: 42rem;
-    }
+    border-radius: 16px;
   }
 
   .profile__content {
@@ -167,3 +165,63 @@ import didacImg from "../../assets/perfil/didac2.png";
     }
   }
 </style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const media = document.querySelector<HTMLElement>(".profile__media");
+  const image = document.querySelector<HTMLElement>(".profile__image");
+
+  if (
+    media &&
+    image &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    gsap.set(image, { scale: 1.15, yPercent: -7 });
+
+    gsap.to(image, {
+      yPercent: 7,
+      ease: "none",
+      scrollTrigger: {
+        trigger: media,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  }
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const media = document.querySelector<HTMLElement>(".profile__media");
+  const image = document.querySelector<HTMLElement>(".profile__image");
+
+  if (
+    media &&
+    image &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    gsap.set(image, { scale: 1.15, yPercent: -7 });
+
+    gsap.to(image, {
+      yPercent: 7,
+      ease: "none",
+      scrollTrigger: {
+        trigger: media,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  }
+</script>

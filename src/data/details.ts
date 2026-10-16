@@ -1,11 +1,11 @@
 export type DetailIconName = "compass" | "clock" | "chat";
 
 export interface DetailItem {
-  icon: DetailIconName;
-  kicker: string;
   title: string;
   subtitle: string;
   bullets: readonly string[];
+  linkLabel: string;
+  linkHref: string;
 }
 
 export interface DetailsSectionData {
@@ -29,8 +29,6 @@ export const detailsData: DetailsSectionData = {
   },
   items: [
     {
-      icon: "compass",
-      kicker: "Bachillerato · Grados · Universidad",
       title: "Orientación académica",
       subtitle: "Tu decisión, con calma",
       bullets: [
@@ -38,10 +36,10 @@ export const detailsData: DetailsSectionData = {
         "Separamos lo que quieres de lo que se espera de ti",
         "Decides con más criterio y menos ruido",
       ],
+      linkLabel: "Ver orientación académica",
+      linkHref: "#orientacion-academica",
     },
     {
-      icon: "clock",
-      kicker: "Preparación profesional",
       title: "Oposiciones",
       subtitle: "Prepararte sin desgastarte",
       bullets: [
@@ -49,10 +47,10 @@ export const detailsData: DetailsSectionData = {
         "Descanso y hábitos que te sostienen",
         "Estrategias para los momentos de presión",
       ],
+      linkLabel: "Ver oposiciones",
+      linkHref: "#oposiciones",
     },
     {
-      icon: "chat",
-      kicker: "Adolescencia",
       title: "Adolescentes",
       subtitle: "Un espacio donde sí te escuchan",
       bullets: [
@@ -60,6 +58,8 @@ export const detailsData: DetailsSectionData = {
         "Ansiedad y estado de ánimo",
         "Relación con la familia y los amigos",
       ],
+      linkLabel: "Ver adolescentes",
+      linkHref: "#adolescentes",
     },
   ],
 };
