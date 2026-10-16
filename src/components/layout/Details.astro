@@ -37,7 +37,7 @@ import DetailRow from "../ui/DetailRow.astro";
   @use "../../styles/typography" as *;
 
   .details {
-    margin-inline: $space-xl;
+    margin-inline: $gutter-mobile;
     margin-bottom: $space-5xl;
     border-radius: $radius-lg;
     background: var(--color-surface-bone-dark);
@@ -46,6 +46,7 @@ import DetailRow from "../ui/DetailRow.astro";
 
     @media (min-width: $bp-lg) {
       padding: $space-3xl 0 $space-2xl;
+      margin-inline: $gutter-desktop;
     }
   }
 
@@ -116,6 +117,7 @@ import DetailRow from "../ui/DetailRow.astro";
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.35rem;
     flex-shrink: 0;
     @include text-body-sm;

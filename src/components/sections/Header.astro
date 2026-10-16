@@ -418,9 +418,9 @@ const specialties = nav.find((item) => item.children);
         var(--color-surface-bright) 85%,
         transparent
       );
-      backdrop-filter: blur(0.75rem);
     }
 
+    backdrop-filter: blur(0.75rem);
     box-shadow: 0 0.0625rem 0.5rem
       color-mix(in srgb, var(--color-primary) 4%, transparent);
   }
@@ -697,8 +697,8 @@ const specialties = nav.find((item) => item.children);
     }
 
     .header--transparent & {
-      background: var(--color-surface-container-lowest);
-      color: var(--color-surface-dark);
+      color: black;
+      background: white;
 
       &:hover {
         background: var(--color-surface-variant);
@@ -760,7 +760,7 @@ const specialties = nav.find((item) => item.children);
     display: inline-flex;
     align-items: center;
     gap: $space-xs;
-    padding: $space-2xs $space-md;
+    padding: $space-2xs $space-xs $space-2xs $space-lg;
     border: none;
     border-radius: $radius-full;
     @include text-label-pill;
