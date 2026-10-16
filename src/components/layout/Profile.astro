@@ -112,7 +112,6 @@ import didacImg from "../../assets/perfil/didac2.png";
   .profile__content-inner {
     display: flex;
     flex-direction: column;
-    gap: $space-sm;
     width: 100%;
   }
 
@@ -134,15 +133,13 @@ import didacImg from "../../assets/perfil/didac2.png";
   }
 
   .profile__subtitle {
-    @include text-profile-subtitle;
+    @include text-body-lg;
     color: var(--color-text-muted);
     margin: 0;
     padding-bottom: $space-xs;
 
     @media (min-width: $bp-lg) {
       margin-left: -4px;
-      // en desktop el subtítulo de la captura es más ligero y pequeño
-      // que el mixin 2.4rem; lo afinamos sin romper la escala tipográfica
       font-size: clamp(1.25rem, 1.8vw, 1.65rem);
       line-height: 1.25;
       letter-spacing: -0.02em;
