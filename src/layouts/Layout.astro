@@ -1,7 +1,6 @@
 ---
 import "../styles/global.scss";
 import { siteData } from "../data/site";
-import MobileActionBar from "../components/ui/MobileActionBar.astro";
 
 type JsonLdEntry = Record<string, unknown> | Record<string, unknown>[];
 
@@ -47,11 +46,7 @@ const ogImageUrl = ogImage
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    {
-      noindex && (
-        <meta name="robots" content="noindex, nofollow" />
-      )
-    }
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph / Twitter Card -->
@@ -86,7 +81,6 @@ const ogImageUrl = ogImage
   </head>
   <body>
     <slot />
-    <MobileActionBar />
   </body>
 
   <script>
