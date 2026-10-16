@@ -57,9 +57,11 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
         <span class="footer__text">
           {footerData.legal.collegiate[0]}<br />{footerData.legal.collegiate[1]}
         </span>
-        {footerData.legal.note && (
-          <span class="footer__note">{footerData.legal.note}</span>
-        )}
+        {
+          footerData.legal.note && (
+            <span class="footer__note">{footerData.legal.note}</span>
+          )
+        }
       </div>
     </div>
 
@@ -336,6 +338,7 @@ const breakable = (s: string) => s.split(/(?<=@|\.)/);
 
   .footer__brand-name {
     @include text-headline-sm;
+    font-family: $font-family-title;
     display: block;
     font-size: min(17cqi, 40svh);
     line-height: 0.82;

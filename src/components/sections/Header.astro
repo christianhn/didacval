@@ -8,9 +8,6 @@ import {
 } from "../../data/site";
 import MobileMenu from "../ui/MobileMenu.astro";
 
-// Las anclas de la landing ("#proceso") no existen dentro de una subpágina, así
-// que se convierten en "/#proceso" fuera de la home. El enlace activo se deduce
-// de la ruta actual en vez de guardarse en los datos.
 const isHome = Astro.url.pathname === "/";
 const nav = siteData.nav.map((item) => ({
   ...item,
@@ -28,7 +25,7 @@ const specialties = nav.find((item) => item.children);
 <header id="site-header" class="header header--transparent" data-header>
   <div class="header__inner">
     <div class="header__brand">
-      <Image
+      <!-- <Image
         src={siteData.brand.logo}
         alt={siteData.brand.logoAlt}
         widths={[32, 64]}
@@ -36,7 +33,7 @@ const specialties = nav.find((item) => item.children);
         class="header__logo"
         loading="eager"
         decoding="sync"
-      />
+      /> -->
       <a class="header__brand-text" href="/" data-path="inicio">
         <span class="header__brand-name">{siteData.brand.name}</span>
       </a>
@@ -456,7 +453,7 @@ const specialties = nav.find((item) => item.children);
   }
 
   .header__logo {
-    height: 2rem;
+    height: 1.5rem;
     width: auto;
     object-fit: contain;
   }
@@ -469,6 +466,8 @@ const specialties = nav.find((item) => item.children);
   .header__brand-name {
     @include text-headline-sm;
     letter-spacing: -0.015em;
+    font-family: $font-family-title;
+    font-size: 1.6rem;
     white-space: nowrap;
     transition: color 0.3s ease;
 
@@ -477,8 +476,6 @@ const specialties = nav.find((item) => item.children);
     }
     .header--transparent & {
       color: var(--color-surface-container-lowest);
-      text-shadow: 0 0.0625rem 0.75rem
-        color-mix(in srgb, var(--color-primary) 35%, transparent);
     }
   }
 

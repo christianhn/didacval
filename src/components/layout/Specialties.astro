@@ -11,7 +11,6 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
   <div class="specialties__inner">
     <header class="specialties__header">
       <div class="specialties__heading">
-        <span class="specialties__eyebrow">{specialtiesData.eyebrow}</span>
         <h2 id="specialties-title" class="specialties__title">
           {specialtiesData.title}
         </h2>
@@ -91,17 +90,12 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
     max-width: 36rem;
   }
 
-  .specialties__eyebrow {
-    @include eyebrow(var(--color-eyebrow-accent));
-  }
-
   .specialties__title {
     margin: 0;
     color: $ink;
     font-family: $font-family-base;
     font-size: 2rem;
     line-height: 1;
-    letter-spacing: -0.03em;
     font-weight: 600;
 
     @media (min-width: $bp-md) {
@@ -109,7 +103,6 @@ import SpecialtyCard from "../ui/SpecialtyCard.astro";
     }
     @media (min-width: $bp-lg) {
       font-size: 3.25rem;
-      letter-spacing: -0.04em;
     }
   }
 

@@ -1,4 +1,4 @@
-import logo from "../assets/brand/logo.png";
+import logo from "../assets/brand/favicon.svg";
 
 // TODO con Didac: confirmar que el número tiene WhatsApp Business y que quiere
 // usarlo como canal de contacto público antes de publicar el enlace de wa.me.
@@ -12,7 +12,7 @@ export const siteData = {
   url: "https://didacval.vercel.app",
 
   brand: {
-    name: "Didac Val",
+    name: "didac val",
     fullName: "Didac Val Capdevila",
     role: "Psicólogo en Zaragoza",
     logo,

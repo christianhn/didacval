@@ -1,32 +1,6 @@
 // ==========================================
 // Fuentes — autoalojadas
 // ==========================================
-//
-// Hanken Grotesk y Material Symbols Outlined se sirven desde /public/fonts en
-// lugar de pedirlas al CDN de Google. Dos motivos:
-//
-// 1. Rendimiento. Los dos <link> a fonts.googleapis.com eran los recursos que
-//    bloqueaban el render de todas las páginas: hasta que Google contestaba,
-//    nada se pintaba. Con la fuente en el mismo origen desaparece esa espera y
-//    con ella la mayor parte del First Contentful Paint.
-// 2. Privacidad. Pedir una fuente a Google desde una página que además recoge
-//    datos personales en un formulario de consulta transmite la IP de quien
-//    visita a un tercero. Autoalojando, no sale nadie del dominio.
-//
-// Los ficheros son los mismos que sirve Google (Hanken Grotesk es variable: un
-// solo archivo cubre los pesos 300 a 600). Sólo se descargan los subconjuntos
-// `latin` y `latin-ext`, que es donde están la eñe y las tildes.
-//
-// EL RANGO `U+0000-00FF` NO SE PUEDE ESCRIBIR AQUÍ
-//
-// El minificador de CSS que usa Astro convierte cualquier `unicode-range` que
-// empiece por el punto de código 0 en `U+??`, que es un rango inválido. El
-// navegador descarta la regla @font-face entera y la tipografía no llega a
-// cargar nunca (los textos salen con la tipografía de sistema). Por eso los dos
-// subconjuntos `latin` van SIN `unicode-range`: al no declarar rango, la fuente
-// se aplica a todo el texto y los caracteres que no contenga (no hay ninguno en
-// esta web) recurren al siguiente tipo de la lista. `latin-ext` sí conserva el
-// suyo, y va declarado antes para que sus caracteres sigan cogiendo su fichero.
 
 @font-face {
   font-family: "Hanken Grotesk";
@@ -62,19 +36,33 @@
   src: url("/fonts/hanken-italic-latin.woff2") format("woff2");
 }
 
-// Material Symbols es una fuente variable con los ejes opsz, wght, FILL y GRAD.
-// Se reproduce aquí el bloque que entrega Google, con `font-display: block` en
-// lugar de `swap`: la fuente sólo trae pictogramas y, mientras carga, un `swap`
-// dibujaría la palabra con la tipografía de texto en su lugar, un salto visible
-// en cada icono.
-//
-// OJO: ESTE FICHERO ESTÁ RECORTADO A LOS 37 ICONOS QUE USA LA WEB (315 KiB ->
-// 5 KiB). Google entrega los ~4.000 pictogramas del set, y ese peso competía con
-// la imagen del hero por el ancho de banda y retrasaba el LCP.
-//
-// Si añades un icono nuevo, hay que volver a generar el fichero con
-// `python3 scripts/subset-icons.py` (ver el script para las instrucciones);
-// mientras no se haga, ese icono se dibujará como texto.
+@font-face {
+  font-family: "Yeseva One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/YesevaOne-Regular.ttf") format("truetype");
+  unicode-range: #{'U+0000-00FF, U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF'};
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/DMSans-VariableFont.ttf") format("truetype");
+  unicode-range: #{'U+0000-00FF, U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF'};
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/DMSans-Italic-VariableFont.ttf") format("truetype");
+  unicode-range: #{'U+0000-00FF, U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF'};
+}
+
 @font-face {
   font-family: "Material Symbols Outlined";
   font-style: normal;

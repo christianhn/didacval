@@ -215,10 +215,10 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
   .specialty-card__title {
     margin: 0.15rem 0 0;
     font-family: $font-family-base;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    font-weight: 700;
+    font-weight: 600;
     color: $ink;
     text-wrap: balance;
   }
@@ -226,7 +226,7 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
   .specialty-card__desc {
     margin: 0.35rem 0 0;
     font-family: $font-family-base;
-    font-size: 0.76rem;
+    font-size: 0.8rem;
     line-height: 1.55;
     color: $muted;
   }
@@ -247,8 +247,8 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
     align-items: center;
     gap: 0.3rem;
     font-family: $font-family-base;
-    font-size: 0.71rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     color: $ink;
     letter-spacing: -0.01em;
     pointer-events: auto;
@@ -287,10 +287,7 @@ const linkLabel = `${title}. ${short ?? description}`.trim();
         top: 0.625rem;
         left: 0.625rem;
         right: 0.625rem;
-        // 46% en vez del 55% original: con textos largos (5-7 líneas en el
-        // ancho mínimo del breakpoint de 4 columnas) el bloque de texto se
-        // subía encima de la foto y el kicker dejaba de leerse.
-        height: 46%;
+        height: 50%;
         border-radius: 0.75rem;
         @include media-transition(0.78s, cubic-bezier(0.22, 1, 0.36, 1));
       }

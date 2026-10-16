@@ -2,7 +2,8 @@
 // Tipografía — Hanken Grotesk
 // ==========================================
 
-$font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+$font-family-base: "DM Sans", sans-serif;
+$font-family-title: "Yeseva One", serif;
 
 // Mapa de estilos tipográficos del mockup
 @mixin text-body-sm {
@@ -49,7 +50,7 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   font-family: $font-family-base;
   font-size: 4rem;
   line-height: 4.375rem;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.1rem;
   font-weight: 500;
 
   @media (max-width: 64rem) {
@@ -99,9 +100,8 @@ $font-family-base: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
 
 @mixin text-headline-xl {
   font-family: $font-family-base;
-        font-size: 3.4375rem;
-    letter-spacing: -0.125rem;
-      line-height: 3.125rem;
+  font-size: 3.4375rem;
+  line-height: 3.125rem;
   font-weight: 500;
 
   @media (max-width: 48rem) {

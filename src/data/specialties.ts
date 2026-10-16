@@ -4,7 +4,6 @@ import adultsImg from "../assets/speciality/adults.jpg";
 import familyImg from "../assets/speciality/family.jpg";
 
 export const specialtiesData = {
-  eyebrow: "Áreas de intervención",
   title: "Especialidades",
   description:
     "Un abordaje riguroso y cercano, adaptado a cada etapa y a cada persona.",
@@ -12,13 +11,6 @@ export const specialtiesData = {
     label: "Consultar mi caso",
     href: "#contacto-cita",
   },
-  // `image` es un asset importado (ImageMetadata) para que <Image /> lo optimice.
-  // Si lo dejas como null se muestra el placeholder gris con icono.
-  // `icon` y `short` los usa además el hero, que sólo enseña las tres primeras
-  // y necesita una línea corta: `description` es larga para ese hueco.
-  // `href` es la página interior de la especialidad: la tarjeta entera lleva
-  // allí. `cta` es el enlace secundario de la tarjeta y sigue apuntando al
-  // formulario, porque es una acción ("consultar mi caso"), no navegación.
   cards: [
     {
       kicker: "Principal foco",
