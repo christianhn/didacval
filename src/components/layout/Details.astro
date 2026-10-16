@@ -37,7 +37,8 @@ import DetailRow from "../ui/DetailRow.astro";
   @use "../../styles/typography" as *;
 
   .details {
-    margin-inline: $space-2xl;
+    margin-inline: $space-xl;
+    margin-bottom: $space-5xl;
     border-radius: $radius-lg;
     background: var(--color-surface-bone-dark);
     border-top: 1px solid var(--color-border-hairline);
@@ -109,6 +110,9 @@ import DetailRow from "../ui/DetailRow.astro";
   }
 
   .details__header-cta {
+    padding: 0.6rem 1rem;
+    background: white;
+    border-radius: 20px;
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
@@ -118,15 +122,12 @@ import DetailRow from "../ui/DetailRow.astro";
     font-weight: 600;
     color: var(--color-on-surface);
     white-space: nowrap;
-    border-bottom: 1px solid transparent;
-    padding-bottom: 2px;
     transition:
       opacity 0.2s,
       border-color 0.2s;
 
     &:hover {
       opacity: 0.7;
-      border-color: var(--color-on-surface);
     }
   }
 
@@ -149,26 +150,26 @@ import DetailRow from "../ui/DetailRow.astro";
 </style>
 
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { prefersReducedMotion } from "../../scripts/motion";
+  // import gsap from "gsap";
+  // import { ScrollTrigger } from "gsap/ScrollTrigger";
+  // import { prefersReducedMotion } from "../../scripts/motion";
 
-  gsap.registerPlugin(ScrollTrigger);
+  // gsap.registerPlugin(ScrollTrigger);
 
-  const section = document.querySelector<HTMLElement>(".details");
+  // const section = document.querySelector<HTMLElement>(".details");
 
-  if (section && !prefersReducedMotion()) {
-    gsap.to(section, {
-      marginLeft: 0,
-      marginRight: 0,
-      borderRadius: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top bottom",
-        end: "top top",
-        scrub: true,
-      },
-    });
-  }
+  // if (section && !prefersReducedMotion()) {
+  //   gsap.to(section, {
+  //     marginLeft: 0,
+  //     marginRight: 0,
+  //     borderRadius: 0,
+  //     ease: "none",
+  //     scrollTrigger: {
+  //       trigger: section,
+  //       start: "top bottom",
+  //       end: "top top",
+  //       scrub: true,
+  //     },
+  //   });
+  // }
 </script>
