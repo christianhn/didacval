@@ -135,10 +135,7 @@ const specialties = nav.find((item) => item.children);
 
 <script>
   import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { prefersReducedMotion } from "../../scripts/motion";
-
-  gsap.registerPlugin(ScrollTrigger);
 
   const reducedMotion = prefersReducedMotion();
 
@@ -222,18 +219,6 @@ const specialties = nav.find((item) => item.children);
     // no produce destello: el transform ya está a -100%.
     header.style.visibility = "visible";
 
-    const contactSection = document.querySelector<HTMLElement>(".contact");
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main section"),
-    );
-    const contactIndex = contactSection ? sections.indexOf(contactSection) : -1;
-    const previousSection =
-      contactIndex > 0 ? sections[contactIndex - 1] : null;
-    const previousContent =
-      (previousSection?.firstElementChild as HTMLElement | null) ??
-      previousSection;
-
-    let zone: ScrollTrigger | null = null;
     let direction = 1;
     // Hasta que pasa la entrada inicial el scroll no toca el header: si no,
     // el primer evento de scroll de Lenis lo adelantaría.
@@ -255,14 +240,7 @@ const specialties = nav.find((item) => item.children);
     const updateHeader = () => {
       if (!settled) return;
 
-      let next: boolean;
-      if (window.scrollY <= 80) {
-        next = true;
-      } else if (zone && (zone.isActive || zone.progress > 0)) {
-        next = false;
-      } else {
-        next = direction === -1;
-      }
+      const next = direction === -1;
 
       if (next === shown) return;
       shown = next;
@@ -287,15 +265,6 @@ const specialties = nav.find((item) => item.children);
       },
       { passive: true },
     );
-
-    if (previousSection) {
-      zone = ScrollTrigger.create({
-        trigger: previousContent,
-        start: "top bottom",
-        end: "max",
-        onToggle: updateHeader,
-      });
-    }
 
     // Entrada: el header baja desde arriba un poco después del primer paint,
     // para que no compita con el arranque del titular del hero.
